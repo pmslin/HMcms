@@ -43,13 +43,11 @@ class LoginController extends Controller {
             $saveResult=$loginModel->save($saveData);
 //            print_r($saveResult);exit();
 
-            //记录真实姓名和用户组session
-
+            //设置session，记录真实姓名和用户组session
 //            var_dump($userResult);
             session('username',$userResult['username']);
             session('roleid',$userResult['roleid']);
-//            $_SESSION['username']=$userResult['username'];
-//            $_SESSION['roleid']=$userResult['roleid'];
+            session('userid',$userResult['id']);
 
 
 

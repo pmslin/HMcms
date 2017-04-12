@@ -25,10 +25,14 @@ class TeacherController extends BaseController {
         $this->display();
     }
 
+    /*
+     * 教师证报名表提交
+     */
     public function postfrom(){
         if(IS_POST){
             $post=I('post.');
 
+            //查询出考区
             $testPlaceModel=D('TestPlace');
 //            $id=$post['place_city_id'];
             $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
@@ -43,9 +47,10 @@ class TeacherController extends BaseController {
 //            );
             $post['create_time']=time();
             $post['test_place']=$test_place;
-            $addResult=D('Teacher')->add($post);
+            $post['creator_id']=session('userid');
+            $addResult=D('Teacher')->add($post);	//添加数据
             if($addResult){
-                $this->success('录入成功','Teacher/index');
+                $this->success('录入成功','index');
             }else{
                 $this->error('录入失败');
             }
