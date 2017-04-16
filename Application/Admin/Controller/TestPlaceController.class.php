@@ -3,6 +3,7 @@ namespace Admin\Controller;
 use Think\Controller;
 class TestPlaceController extends Controller {
 
+    //考区联动
     public function postArea(){
         if(IS_POST){
             $post=I('post.');

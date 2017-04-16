@@ -71,7 +71,7 @@
                 </div>
                 <div class="ibox-content">
 
-                    <form  class="form-horizontal demoform"  action="{:U('Admin/Teacher/postfrom')}" method="post">
+                    <form  class="form-horizontal demoform"  action="{:U('Admin/Teacher/postfrom')}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">姓名</label>
 
@@ -298,6 +298,11 @@
                                         <option value="{$vo.cousr_name}">{$vo.cousr_name}</option>
                                     </foreach>
                                 </select>
+                            </div>
+
+                            <label class="col-sm-2 control-label">考生照片</label>
+                            <div class="col-sm-3">
+                                    <input type="file" name="pic" />
                             </div>
 
                         </div>

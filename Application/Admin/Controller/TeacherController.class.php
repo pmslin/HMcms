@@ -39,19 +39,42 @@ class TeacherController extends BaseController {
             $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
             $test_place=$place_city['place_name'].$place_area['place_name'];
 
+            D()->startTrans(); //开启事务
+            //上传考生照片
+            $upload = new \Think\Upload();// 实例化上传类   开始
+            $upload->maxSize = 3145728;// 设置附件上传大小
+            $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+            $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
+            $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
+            if (!$info) {// 上传错误提示错误信息
+                $this->error($upload->getError());
+            } else {// 上传成功
+                $post['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+            }
 
-
-//            $post=array(
-//                'create_time'   =>time(),
-//                'test_place'    =>$test_place
-//            );
-            $post['create_time']=time();
+            $time=time();
+            $post['create_time']=$time;
             $post['test_place']=$test_place;
-            $post['creator_id']=session('userid');
-            $addResult=D('Teacher')->add($post);	//添加数据
-            if($addResult){
+            $post['userid']=session('userid');
+            //添加数据到teacher表
+            $addResult=D('Teacher')->add($post);
+
+            //添加数据到order表
+            $orderData['course_package_id']=$post['course_package'];
+            $orderData['pay_status']=$post['pay_status'];
+            $orderData['some_cash']=$post['some_cash'];
+            $orderData['user_id']=session('userid');
+            $orderData['create_time']=$time;
+            $orderData['student_id']=$addResult;
+            $orderData['course_package_topid']=1;
+            $addOrder=D('Order')->add($orderData);
+
+
+            if($addResult && $addOrder){
+                D()->commit(); //事务提交
                 $this->success('录入成功','index');
             }else{
+                D()->rollback(); //事务回滚
                 $this->error('录入失败');
             }
         }
@@ -59,16 +82,26 @@ class TeacherController extends BaseController {
 //        exit();
     }
 
-    //考区联动
-    public function ajax_palce(){
-        if(IS_POST){
 
-        }else{
+    //教师证考生列表
+    public function teacherList(){
 
-        }
+        $list=D('Teacher')->select();
+        $this->assign('list',$list);
 
-
+        $this->display();
     }
+
+    //考区联动
+//    public function ajax_palce(){
+//        if(IS_POST){
+//
+//        }else{
+//
+//        }
+//
+//
+//    }
 
 
 }
