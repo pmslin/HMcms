@@ -83,10 +83,30 @@ class TeacherController extends BaseController {
     }
 
 
-    //教师证考生列表
+    /*
+     * 教师证考生列表
+     */
     public function teacherList(){
 
-        $list=D('Teacher')->select();
+//        show_bug($_POST);
+
+        //如果是招生老师，只显示自己招收的学生
+        if(session('roleid')==3){
+            $map['userid']=session('userid');
+        }
+        if($_POST){
+            $post=I('post.');
+            !empty($post['name'])?$map['t.name']=$post['name']:'';
+            !empty($post['tel'])?$map['t.tel']=$post['tel']:'';
+        }
+
+        $list=M('Teacher as t')
+            ->field('t.*,u.username')
+            ->join('user AS u ON t.userid=u.id',left)
+            ->where($map)->order('create_time desc')->select();
+//        show_bug($list);
+//        echo M()->_sql();
+
         $this->assign('list',$list);
 
         $this->display();
