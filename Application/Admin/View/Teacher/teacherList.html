@@ -30,7 +30,7 @@
                         </div>
                         <div class="ibox-content">
 
-                            <form  class="form-horizontal"  action="{:U('Admin/Teacher/teacherList')}" method="post" >
+                            <form    action="{:U('Admin/Teacher/teacherList')}" method="post" >
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">姓名</label>
 
@@ -82,7 +82,7 @@
                                     <td><span class="pie">0.52/1.561</span></td>
                                     <td>200</td>
                                     <td>2015.09.10</td>
-                                    <td><a href="#"><i class="fa fa-check text-navy"></i> 通过</a></td>
+                                    <td><a href="{:U('Admin/Teacher/teacherStatusDetail',array('id'=>$vo[id]))}"><i class="fa fa-check text-navy"></i> 详情</a></td>
                                 </tr>
                                 </foreach>
 

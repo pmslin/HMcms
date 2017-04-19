@@ -96,8 +96,11 @@ class TeacherController extends BaseController {
         }
         if($_POST){
             $post=I('post.');
-            !empty($post['name'])?$map['t.name']=$post['name']:'';
-            !empty($post['tel'])?$map['t.tel']=$post['tel']:'';
+            $name=$post['name'];
+            $tel=$post['tel'];
+            !empty($post['name'])?$map['t.name']=array('like',"%$name%"):'';
+            !empty($post['tel'])?$map['t.tel']=array('like',"%$tel%"):'';
+
         }
 
         $list=M('Teacher as t')
@@ -111,6 +114,27 @@ class TeacherController extends BaseController {
 
         $this->display();
     }
+
+
+    /*
+     * 考试详情
+     */
+    public function teacherStatusDetail(){
+        show_bug($_GET);
+        if(session('roleid')==3){
+
+        }
+
+        $detail=M('teacher')->where('id=%d',I('id'))->find();
+        show_bug($detail);
+        $this->assign('detail',$detail);
+
+
+        $this->display();
+
+    }
+
+
 
     //考区联动
 //    public function ajax_palce(){
