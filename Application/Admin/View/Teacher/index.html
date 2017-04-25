@@ -36,7 +36,11 @@
         }
         .magic-checkbox:checked + label:before {
             border: #3e97eb;
-            background: #2E8B57; }
+            background: #2E8B57;
+        }
+        .laydate_body .laydate_y .laydate_yms ul li{
+            width: 58px;
+        }
     </style>
 
 </head>
@@ -281,10 +285,10 @@
 
                             <div class="col-sm-3">
                                 <select class="form-control m-b" name="test_time">
-                                    <option value="2017-3">2017年3月</option>
-                                    <option value="2017-11">2017年11月</option>
-                                    <option value="2018-3">2018年3月</option>
-                                    <option value="2018-11">2018年11月</option>
+                                    <foreach name="testTime" item="vo">
+                                        <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
+                                    </foreach>
+
                                 </select>
                             </div>
                         </div>

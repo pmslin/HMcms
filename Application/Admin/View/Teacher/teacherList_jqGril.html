@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="__PUBLIC__/jquery-1.9.0.min.js"></script>
+    <script src="__PUBLIC__/H/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/plugins/jqGrid/js/jquery.jqGrid.min.js"></script>
+
+    <!--<link href="__PUBLIC__/H/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">-->
+    <link href="__PUBLIC__/plugins/jqGrid/css/ui.jqgrid.css" rel="stylesheet">
+
+
+    <!--引入CSS：-->
+    <link href="__PUBLIC__/JQgrid/css/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+    <link href="__PUBLIC__/JQgrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+    <!--引入JS：-->
+    <script src="__PUBLIC__/JQgrid/js/grid.locale-en.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/JQgrid/js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/JQgrid/js/grid.locale-en.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/JQgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/DM_model/JQGrid.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+
+
+
+
+<!-- 按钮部分 -->
+<div id="topHtml">
+    <div id="contentright" name="contentright">
+        <table class = "table_1" >
+            <thead >
+            <tr name = "ck_msg2" >
+                <th colspan = "32" align = "left" > 品牌调整申请列表
+                    <a name = "btn_3" href = "javascript:void(0)" onclick = "btn_1(3);" style = "width: 15px"><img src="{$Think.const.IMG_URL}check.png" style="width:17px;height:17px;" /></a>
+                    <a class = "btn" href = "javascript:void(0)" name = "btn1" onclick = "detail();"> 详情 </a>
+                    <a class = "btn" name = "btn1" href = "javascript:void(0)" onclick="add()"> 新增 </a>
+                </th>
+            </tr>
+            <tr name = "ck_msg1" >
+                <th style = "background: #3D536A;height:22px;font-weight:normal;" colspan = "32" align = "left" >
+                    <label>审批状态：</label>
+                    <select id="status" name="status">
+                        <option value ="" selected>请选择审批状态</option>
+                        <option value ="0">正在审批</option>
+                        <option value="1">审批完结</option>
+                        <option value="2">不通过</option>
+                    </select>
+                    <input type = "button" onclick = "gridReload();" value = "查询" />
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<table id="list"></table>
+<div id="pager"></div>
+</body>
+
+<script type="text/javascript">
+    $(function () {
+        var height = document.body.offsetHeight + 300;
+        tab_msg(height);
+    });
+
+    //添加申请
+    function add() {
+        window.location.href="__CONTROLLER__/brandAdjustmentForm";
+    }
+
+    function detail(){
+        var id = get_id();
+        if (id!=undefined) {
+            var url = "__CONTROLLER__/detailsBrand/id/" + id;
+            layer.open({
+                type: 2,
+                title: ['品牌调整审批详情'],
+                scrollbar: false,
+                maxmin: true,
+                shadeClose: false, //点击遮罩关闭层
+                area: ['100%', '100%'],
+                content: url,
+                closeBtn: 1,
+                moveOut: true //是否允许拖动大奥窗外
+            });
+        } else {
+            layer.msg("请选择行!");
+        }
+    }
+
+    //表格列表
+    function tab_msg(height) {
+        $("#contentright").height(17);
+        var url = "{:U('Admin/Teacher/teacherList')}";
+        var title = "['手机号码','名字']"; //数据列名称（数组）'可存放分类',
+        var content = "[" +
+                "{name: 'tel', index: 'tel', width: 55}," +
+                "{name: 'name', index: 'name', width: 55}," +
+
+                "]"; //sortable: false是否排序//数据列各参数信息设置
+        var top = $('#topHtml').html();
+        var data_ary = ({
+            table: "list",
+            pager: "pager",
+            url: url,
+            title: title,
+            content: content,
+            data: "rows",
+            total: "total",
+            page: "page",
+            records: "records",
+            height: height,
+            sortname: "id",
+            sortorder: "desc",
+            sortable: true,
+            multiselect: false,
+            rowNum: "30",
+            top:top,
+            mtype:"post",
+            styleUI: 'Bootstrap',
+        });
+        jqGrid_Data(data_ary);
+    }
+
+    //获取id
+    function get_id() {
+        var id = getGridId("list", "id");
+        if (id != false) {
+            return id;
+        } else {
+            return false;
+        }
+    }
+
+    //获取Grid中选中的行id
+    function getGridId(id, sql_name) {
+        var ids = $("#" + id).jqGrid('getGridParam', 'selrow');
+
+        var rets = jQuery("#" + id).jqGrid('getRowData', ids);
+
+        if (rets) {
+            return rets[sql_name]
+        } else {
+            return false;
+        }
+
+    }
+
+    //查询
+    function gridReload() {
+        //模糊查询 关键字
+        var cty_name = $("#cty_name").val();
+        var status = $("#status option:selected").val();
+        var path = "";
+        if (cty_name != "") {
+            path += "/name/" + cty_name;
+        }
+        if (status != "") {
+            path += "/status/" + status;
+        }
+        jQuery("#list").jqGrid('setGridParam', {url: "{:U('/LeaseSys/Merchants/ajax/action/get_mm"+path+"')}", page: 1}).trigger("reloadGrid");
+    }
+
+</script>
+
+<script>
+    window.onresize = function () {
+        $("#list").setGridWidth($(window).width() - 10);
+    };
+</script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="__PUBLIC__/jquery-1.9.0.min.js"></script>
+    <script src="__PUBLIC__/H/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/plugins/jqGrid/js/jquery.jqGrid.min.js"></script>
+
+    <link href="__PUBLIC__/H/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <!--<link href="__PUBLIC__/plugins/jqGrid/css/ui.jqgrid.css" rel="stylesheet">-->
+
+
+    <!--引入CSS：-->
+    <!--<link href="__PUBLIC__/JQgrid/css/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />-->
+    <link href="__PUBLIC__/JQgrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css" />
+    <!--引入JS：-->
+    <!--<script src="__PUBLIC__/JQgrid/js/grid.locale-en.js" type="text/javascript"></script>-->
+    <!--<script src="__PUBLIC__/JQgrid/js/jquery-ui.min.js" type="text/javascript"></script>-->
+    <!--<script src="__PUBLIC__/JQgrid/js/grid.locale-en.js" type="text/javascript"></script>-->
+    <!--<script src="__PUBLIC__/JQgrid/js/jquery.jqGrid.min.js" type="text/javascript"></script>-->
+    <!--<script src="__PUBLIC__/DM_model/JQGrid.js" type="text/javascript"></script>-->
+
+</head>
+
+<body>
+
+<div class="jqGrid_wrapper">
+    <table id="jqGridList"></table>
+    <div id="jqGridPager"></div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    var jqGrid = $("#jqGridList");
+    jqGrid.jqGrid({
+        caption: "用户管理",
+        url: "{:U('Admin/Teacher/teacherList')}",
+        mtype: "POST",
+        styleUI: 'Bootstrap',//设置jqgrid的全局样式为bootstrap样式
+        datatype: "json",
+        colNames: ['主键', '登录帐号'],
+        colModel: [
+            { name: 'Id', index: 'Id', width: 60, key: true, hidden: true },
+            { name: 'tel', index: 'tel', width: 60 }
+        ],
+        viewrecords: true,
+        multiselect: true,
+        rownumbers: true,
+        autowidth: true,
+        height: "100%",
+        rowNum: 20,
+        rownumbers: true, // 显示行号
+        rownumWidth: 35, // the width of the row numbers columns
+        pager: "#jqGridPager",//分页控件的id
+        subGrid: false//是否启用子表格
+    });
+
+    // 设置jqgrid的宽度
+    $(window).bind('resize', function () {
+        var width = $('.jqGrid_wrapper').width();
+        jqGrid.setGridWidth(width);
+    });
+</script>
+</html>

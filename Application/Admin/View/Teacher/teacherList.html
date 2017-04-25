@@ -4,112 +4,81 @@
 <head>
 
 
-    
+    <link href="__PUBLIC__/plugins/DataTables/css/jquery.dataTables.css" rel="stylesheet">
+    <script src="__PUBLIC__/plugins/DataTables/js/jquery.js"></script>
+    <script src="__PUBLIC__/plugins/DataTables/js/jquery.dataTables.js"></script>
 
-    <title>H+ 后台主题UI框架 - FooTable</title>
+    <link href="__PUBLIC__/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/plugins/DataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <script src="__PUBLIC__/plugins/DataTables/dataTables.bootstrap.js"></script>
 
-
-    <link rel="shortcut icon" href="favicon.ico"> <link href="__PUBLIC__/H/css/bootstrap.min.css" rel="stylesheet">
-    <link href="__PUBLIC__/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-    <link href="__PUBLIC__/css/plugins/footable/footable.core.css" rel="stylesheet">
-
-    <link href="__PUBLIC__/css/animate.min.css" rel="stylesheet">
-    <link href="__PUBLIC__/css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
 
 </head>
 
-<body class="gray-bg">
-    <div class="wrapper wrapper-content animated fadeInRight">
+<style>
+    .content{ margin: 20px}
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>教师报名学生资料表</h5>
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        color: white !important;
+        border: 1px solid white;
+        background-color: white;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, white));
+        /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, white 0%, white 100%);
+        /* Chrome10+,Safari5.1+ */
+        background: -moz-linear-gradient(top, white 0%, white 100%);
+        /* FF3.6+ */
+        background: -ms-linear-gradient(top, white 0%, white 100%);
+        /* IE10+ */
+        background: -o-linear-gradient(top, white 0%, white 100%);
+        /* Opera 11.10+ */
+        background: linear-gradient(to bottom, white 0%, white 100%);
+        /* W3C */
+    }
 
-                        </div>
-                        <div class="ibox-content">
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active{color:white !important}
+</style>
 
-                            <form    action="{:U('Admin/Teacher/teacherList')}" method="post" >
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">姓名</label>
+<body>
 
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="name" datatype="*" >
-                                    </div>
+<div class="content">
 
-                                    <label class="col-sm-2 control-label">手机号码</label>
+    <div class="lead">
+        <h4><strong>教师证报名学生列表</strong></h4>
+    </div>
 
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="tel" datatype="*" >
-                                    </div>
+    <hr>
 
+<table id="table_id_example" class="display">
+    <thead>
+    <tr>
+        <th>名字</th>
+        <th>手机号码</th>
+        <th>报名时间</th>
+        <th>招生老师</th>
+        <th>查看</th>
+    </tr>
+    </thead>
+    <tbody>
+    <foreach name = "list" item = "vo">
+        <tr>
+            <td>{$vo.name}</td>
+            <td>{$vo.tel}</td>
+            <td>{$vo.create_time}</td>
+            <td>{$vo.username}</td>
+            <td><a href="{:U('Admin/Teacher/teacherStatusDetail',array('id'=>$vo[id]))}"><i class="fa fa-check text-navy"></i> 详情</a></td>
+        </tr>
+    </foreach>
 
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-4 col-sm-offset-10">
-                                        <button class="btn btn-primary" type="submit" id="save">查询</button>
-                                    </div>
-                                </div>
-                            </form>
-
-
-                            <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
-                                <thead>
-                                <tr>
-
-                                    <th data-toggle="true">名字</th>
-                                    <th>手机号码</th>
-                                    <th>报名时间</th>
-                                    <th>招生老师</th>
-                                    <th data-hide="all">公司</th>
-                                    <th data-hide="all">参数</th>
-                                    <th data-hide="all">采购数量</th>
-                                    <th data-hide="all">日期</th>
-                                    <th>查看</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <foreach name = "list" item = "vo">
-                                <tr>
-                                    <td>{$vo.name}</td>
-                                    <td>{$vo.tel}</td>
-                                    <td>{$vo.create_time|date='Y-m-d',###}</td>
-                                    <td>{$vo.username}</td>
-                                    <td>深圳市有大福实业有限公司</td>
-                                    <td><span class="pie">0.52/1.561</span></td>
-                                    <td>200</td>
-                                    <td>2015.09.10</td>
-                                    <td><a href="{:U('Admin/Teacher/teacherStatusDetail',array('id'=>$vo[id]))}"><i class="fa fa-check text-navy"></i> 详情</a></td>
-                                </tr>
-                                </foreach>
-
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <ul class="pagination pull-right"></ul>
-                                    </td>
-                                </tr>
-                                </tfoot>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    <script src="__PUBLIC__/js/jquery.min.js?v=2.1.4"></script>
-    <script src="__PUBLIC__/js/bootstrap.min.js"></script>
-    <script src="__PUBLIC__/js/plugins/footable/footable.all.min.js"></script>
-    <script src="__PUBLIC__/js/content.min.js?v=1.0.0"></script>
-    <script>
-        $(document).ready(function(){$(".footable").footable();$(".footable2").footable()});
-    </script>
+    </tbody>
+</table>
+</div>
 
 </body>
 
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#table_id_example').DataTable();
+    } );
+</script>
 </html>

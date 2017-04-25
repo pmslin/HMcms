@@ -13,6 +13,13 @@ class CoursePackageModel extends Model
         return $list;
     }
 
+    /*
+     * 根据id获取套餐
+     */
+    public function getCourePackageById($id){
+        return M('course_package')->where('id=%d',$id)->find();
+    }
+
 }
 
 

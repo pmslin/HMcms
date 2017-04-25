@@ -17,10 +17,14 @@ class TeacherController extends BaseController {
         $this->assign('city',$city);
 //        var_dump($city);
 
-        //课程
+        //获取教师证课程
         $course=D('Course')->where("topid=1")->select();
         $this->assign('course',$course);
-//        var_dump($course);
+
+        //获取教师证考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById();
+        $this->assign('testTime',$testTime);
+//        var_dump($testTime);
 
         $this->display();
     }
@@ -52,7 +56,7 @@ class TeacherController extends BaseController {
                 $post['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
             }
 
-            $time=time();
+            $time=date("Y-m-d");
             $post['create_time']=$time;
             $post['test_place']=$test_place;
             $post['userid']=session('userid');
@@ -87,9 +91,11 @@ class TeacherController extends BaseController {
      * 教师证考生列表
      */
     public function teacherList(){
-
+        $post=I('post.');
 //        show_bug($_POST);
-
+//        if(IS_GET){
+//            $this->display();
+//        }elseif(IS_POST){
         //如果是招生老师，只显示自己招收的学生
         if(session('roleid')==3){
             $map['userid']=session('userid');
@@ -111,23 +117,38 @@ class TeacherController extends BaseController {
 //        echo M()->_sql();
 
         $this->assign('list',$list);
-
+//
         $this->display();
+//        }
     }
+
 
 
     /*
      * 考试详情
      */
     public function teacherStatusDetail(){
-        show_bug($_GET);
+
+        $id=I('id');
+//        show_bug(session());
         if(session('roleid')==3){
+            //如果是招生老师，根据学生id检测是否是该招生老师的学生
+            $seach=D('teacher')->getStudentById($id);
+            if($seach['userid'] != session('userid')){
+                $this->error('这好像不是你的考生...');
+            }
 
         }
 
-        $detail=M('teacher')->where('id=%d',I('id'))->find();
-        show_bug($detail);
+        $detail=D('teacher')->getStudentById($id);
         $this->assign('detail',$detail);
+
+        $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
+        $this->assign('course_package',$course_package);
+
+        //获取教师证考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById();
+        $this->assign('testTime',$testTime);
 
 
         $this->display();
