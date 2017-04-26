@@ -49,7 +49,9 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>教师证学生报名表详情</h5>
+
+                    <h5 style="padding-top: 8px;padding-right: 13px;">教师证学生报名表详情</h5>
+                    <button class="btn btn-warning" type="submit" id="iwanModify">我要修改</button>
 
                     <div class="ibox-tools">
                         <a class="collapse-link">
@@ -71,7 +73,7 @@
                 </div>
                 <div class="ibox-content">
 
-                    <form  class="form-horizontal demoform"  action="{:U('Admin/Teacher/postfrom')}" method="post" enctype="multipart/form-data" name="myForm">
+                    <form  class="form-horizontal demoform"  action="{:U('Admin/Teacher/savefrom')}" method="post" enctype="multipart/form-data" name="myForm">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">姓名</label>
 
@@ -264,24 +266,32 @@
                             <label class="col-sm-2 control-label">考区</label>
 
                             <div class="col-sm-3">
-                                <!-- 城市 -->
-                                <select  class="form-control m-b" name="place_city_id" id="city">
-                                    <option>{$detail.test_place}</option>
-                                    <foreach name="city" item="v">
-                                        <option value="{$v.place_id}"  >{$detail.test_place}</option>
-                                    </foreach>
-                                </select>
-                                <!-- 区县 -->
-                                <!--<select  class="form-control m-b" name="place_area_id" id="area">-->
-                                    <!--<option datatype="s" nullmsg="请选择考区"></option>-->
-                                <!--</select>-->
+
+                                <div style="padding-top: 8px">
+                                    {$detail.test_place}<br/><br/>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <!-- 城市 -->
+                                    <select  class="form-control m-b" name="place_city_id" id="city" style="width: 240px">
+                                        <option>--请选择市--</option>
+                                        <foreach name="city" item="v">
+                                            <option value="{$v.place_id}"  >{$v.place_name}</option>
+                                        </foreach>
+                                    </select>
+                                    <!-- 区县 -->
+                                    <select  class="form-control m-b" name="place_area_id" id="area" style="width: 240px">
+                                        <option ></option>
+                                    </select>
+                                </div>
                             </div>
 
                             <label class="col-sm-2 control-label">笔试考试时间</label>
 
                             <div class="col-sm-3">
                                 <select class="form-control m-b" name="test_time">
-                                    <option value="" id="originalTime">{$detail.test_time}</option>
+                                    <option value="{$detail.test_time}" id="originalTime">{$detail.test_time}</option>
+                                    <option value="">-------------------------------</option>
                                     <foreach name="testTime" item="vo">
                                         <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
                                     </foreach>
@@ -294,8 +304,15 @@
                             <label class="col-sm-2 control-label">选择教的是</label>
 
                             <div class="col-sm-3">
+
+
+
                                 <select class="form-control m-b" name="course">
-                                    <option>{$detail.course}</option>
+                                    <option value="{$detail.course}">{$detail.course}</option>
+                                    <option value="{$detail.course}">-------------------------------</option>
+                                    <foreach name="course" item="vo">
+                                        <option value="{$vo.cousr_name}">{$vo.cousr_name}</option>
+                                    </foreach>
                                 </select>
                             </div>
 
@@ -313,7 +330,7 @@
 
                             <div class="col-sm-3 form-group radio i-checks">
                                     <label>
-                                        <input type="radio" value="{$vo.id}" name="course_package"  datatype="*" nullmsg="请选择班型" checked> <i></i>
+                                        <input type="radio" value="{$vo.id}" name=""  datatype="*" nullmsg="请选择班型" checked> <i></i>
                                         {$course_package.name}</label>
                             </div>
 
@@ -331,29 +348,29 @@
 
                         </div>
 
-                        <div class="form-group">
-                                <label class="col-sm-2 control-label">费用是否交齐</label>
+                        <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">费用是否交齐</label>-->
 
-                                <div class="col-sm-3 form-group radio">
-                                    <input class="magic-checkbox" type="radio" name="pay_status" value="1" id="c1"  name="course_package"  datatype="*" nullmsg="请选择费用是否交齐"
-                                    <if condition="$detail.pay_status eq 1">checked</if> >
-                                    <label for="c1">已交齐</label>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <!--<div class="col-sm-3 form-group radio">-->
+                                    <!--<input class="magic-checkbox" type="radio" name="pay_status" value="1" id="c1"  name="course_package"  datatype="*" nullmsg="请选择费用是否交齐"-->
+                                    <!--<if condition="$detail.pay_status eq 1">checked</if> >-->
+                                    <!--<label for="c1">已交齐</label>-->
+                                    <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
 
-                                    <input class="magic-checkbox" type="radio" name="pay_status" value="0" id="c2"
-                                    <if condition="$detail.pay_status eq 0">checked</if> >
-                                    <label for="c2">未交齐</label>
+                                    <!--<input class="magic-checkbox" type="radio" name="pay_status" value="0" id="c2"-->
+                                    <!--<if condition="$detail.pay_status eq 0">checked</if> >-->
+                                    <!--<label for="c2">未交齐</label>-->
 
-                                </div>
+                                <!--</div>-->
 
-                            <if condition="$detail.pay_status eq 0">
-                                <!--<label class="col-sm-1 control-label">已收金额</label>-->
-                                <div class="col-sm-2" id="some_cash" >
-                                    <input type="number" class="form-control"  placeholder='已收金额' name="some_cash" style="margin-left: -80px;" value="{$detail.some_cash}">
-                                </div>
-                            </if>
+                            <!--<if condition="$detail.pay_status eq 0">-->
+                                <!--&lt;!&ndash;<label class="col-sm-1 control-label">已收金额</label>&ndash;&gt;-->
+                                <!--<div class="col-sm-2" id="some_cash" >-->
+                                    <!--<input type="number" class="form-control"  placeholder='已收金额' name="some_cash" style="margin-left: -80px;" value="{$detail.some_cash}">-->
+                                <!--</div>-->
+                            <!--</if>-->
 
-                        </div>
+                        <!--</div>-->
 
 
 
@@ -362,13 +379,16 @@
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-5">
-                                <button class="btn btn-primary" type="submit" id="iwanModify">我要修改</button>
+                                <!--<button class="btn btn-primary" type="submit" id="iwanModify">我要修改</button>-->
                                 <button class="btn btn-primary" type="submit" id="save">确认修改</button>
+                                <input type="hidden" name="id" value="{$detail.id}">
                             </div>
                         </div>
 
 
                     </form>
+
+
 
                 </div>
             </div>
