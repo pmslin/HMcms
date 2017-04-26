@@ -36,6 +36,9 @@ class TeacherController extends BaseController {
         if(IS_POST){
             $post=I('post.');
 
+//            show_bug($post);
+//            exit();
+
             //查询出考区
             $testPlaceModel=D('TestPlace');
 //            $id=$post['place_city_id'];
@@ -145,13 +148,75 @@ class TeacherController extends BaseController {
 
         $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
         $this->assign('course_package',$course_package);
+//        show_bug($detail);
+//        show_bug($course_package);
 
         //获取教师证考试时间
         $testTime=D('ThTesttime')->getThTestTimeById();
         $this->assign('testTime',$testTime);
 
+        //获取教师证课程
+        $course=D('Course')->where("topid=1")->select();
+        $this->assign('course',$course);
+
+        //考区联动,遍历出市
+        $city=D('TestPlace')->where("topid=0")->select();
+        $this->assign('city',$city);
+
 
         $this->display();
+
+    }
+
+    /*
+     * 修改报名表
+     */
+    public function savefrom(){
+
+        //检测是否是教务提交，roleid=1和4的可以修改
+        if(!in_array(session('roleid'),array(1,4))) {
+            $this->error('没有修改权限');
+        }
+
+        $post=I('post.');
+//        show_bug($_POST);
+//        exit();
+        if(!empty($post['place_area_id'])){
+            echo 1;
+            //查询出考区
+            $testPlaceModel=D('TestPlace');
+//            $id=$post['place_city_id'];
+            $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
+            $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
+            $_POST['test_place']=$place_city['place_name'].$place_area['place_name'];
+        }
+
+        //上传考生照片
+        $upload = new \Think\Upload();// 实例化上传类   开始
+        $upload->maxSize = 3145728;// 设置附件上传大小
+        $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+        $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
+        $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
+        if (!$info) {// 如果没有上传图片，则不修改图片
+           unset( $_POST['pic']);
+        }
+        else {// 上传成功   则修改图片
+            $_POST['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+        }
+
+
+        $teacherModel=M('teacher');
+        $teacherModel->create();
+        $saveResult=$teacherModel->save();
+        if($saveResult){
+            $this->success('修改成功');
+        }else{
+            $this->error('修改失败');
+        }
+
+
+
+
 
     }
 
