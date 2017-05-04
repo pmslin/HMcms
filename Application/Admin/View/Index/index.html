@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <title>翰墨内部管理系统</title>
+    <title>翰墨集团—办公管理系统</title>
 
 
 
@@ -64,6 +64,20 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-edit"></i>
+                        <span class="nav-label">财务报表</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a class="J_menuItem" href="Finance/salesList">销售额报表</a>
+                        </li>
+
+                    </ul>
+                </li>
+
             </ul>
         </div>
     </nav>
@@ -74,12 +88,18 @@
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
-                        <div class="form-group">
-                            <input type="text" placeholder="输入需要查找的学生手机号 …" class="form-control" name="top-search" id="top-search">
-                        </div>
-                    </form>
+                    <!--<form role="search" class="navbar-form-custom" method="post" action="search_results.html">-->
+                        <!--<div class="form-group">-->
+                            <!--<input type="text" placeholder="输入需要查找的学生手机号 …" class="form-control" name="top-search" id="top-search">-->
+                        <!--</div>-->
+                    <!--</form>-->
+
                 </div>
+
+                <div class="form-group" style="text-align: right; padding-right: 20px; padding-top: 15px;">
+                    <h4>你好，{$Think.session.username}</h4>
+                </div>
+
             </nav>
         </div>
         <div class="row content-tabs">

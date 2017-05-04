@@ -69,12 +69,21 @@ class TeacherController extends BaseController {
             //添加数据到order表
             $orderData['course_package_id']=$post['course_package'];
             $orderData['pay_status']=$post['pay_status'];
-            $orderData['some_cash']=$post['some_cash'];
             $orderData['user_id']=session('userid');
             $orderData['create_time']=$time;
             $orderData['student_id']=$addResult;
             $orderData['course_package_topid']=1;
-            $addOrder=D('Order')->add($orderData);
+            //获取套餐价格和名称
+            $course_package=D('CoursePackage')->getCourePackageById($post['course_package']);
+            $orderData['course_name']=$course_package['name'];
+            $orderData['course_price']=$course_package['price'];
+            //已收费用，交齐直接记录课程总额，未交齐记录已交费用
+            if($post['pay_status']==1){
+                $orderData['some_cash']=$course_package['price'];
+            }else{
+                $orderData['some_cash']=$post['some_cash'];
+            }
+            $addOrder=D('Order')->add($orderData);  //add()
 
 
             if($addResult && $addOrder){
@@ -94,22 +103,10 @@ class TeacherController extends BaseController {
      * 教师证考生列表
      */
     public function teacherList(){
-        $post=I('post.');
-//        show_bug($_POST);
-//        if(IS_GET){
-//            $this->display();
-//        }elseif(IS_POST){
+
         //如果是招生老师，只显示自己招收的学生
         if(session('roleid')==3){
             $map['userid']=session('userid');
-        }
-        if($_POST){
-            $post=I('post.');
-            $name=$post['name'];
-            $tel=$post['tel'];
-            !empty($post['name'])?$map['t.name']=array('like',"%$name%"):'';
-            !empty($post['tel'])?$map['t.tel']=array('like',"%$tel%"):'';
-
         }
 
         $list=M('Teacher as t')
@@ -122,7 +119,6 @@ class TeacherController extends BaseController {
         $this->assign('list',$list);
 //
         $this->display();
-//        }
     }
 
 
@@ -131,16 +127,14 @@ class TeacherController extends BaseController {
      * 考试详情
      */
     public function teacherStatusDetail(){
+        $id=I('get.id');    //学生id
 
-        $id=I('id');
-//        show_bug(session());
         if(session('roleid')==3){
             //如果是招生老师，根据学生id检测是否是该招生老师的学生
             $seach=D('teacher')->getStudentById($id);
             if($seach['userid'] != session('userid')){
-                $this->error('这好像不是你的考生...');
+                $this->error('这好像不是你的考生哦...');
             }
-
         }
 
         $detail=D('teacher')->getStudentById($id);
@@ -162,6 +156,19 @@ class TeacherController extends BaseController {
         //考区联动,遍历出市
         $city=D('TestPlace')->where("topid=0")->select();
         $this->assign('city',$city);
+
+        //书本选择列表
+        $book=D('book')->getBookByTopid(1);
+        $this->assign('book',$book);
+
+        //快递公司
+        $delivery=M('delivery')->select();
+        $this->assign('velivery',$delivery);
+
+        //发送情况
+        $send_book=D('SendBook')->getSendBookBySdid($detail['id']);
+        $this->assign('send_book',$send_book);
+//        show_bug($send_book);
 
 
         $this->display();

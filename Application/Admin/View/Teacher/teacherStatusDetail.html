@@ -18,7 +18,7 @@
     <link href="__PUBLIC__/magic-check/magic-check.css" rel="stylesheet">
     <link href="__PUBLIC__/Validform/style.css" rel="stylesheet">
 
-
+    <link href="__PUBLIC__/plugins/chosen/css/chosen.css" rel="stylesheet">
 
     <!--点提交新页面打开-->
     <!--<base target="_blank">-->
@@ -36,7 +36,13 @@
         }
         .magic-checkbox:checked + label:before {
             border: #3e97eb;
-            background: #2E8B57; }
+            background: #2E8B57; 
+        }
+        .booktitle{
+            background: #F5F5F5; 
+            margin-bottom: 20px;
+            margin-top: 100px;
+        }
     </style>
 
 </head>
@@ -50,26 +56,27 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
 
-                    <h5 style="padding-top: 8px;padding-right: 13px;">教师证学生报名表详情</h5>
+                    <!--<h5 style="padding-top: 8px;padding-right: 13px;">教师证学生报名表详情</h5>-->
+                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
                     <button class="btn btn-warning" type="submit" id="iwanModify">我要修改</button>
-
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="form_basic.html#">选项1</a>
-                            </li>
-                            <li><a href="form_basic.html#">选项2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
+                    </if>
+                    <!--<div class="ibox-tools">-->
+                        <!--<a class="collapse-link">-->
+                            <!--<i class="fa fa-chevron-up"></i>-->
+                        <!--</a>-->
+                        <!--<a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">-->
+                            <!--<i class="fa fa-wrench"></i>-->
+                        <!--</a>-->
+                        <!--<ul class="dropdown-menu dropdown-user">-->
+                            <!--<li><a href="form_basic.html#">选项1</a>-->
+                            <!--</li>-->
+                            <!--<li><a href="form_basic.html#">选项2</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                        <!--<a class="close-link">-->
+                            <!--<i class="fa fa-times"></i>-->
+                        <!--</a>-->
+                    <!--</div>-->
                 </div>
                 <div class="ibox-content">
 
@@ -385,8 +392,119 @@
                             </div>
                         </div>
 
+                    </form>
+                    <!--修改表单结束-->
+
+
+                    <!--发书操作开始-->
+                    <!-- <div class="hr-line-dashed"></div> -->
+
+                    <div class="ibox-content text-center booktitle">
+                        <h3 class="m-b-xxs">发书情况</h3>
+                    </div>
+
+
+                    <div class="col-sm-12">
+                            <div class="ibox-content">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>已发放的课本</th>
+                                        <th>快递单号</th>                                       
+                                        <th>发放时间</th>
+                                        <th>是否发齐</th>
+                                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+                                        <th>操作</th>
+                                        </if>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <if condition="$send_book neq null">
+                                    <foreach name="send_book" key="key" item="vo">
+                                        <tr>
+                                            <td>{$key+1}</td>
+                                            <td>{$vo.book_name}</td>
+                                            <td>{$vo.velivery_name}:{$vo.velivery_num}</td>
+                                            <td>{$vo.send_time}</td>
+                                            <td>
+                                                <if condition="$vo.send_status eq 1"> 已发齐
+                                                <else />未发齐
+                                                </if>
+                                            </td>
+                                            <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+                                            <td><a href="{:U('Admin/Book/deleteBook','id='.$vo['id'])}"> <button class="btn"  >删除</button> </a></td>
+                                            </if>
+                                        </tr>
+                                    </foreach>
+                                        <else />
+                                            <td colspan=6 style="text-align: center">该学生还未发书</td>
+                                    </if>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                    <div class="ibox-content text-center ">
+                    </div>
+
+
+                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 5)">
+                    <form  class="form-horizontal demoform"  action="{:U('Admin/Book/sendBook')}" method="post" enctype="multipart/form-data" >
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">发放书本</label>
+
+                            <div class="col-sm-8">
+                                <select data-placeholder="点击选择课本..." class="chzn-select" multiple style="width:850px;"tabindex="4"  id="selectbook">
+                                    <option value=""></option>
+                                    <foreach name="book" item="vo">
+                                        <option value="{$vo.book_name}">{$vo.book_name}</option>
+                                    </foreach>
+                                </select>
+                                <input type="hidden" name="book_name" value="1" id="postbook">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">书本是否发齐</label>
+
+                            <div class="col-sm-3 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="send_status" datatype="*" nullmsg="请勾选书本是否发齐"> <i></i> 发齐</label>
+                                <label>
+                                    <input type="radio" value="0" name="send_status"> <i></i> 未发齐</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">快递单号</label>
+
+                             <div class="col-sm-2">
+                                <select class="form-control m-b" name="velivery_name">
+                                    <foreach name="velivery" item="vo">
+                                        <option value="{$vo.delivery_name}">{$vo.delivery_name}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="velivery_num" datatype="*" nullmsg="请输入快递单号" placeholder="快递单号">
+                            </div>
+                        </div>
+                        
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-5">
+                                <button class="btn btn-primary" type="submit" id="savebook">确定</button>
+                                <input type="hidden" name="topcourse_id" value="1">
+                                <input type="hidden" name="student_id" value="{$detail.id}"">
+                                <input type="hidden" name="user_id" value="{$Think.session.userid}">
+                            </div>
+                        </div>
 
                     </form>
+                     </if>
+                    <!--发书操作结束-->
 
 
 
@@ -405,13 +523,41 @@
 
 <script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
 
-
+<script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
 
 
 
 <script>
     //初始化Validform
     $(".demoform").Validform();
+
+    //初始化chosen
+//    $(".chzn-select").chosen();
+    $(".chzn-select").chosen({
+        no_results_text: "没有找到",
+        allow_single_de: true,  //是否作废选择 max_ed_options 当为多选时，最多选择个数
+        search_contains: true,   //模糊搜索
+        
+    });
+
+    //change事件         chosen
+    $('#selectbook').change(function(){
+//        console.log(chose_get_value('#selectbook'));
+        $("#postbook").val(chose_get_value('#selectbook'));
+
+//        alert(chose_get_value('#selectbook'));
+//        alert(chose_get_value('#selectbook') + ' : '+ chose_get_text('#selectbook'));
+
+    });
+    //select value获取
+    function chose_get_value(select){
+        return $(select).val();
+    }
+    //select text获取，多选时请注意
+    function chose_get_text(select){
+        return $(select+" option:selected").text();
+    }
+
 
     //    $(document).ready(function(){
         $(document).ready(function () {
@@ -449,7 +595,7 @@
             });
         });
 
-
+	//图片点击大小变化
     $(function(){
         $("#img1").click(function(){
             var width = $(this).width();
@@ -472,6 +618,18 @@
 	var test_time=$('#ttime').val();
 	$("#originalTime").val(test_time);
 	<!-- alert(test_time); -->
+
+
+
+    //获取选择发放的所有课本
+//    $("body").click(function(){
+//        $('.chosen-choices li').each(function(index) {
+//            var book =  $(this).text();
+//            alert(book);
+////            alert(index + ': ' + $(this).text());
+//        });
+//    });
+
 
 //    });
 

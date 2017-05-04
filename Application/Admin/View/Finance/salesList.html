@@ -48,39 +48,40 @@
 <div class="content">
 
     <div class="lead">
-        <h4><strong>教师证报名学生列表</strong></h4>
+        <h4><strong>销售额报表</strong></h4>
     </div>
 
     <hr>
 
-<table id="table_id_example" class="display">
-    <thead>
-    <tr>
-        <th>名字</th>
-        <th>手机号码</th>
-        <th>报名时间</th>
-        <th>招生老师</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    <foreach name = "list" item = "vo">
+    <table id="table_id_example" class="display">
+        <thead>
         <tr>
-            <td>{$vo.name}</td>
-            <td>{$vo.tel}</td>
-            <td>{$vo.create_time}</td>
-            <td>{$vo.username}</td>
-            <td>
-                <!--<a href="{:U('Admin/Teacher/teacherStatusDetail',array('id'=>$vo[id]))}"><i class="fa fa-check text-navy"></i> 详情</a>-->
-                <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>
-                <!--<button class="layui-btn">编辑</button>-->
-                <!--<button class="layui-btn">删除</button>-->
-            </td>
-        </tr>
-    </foreach>
+            <th>招生老师</th>
+            <th>销售额</th>
 
-    </tbody>
-</table>
+            <th>其他</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <foreach name = "list" item = "vo">
+            <tr>
+                <td>{$vo.username}</td>
+                <td>{$vo.count}</td>
+
+                <td>{$vo.create_time}</td>
+
+                <td>
+                    <!--<a href="{:U('Admin/Teacher/teacherStatusDetail',array('id'=>$vo[id]))}"><i class="fa fa-check text-navy"></i> 详情</a>-->
+                    <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>
+                    <!--<button class="layui-btn">编辑</button>-->
+                    <!--<button class="layui-btn">删除</button>-->
+                </td>
+            </tr>
+        </foreach>
+
+        </tbody>
+    </table>
 </div>
 
 </body>
