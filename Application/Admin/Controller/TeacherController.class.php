@@ -98,15 +98,30 @@ class TeacherController extends BaseController {
 //        exit();
     }
 
-
-    /*
-     * 教师证考生列表
-     */
+    //教师证列表页面
     public function teacherList(){
+        //获取教师证考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById();
+        $this->assign('testTime',$testTime);
+        $this->display();
+    }
+    /*
+     * ajax获取教师证考生列表
+     */
+    public function getTeacherList(){
+
+        $get=I('get.');
+        $test_time=$get['test_time'];
+
+//        show_bug($get);
 
         //如果是招生老师，只显示自己招收的学生
         if(session('roleid')==3){
             $map['userid']=session('userid');
+        }
+
+        if(!empty($test_time)){
+            $map['test_time']=$test_time;
         }
 
         $list=M('Teacher as t')
@@ -116,9 +131,17 @@ class TeacherController extends BaseController {
 //        show_bug($list);
 //        echo M()->_sql();
 
-        $this->assign('list',$list);
+        foreach($list as $key => $value){
+            $list[$key]['num']=$key+1;
+            $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
+//            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
+        }
+
+        $this->ajaxReturn($list,'json');
+
+//        $this->assign('list',$list);
 //
-        $this->display();
+//        $this->display();
     }
 
 

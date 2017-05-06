@@ -16,6 +16,7 @@
 
     <script src="__PUBLIC__/plugins/layer/layer.js"></script>
     <link href="__PUBLIC__/plugins/layer/skin/default/layer.css" rel="stylesheet">
+    <script src="__PUBLIC__/laydate/laydate.js"></script>
 
 </head>
 
@@ -43,7 +44,7 @@
     .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active{color:white !important}
 </style>
 
-<body>
+
 
 <div class="content">
 
@@ -53,53 +54,98 @@
 
     <hr>
 
+    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+    <div class="form-group">
+        首次考试时间：
+            <select  class="btn btn-default dropdown-toggle" id="test_time" style="width: 20%">
+                <option value="">全部</option>
+                <foreach name="testTime" item="vo">
+                    <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
+                </foreach>
+
+            </select>
+
+
+        <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
+        <input type="button" class="btn btn-primary" onclick="search()"  value="导出Excel表格">
+    </div>
+        <hr>
+    </if>
+
+
+
 <table id="table_id_example" class="display">
     <thead>
     <tr>
         <th>名字</th>
         <th>手机号码</th>
         <th>报名时间</th>
+        <th>首次考试时间</th>
         <th>招生老师</th>
         <th>操作</th>
     </tr>
     </thead>
-    <tbody>
-    <foreach name = "list" item = "vo">
-        <tr>
-            <td>{$vo.name}</td>
-            <td>{$vo.tel}</td>
-            <td>{$vo.create_time}</td>
-            <td>{$vo.username}</td>
-            <td>
-                <!--<a href="{:U('Admin/Teacher/teacherStatusDetail',array('id'=>$vo[id]))}"><i class="fa fa-check text-navy"></i> 详情</a>-->
-                <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>
-                <!--<button class="layui-btn">编辑</button>-->
-                <!--<button class="layui-btn">删除</button>-->
-            </td>
-        </tr>
-    </foreach>
+    <!--<tbody>-->
+    <!--<foreach name = "list" item = "vo">-->
+        <!--<tr>-->
+            <!--<td>{$vo.name}</td>-->
+            <!--<td>{$vo.tel}</td>-->
+            <!--<td>{$vo.create_time}</td>-->
+            <!--<td>{$vo.username}</td>-->
+            <!--<td>-->
+                <!--&lt;!&ndash;<a href="{:U('Admin/Teacher/teacherStatusDetail',array('id'=>$vo[id]))}"><i class="fa fa-check text-navy"></i> 详情</a>&ndash;&gt;-->
+                <!--<button class="layui-btn" onclick="detail({$vo.id})" >详情</button>-->
+                <!--&lt;!&ndash;<button class="layui-btn">编辑</button>&ndash;&gt;-->
+                <!--&lt;!&ndash;<button class="layui-btn">删除</button>&ndash;&gt;-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</foreach>-->
 
-    </tbody>
+    <!--</tbody>-->
 </table>
 </div>
 
-</body>
+
 
 <script src="__PUBLIC__/plugins/DataTables/language.js"></script>
 
 <script type="text/javascript">
-    $(document).ready( function () {
-        //初始化DataTable
-//        $('#table_id_example').DataTable();
+    var table;
+    $(document).ready(function() {
+        table = $('#table_id_example').DataTable( {
+            "pagingType": "simple_numbers",//设置分页控件的模式
+            searching: true,//datatales的查询框
+//            aLengthMenu:[10],//设置一页展示10条记录
+            "bLengthChange": true,//屏蔽tables的一页展示多少条记录的下拉列表
+            "language":lang,    //国际化
+            "processing": true, //打开数据加载时的等待效果
+            // "serverSide": true,//打开后台分页
+            "ajax": {
+                "url": "{:U('admin/Teacher/getTeacherList')}",
+                "dataSrc": '',
+                // "type": "POST",
+                "data": function ( d ) {
+                    //添加额外的参数传给服务器
+                    d.test_time = $('#test_time').val();
+                }
+            },
+            "columns": [
+                { "data": "name" },
+                { "data": "tel" },
+                { "data": "create_time" },
+                { "data": "test_time" },
+                { "data": "username" },
+                { "data": "ac" },
+            ]
 
-        //初始化DataTable，配置中文语言
-        var table = $('#table_id_example').dataTable( {
-                "language":lang,
-//            "sPaginationType" : "full_numbers", //显示首页，尾页
-            "aaSorting" : [[3, "asc"]], //默认的排序方式，第3列，升序排列
         } );
+    } );
 
-    });
+    //点击搜索按钮
+    function search()
+    {
+        table.ajax.reload();
+    }
 
     //详情
     function detail(id){

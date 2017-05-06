@@ -52,31 +52,49 @@
 
                 <li>
                     <a href="#">
-                        <i class="glyphicon glyphicon-edit"></i>
-                        <span class="nav-label">报名学生表</span>
+                        <i class="fa fa-table"></i>
+                        <span class="nav-label">学生报名表</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="teacher/teacherList">教师证报名学生表</a>
+                            <a class="J_menuItem" href="teacher/teacherList">教师证学生报名表</a>
                         </li>
 
                     </ul>
                 </li>
 
+                <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5) ">
                 <li>
                     <a href="#">
-                        <i class="glyphicon glyphicon-edit"></i>
+                        <i class="fa fa fa-bar-chart-o"></i>
                         <span class="nav-label">财务报表</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="Finance/salesList">销售额报表</a>
+                            <a class="J_menuItem" href="Finance/index">销售额报表</a>
                         </li>
 
                     </ul>
                 </li>
+                </if>
+
+                <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+                    <li>
+                        <a href="#">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            <span class="nav-label">考生excel表导出</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="teacher/teacherList">教师证考生表导出</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                </if>
 
             </ul>
         </div>
