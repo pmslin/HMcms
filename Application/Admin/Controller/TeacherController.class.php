@@ -120,9 +120,16 @@ class TeacherController extends BaseController {
             $map['userid']=session('userid');
         }
 
-        if(!empty($test_time)){
+        if( $test_time!=0 || !empty($get['exprot']) ){
+//            exit();
             $map['test_time']=$test_time;
         }
+
+        if( $test_time==0 && !empty($get['exprot']) ){
+//            echo 1;
+//            exit();
+            unset($map['test_time']);
+    }
 
         $list=M('Teacher as t')
             ->field('t.*,u.username')
@@ -130,11 +137,41 @@ class TeacherController extends BaseController {
             ->where($map)->order('create_time desc')->select();
 //        show_bug($list);
 //        echo M()->_sql();
+//        exit();
 
         foreach($list as $key => $value){
             $list[$key]['num']=$key+1;
             $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
 //            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
+        }
+
+        //导出excel
+        if(!empty($get['exprot'])){
+
+            for ($i = 0; $i < count($list); $i++) {
+                $list[$i]=array(
+                    'key'   =>$list[$i]['num'],
+                    'name'  =>$list[$i]['name'],
+                    'tel'   =>$list[$i]['tel'],
+                    'test_time' =>$list[$i]['test_time'],
+                    'course'    =>$list[$i]['course'],
+                );
+
+            }
+
+            $name_co = "教师证学生报名表";
+
+            $title_arr = array('序号', '姓名','电话', '首次考试时间', '报考科目');
+
+//            $time = date('Y-m-d', time());
+
+            $title = "教师证".$test_time."首次考试学生—";
+
+            if ($list && count($list) > 0) {
+                exportExcel($list, $title_arr, $title);
+            }else{
+                $this->error('没有对应的数据');
+            }
         }
 
         $this->ajaxReturn($list,'json');
@@ -145,6 +182,21 @@ class TeacherController extends BaseController {
     }
 
 
+    public function exceltest(){
+        $list=M('course')->select();
+        show_bug($list);
+        $name_co = "学生报名表";
+
+        $title_arr = array('序号', '项目名称','序号', '项目名称');
+
+        $time = date('Y-m-d', time());
+
+        $title = $name_co . $time;
+
+        if ($list && count($list) > 0) {
+            exportExcel($list, $title_arr, $title);
+        }
+    }
 
     /*
      * 考试详情

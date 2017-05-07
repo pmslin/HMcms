@@ -11,7 +11,7 @@ var lang = {
     "sInfoPostFix": "",
     "sSearch": "搜索:",
     "sUrl": "",
-    "sEmptyTable": "表中数据为空",
+    "sEmptyTable": "暂无数据",
     "sLoadingRecords": "载入中...",
     "sInfoThousands": ",",
     "oPaginate": {

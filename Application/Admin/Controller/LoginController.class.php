@@ -48,7 +48,7 @@ class LoginController extends Controller {
             session('username',$userResult['username']);
             session('roleid',$userResult['roleid']);
             session('userid',$userResult['id']);
-
+            session('tel',$userResult['tel']);
 
 
             if($saveResult && $userResult){

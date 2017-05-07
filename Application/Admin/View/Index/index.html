@@ -44,7 +44,7 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="teacher">录入教师证报名表</a>
+                            <a class="J_menuItem" href="teacher"><i class="glyphicon glyphicon-chevron-right"></i>录入教师证报名表</a>
                         </li>
 
                     </ul>
@@ -58,7 +58,7 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="teacher/teacherList">教师证学生报名表</a>
+                            <a class="J_menuItem" href="teacher/teacherList"><i class="glyphicon glyphicon-chevron-right"></i>教师证学生报名表</a>
                         </li>
 
                     </ul>
@@ -73,28 +73,42 @@
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="Finance/index">销售额报表</a>
+                            <a class="J_menuItem" href="Finance/index"><i class="glyphicon glyphicon-chevron-right"></i>销售额报表</a>
                         </li>
 
                     </ul>
                 </li>
                 </if>
 
-                <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
-                    <li>
-                        <a href="#">
-                            <i class="glyphicon glyphicon-edit"></i>
-                            <span class="nav-label">考生excel表导出</span>
-                            <span class="fa arrow"></span>
-                        </a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a class="J_menuItem" href="teacher/teacherList">教师证考生表导出</a>
-                            </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-cog"></i>
+                        <span class="nav-label">修改资料</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a class="J_menuItem" href="Modify/ModifyPwd"><i class="glyphicon glyphicon-chevron-right"></i>密码修改</a>
+                        </li>
 
-                        </ul>
-                    </li>
-                </if>
+                    </ul>
+                </li>
+
+                <!--<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">-->
+                    <!--<li>-->
+                        <!--<a href="#">-->
+                            <!--<i class="glyphicon glyphicon-edit"></i>-->
+                            <!--<span class="nav-label">考生excel表导出</span>-->
+                            <!--<span class="fa arrow"></span>-->
+                        <!--</a>-->
+                        <!--<ul class="nav nav-second-level">-->
+                            <!--<li>-->
+                                <!--<a class="J_menuItem" href="teacher/teacherList">教师证考生表导出</a>-->
+                            <!--</li>-->
+
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</if>-->
 
             </ul>
         </div>

@@ -58,7 +58,7 @@
     <div class="form-group">
         首次考试时间：
             <select  class="btn btn-default dropdown-toggle" id="test_time" style="width: 20%">
-                <option value="">全部</option>
+                <option value="0">全部</option>
                 <foreach name="testTime" item="vo">
                     <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
                 </foreach>
@@ -67,7 +67,7 @@
 
 
         <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
-        <input type="button" class="btn btn-primary" onclick="search()"  value="导出Excel表格">
+        <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
     </div>
         <hr>
     </if>
@@ -145,6 +145,15 @@
     function search()
     {
         table.ajax.reload();
+    }
+
+    //导出excel
+    function exprot()
+    {
+        test_time = $('#test_time').val();
+        var url = "{:U('admin/Teacher/getTeacherList/exprot/1/test_time/"+test_time+"')}";
+//        alert(url);
+        window.location.href = url;
     }
 
     //详情
