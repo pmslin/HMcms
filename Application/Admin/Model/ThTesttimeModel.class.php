@@ -5,11 +5,12 @@ use Think\Model;
 
 class ThTesttimeModel extends Model
 {
-    /*
-     * 获取教师证考试时间
+    /**
+     * 根据top获取考试时间
+     * topid:教师证1，自考6
      * */
-    public function getThTestTimeById(){
-        return M('ThTesttime')->where("thtt_status = 1")->order('thtt_sort')->select();
+    public function getThTestTimeById($topid){
+        return M('ThTesttime')->where("thtt_topid = %d AND thtt_status = 1",$topid)->order('thtt_sort')->select();
     }
 
 

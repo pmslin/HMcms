@@ -18,11 +18,11 @@ class TeacherController extends BaseController {
 //        var_dump($city);
 
         //获取教师证课程
-        $course=D('Course')->where("topid=1")->select();
+        $course=D('Course')->getCourseByTopid(1);
         $this->assign('course',$course);
 
         //获取教师证考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById();
+        $testTime=D('ThTesttime')->getThTestTimeById(1);
         $this->assign('testTime',$testTime);
 //        var_dump($testTime);
 
@@ -72,7 +72,7 @@ class TeacherController extends BaseController {
             $orderData['user_id']=session('userid');
             $orderData['create_time']=$time;
             $orderData['student_id']=$addResult;
-            $orderData['course_package_topid']=1;
+            $orderData['course_package_topid']=1;   //标记为教师证
             //获取套餐价格和名称
             $course_package=D('CoursePackage')->getCourePackageById($post['course_package']);
             $orderData['course_name']=$course_package['name'];
@@ -101,7 +101,7 @@ class TeacherController extends BaseController {
     //教师证列表页面
     public function teacherList(){
         //获取教师证考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById();
+        $testTime=D('ThTesttime')->getThTestTimeById(1);
         $this->assign('testTime',$testTime);
         $this->display();
     }
@@ -221,7 +221,7 @@ class TeacherController extends BaseController {
 //        show_bug($course_package);
 
         //获取教师证考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById();
+        $testTime=D('ThTesttime')->getThTestTimeById(1);
         $this->assign('testTime',$testTime);
 
         //获取教师证课程
@@ -240,10 +240,16 @@ class TeacherController extends BaseController {
         $delivery=M('delivery')->select();
         $this->assign('velivery',$delivery);
 
-        //发送情况
+        //发书情况
         $send_book=D('SendBook')->getSendBookBySdid($detail['id']);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);
+
+        //缴费情况
+        $order=D('order')->getOrderBystuidTopid($id,1);
+        $this->assign('order',$order);
+//        echo M()->_sql();
+//        show_bug($order);
 
 
         $this->display();

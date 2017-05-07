@@ -24,7 +24,7 @@ class FinanceController extends BaseController {
 
 
         $list=M('order')
-            ->field('order.id,sum(order.course_price) as count,u.username,order.course_name')
+            ->field('order.id,sum(order.some_cash) as count,u.username,order.course_name')
             ->join('user AS u ON order.user_id=u.id',left)
             ->where($map)
             ->group('user_id')
@@ -32,7 +32,7 @@ class FinanceController extends BaseController {
 
         foreach($list as $key => $value){
             $list[$key]['num']=$key+1;
-            $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
+//            $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
 //            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
         }
 
