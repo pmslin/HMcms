@@ -100,12 +100,13 @@ class TeacherController extends BaseController {
 
     //教师证列表页面
     public function teacherList(){
-        //获取教师证考试时间
+        //获取教师证考试时间，用于查询选择
         $testTime=D('ThTesttime')->getThTestTimeById(1);
         $this->assign('testTime',$testTime);
         $this->display();
     }
-    /*
+
+    /**
      * ajax获取教师证考生列表
      */
     public function getTeacherList(){
@@ -198,8 +199,8 @@ class TeacherController extends BaseController {
         }
     }
 
-    /*
-     * 考试详情
+    /**
+     * 教师证考生详情
      */
     public function teacherStatusDetail(){
         $id=I('get.id');    //学生id

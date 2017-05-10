@@ -284,14 +284,39 @@
                             <label class="col-sm-2 control-label">主考院校名称</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="under_school"  datatype="*">
+                                <select  class="form-control m-b" name="under_school" datatype="s" nullmsg="请选择主考院校">
+                                    <option ></option>
+                                    <foreach name="underSchool" item="v">
+                                        <option value="{$v.name}">{$v.name}</option>
+                                    </foreach>
+                                </select>
                             </div>
+
+                            <!--<div class="col-sm-3">-->
+                                <!--<input type="text" class="form-control" name="under_school"  datatype="*">-->
+                            <!--</div>-->
 
                             <label class="col-sm-2 control-label">报考专业名称</label>
 
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="under_major"  datatype="*">
+                            <div class="col-sm-2 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="grade"  datatype="*" nullmsg="请选择报名的学历"> <i></i> 大专</label>
+                                <label>
+                                    <input type="radio" value="2" name="grade"> <i></i> 本科</label>
                             </div>
+
+                            <div class="col-sm-3">
+                                <select  class="form-control m-b" name="under_major"  datatype="s" nullmsg="请选择报考专业">
+                                    <option></option>
+                                    <foreach name="underMajor" item="v">
+                                        <option value="{$v.name}">{$v.number}丨{$v.name}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+
+                            <!--<div class="col-sm-3">-->
+                                <!--<input type="text" class="form-control" name="under_major"  datatype="*">-->
+                            <!--</div>-->
                         </div>
 
                         <div class="form-group">
@@ -311,7 +336,7 @@
                                 </select>
                             </div>
 
-                            <label class="col-sm-2 control-label">笔试考试时间</label>
+                            <label class="col-sm-2 control-label">第一次考试时间</label>
 
                             <div class="col-sm-3">
                                 <select class="form-control m-b" name="test_time">
@@ -379,7 +404,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-5">
-                                <button class="btn btn-primary" type="submit" id="save">保存</button>
+                                <button class="btn btn-primary" onclick="return confirm('确定提交?提交后不可修改。')" type="submit" id="save">保存</button>
                             </div>
                         </div>
 

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>教师证学生报名表详情</title>
+    <title>自考学生报名表详情</title>
 
     <link rel="shortcut icon" href="favicon.ico">
     <link href="__PUBLIC__/H/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
@@ -127,13 +127,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">出生年月</label>
+                            <label class="col-sm-2 control-label">QQ</label>
 
                             <div class="col-sm-3">
-                                <div style="width:970px; margin:0px auto;">
-                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
-                                           onclick="laydate()" name="birthday" datatype="*" value="{$detail.birthday}">
-                                </div>
+                                    <input type="text" class="form-control" name="qq" datatype="e&*"  errormsg="请输入正确的邮箱"  value="{$detail.qq}">
                             </div>
 
                             <label class="col-sm-2 control-label">身份证号码</label>
@@ -144,45 +141,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">户口所在地</label>
+                            <label class="col-sm-2 control-label">大专学校全称</label>
 
                             <div class="col-sm-3">
-                                <input type="text" placeholder='___省___市___区（县）' class="form-control"
-                                       name="hukou_address" datatype="*"  value="{$detail.hukou_address}">
-                            </div>
-
-                            <label class="col-sm-2 control-label">QQ邮箱</label>
-
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="email" datatype="e&*"  errormsg="请输入正确的邮箱"  value="{$detail.email}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">学校名称（在读）</label>
-
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="school" datatype="*"  value="{$detail.school}">
-                            </div>
-
-                            <label class="col-sm-2 control-label">学历层次</label>
-
-                            <div class="col-sm-3 radio i-checks">
-                                <label>
-                                    <input type="radio" value="1" name="education" datatype="*" nullmsg="请选择学历层次"  <if condition="$detail.education eq 1">checked</if> > <i></i> 大专</label>
-                                <label>
-                                    <input type="radio" value="2" name="education" <if condition="$detail.education eq 2">checked</if> > <i></i> 本科</label>
-                                <label>
-                                    <input type="radio" value="3" name="education" <if condition="$detail.education eq 3">checked</if> > <i></i> 研究生</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">院系班级</label>
-
-                            <div class="col-sm-3">
-                                <input type="text" placeholder='______院系______班级' class="form-control"
-                                       name="college_class"  datatype="*" value="{$detail.college_class}">
+                                <input type="text" class="form-control" name="college_school" datatype="*" value="{$detail.college_school}">
                             </div>
 
                             <label class="col-sm-2 control-label">所在年级</label>
@@ -194,55 +156,25 @@
                                     <input type="radio" value="2" name="grade" <if condition="$detail.grade eq 2">checked</if> > <i></i> 大二</label>
                                 <label>
                                     <input type="radio" value="3" name="grade" <if condition="$detail.grade eq 3">checked</if> > <i></i> 大三</label>
-                                <label>
-                                    <input type="radio" value="4" name="grade" <if condition="$detail.grade eq 4">checked</if> > <i></i> 大四</label>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">专业名称</label>
+                            <label class="col-sm-2 control-label">大专专业名称专业名称</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="major" datatype="*" value="{$detail.major}">
+                                <input type="text" class="form-control" name="college_major" datatype="*" value="{$detail.college_major}">
                             </div>
 
                             <label class="col-sm-2 control-label">是否在校</label>
 
-                            <div class="col-sm-1 radio i-checks">
+                            <div class="col-sm-2 radio i-checks">
                                 <label>
                                     <input type="radio" value="1" name="in_school"  datatype="*" nullmsg="请选择是否在校" <if condition="$detail.in_school eq 1">checked</if> > <i></i> 是</label>
                                 <label>
                                     <input type="radio" value="0" name="in_school" <if condition="$detail.in_school eq 0">checked</if> > <i></i> 否</label>
                             </div>
 
-                            <label class="col-sm-2 control-label">是否全日制</label>
-
-                            <div class="col-sm-1 radio i-checks">
-                                <label>
-                                    <input type="radio" value="1" name="full_time"  datatype="*" nullmsg="请选择是否全日制" <if condition="$detail.full_time eq 1">checked</if> > <i></i> 是</label>
-                                <label>
-                                    <input type="radio" value="0" name="full_time" <if condition="$detail.full_time eq 0">checked</if> > <i></i> 否</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">院校入学时间</label>
-
-                            <div class="col-sm-3">
-                                <div style="width:970px; margin:0px auto;">
-                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
-                                           onclick="laydate()" name="entrance_time" datatype="*"  nullmsg="请选择院校入学时间" value="{$detail.entrance_time}">
-                                </div>
-                            </div>
-
-                            <label class="col-sm-2 control-label">预计毕业时间</label>
-
-                            <div class="col-sm-3">
-                                <div style="width:970px; margin:0px auto;">
-                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
-                                           onclick="laydate()" name="graduation_time" datatype="*" nullmsg="请选择预计毕业时间" value="{$detail.graduation_time}">
-                                </div>
-                            </div>
                         </div>
 
                         <div class="form-group">
@@ -268,6 +200,47 @@
                         </div>
 
                         <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">主考院校名称</label>
+
+                            <div class="col-sm-3">
+                                <select  class="form-control m-b" name="under_school" datatype="s" nullmsg="请选择主考院校">
+                                    <option value="{$detail.under_school}" id="under_school">{$detail.under_school}</option>
+                                    <option value="">-------------------------------</option>
+                                    <foreach name="underSchool" item="v">
+                                        <option value="{$v.name}">{$v.name}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+
+                            <!--<div class="col-sm-3">-->
+                            <!--<input type="text" class="form-control" name="under_school"  datatype="*">-->
+                            <!--</div>-->
+
+                            <label class="col-sm-2 control-label">报考专业名称</label>
+
+                            <div class="col-sm-2 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="grade" <if condition="$detail.grade eq 1">checked</if>  datatype="*" nullmsg="请选择报名的学历"> <i></i> 大专</label>
+                                <label>
+                                    <input type="radio" value="2" name="grade" <if condition="$detail.grade eq 2">checked</if> > <i></i> 本科</label>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <select  class="form-control m-b" name="under_major"  datatype="s" nullmsg="请选择报考专业">
+                                    <option value="{$detail.under_major}" id="under_major">{$detail.under_major}</option>
+                                    <option value="">-------------------------------</option>
+                                    <foreach name="underMajor" item="v">
+                                        <option value="{$v.name}">{$v.number}丨{$v.name}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+
+                            <!--<div class="col-sm-3">-->
+                            <!--<input type="text" class="form-control" name="under_major"  datatype="*">-->
+                            <!--</div>-->
+                        </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">考区</label>

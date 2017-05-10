@@ -10,15 +10,28 @@ class SelfTestController extends BaseController {
 
         //考区联动,遍历出市
         $city=D('TestPlace')->where("topid=0")->select();
-        $this->assign('city',$city);
+//        $this->assign('city',$city);
 
-        //获取这节课考试时间
+        //获取考试时间
         $testTime=D('ThTesttime')->getThTestTimeById(6);
-        $this->assign('testTime',$testTime);
+//        $this->assign('testTime',$testTime);
 
         //获取自考课程套餐、价格列表
         $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(7);
-        $this->assign('TeaCoursePackage',$TeaCoursePackage);
+//        $this->assign('TeaCoursePackage',$TeaCoursePackage);
+
+        //获取本科学院和专业
+        $underSchool=D('UnderSchool')->getUnderShool();
+        $underMajor=D('UnderMajor')->getUnderMajor();
+
+        $array=array(
+            'TeaCoursePackage'  =>$TeaCoursePackage,
+            'city'          =>$city,
+            'testTime'     =>$testTime,
+            'underSchool'   =>$underSchool,
+            'underMajor'   =>$underMajor,
+        );
+        $this->assign($array);
 
         $this->display();
     }
@@ -91,5 +104,147 @@ class SelfTestController extends BaseController {
         }
 //        print_r($_POST);
 //        exit();
+    }
+
+    //自考列表页面
+    public function selfTestList(){
+        //自考考试时间，用于查询选择
+        $testTime=D('ThTesttime')->getThTestTimeById(6);
+        $this->assign('testTime',$testTime);
+        $this->display();
+    }
+
+    /*
+  * ajax获取教师证考生列表
+  */
+    public function getTeacherList(){
+
+        $get=I('get.');
+        $test_time=$get['test_time'];
+
+//        show_bug($get);
+
+        //如果是招生老师，只显示自己招收的学生
+        if(session('roleid')==3){
+            $map['userid']=session('userid');
+        }
+
+        if( $test_time!=0 || !empty($get['exprot']) ){
+//            exit();
+            $map['test_time']=$test_time;
+        }
+
+        if( $test_time==0 && !empty($get['exprot']) ){
+//            echo 1;
+//            exit();
+            unset($map['test_time']);
+        }
+
+        $list=M('self_test as s')
+            ->field('s.*,u.username')
+            ->join('user AS u ON s.userid=u.id',left)
+            ->where($map)->order('create_time desc')->select();
+//        show_bug($list);
+//        echo M()->_sql();
+//        exit();
+
+        foreach($list as $key => $value){
+            $list[$key]['num']=$key+1;
+            $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
+//            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
+        }
+
+        //导出excel
+        if(!empty($get['exprot'])){
+
+            for ($i = 0; $i < count($list); $i++) {
+                $list[$i]=array(
+                    'key'   =>$list[$i]['num'],
+                    'name'  =>$list[$i]['name'],
+                    'tel'   =>$list[$i]['tel'],
+                    'test_time' =>$list[$i]['test_time'],
+                    'under_major'    =>$list[$i]['under_major'],
+                );
+
+            }
+
+            $name_co = "自考学生报名表";
+
+            $title_arr = array('序号', '姓名','电话', '首次考试时间', '报考专业');
+
+//            $time = date('Y-m-d', time());
+
+            $title = "自考".$test_time."首次考试学生—";
+
+            if ($list && count($list) > 0) {
+                exportExcel($list, $title_arr, $title);
+            }else{
+                $this->error('没有对应的数据');
+            }
+        }
+
+        $this->ajaxReturn($list,'json');
+
+//        $this->assign('list',$list);
+//
+//        $this->display();
+    }
+
+    /**
+     * 自考考生详情
+     */
+    public function selfTestStaDetail(){
+        $id=I('get.id');    //学生id
+
+        if(session('roleid')==3){
+            //如果是招生老师，根据学生id检测是否是该招生老师的学生
+            $seach=D('teacher')->getStudentById($id);
+            if($seach['userid'] != session('userid')){
+                $this->error('这好像不是你的考生哦...');
+            }
+        }
+
+        $detail=D('SelfTest')->getStudentById($id);
+        $this->assign('detail',$detail);
+
+        $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
+        $this->assign('course_package',$course_package);
+//        show_bug($detail);
+//        show_bug($course_package);
+
+        //获取教师证考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById(1);
+        $this->assign('testTime',$testTime);
+
+        //获取教师证课程
+        $course=D('Course')->where("topid=1")->select();
+        $this->assign('course',$course);
+
+        //考区联动,遍历出市
+        $city=D('TestPlace')->where("topid=0")->select();
+        $this->assign('city',$city);
+
+        //书本选择列表
+        $book=D('book')->getBookByTopid(1);
+        $this->assign('book',$book);
+
+        //快递公司
+        $delivery=M('delivery')->select();
+        $this->assign('velivery',$delivery);
+
+        //发书情况
+        $send_book=D('SendBook')->getSendBookBySdid($detail['id']);
+        $this->assign('send_book',$send_book);
+//        show_bug($send_book);
+
+        //缴费情况
+        $order=D('order')->getOrderBystuidTopid($id,1);
+        $this->assign('order',$order);
+//        echo M()->_sql();
+//        show_bug($order);
+
+
+        $this->display();
+
     }
 }
