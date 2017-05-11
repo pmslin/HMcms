@@ -2,7 +2,7 @@
 namespace Admin\Controller;
 use Think\Controller;
 class LoginController extends Controller {
-    /*
+    /**
      * 跳到登陆页面
      * */
     public function index(){
@@ -15,7 +15,7 @@ class LoginController extends Controller {
 
     }
 
-    /*
+    /**
      * 用户异步登陆功能
      * */
     public function login(){

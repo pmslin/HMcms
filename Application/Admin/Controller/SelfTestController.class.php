@@ -117,7 +117,7 @@ class SelfTestController extends BaseController {
     /*
   * ajax获取教师证考生列表
   */
-    public function getTeacherList(){
+    public function getSelfTestList(){
 
         $get=I('get.');
         $test_time=$get['test_time'];
@@ -204,28 +204,30 @@ class SelfTestController extends BaseController {
             }
         }
 
+        //自考学生详情
         $detail=D('SelfTest')->getStudentById($id);
         $this->assign('detail',$detail);
 
+        //班型
         $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
         $this->assign('course_package',$course_package);
 //        show_bug($detail);
 //        show_bug($course_package);
 
-        //获取教师证考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById(1);
+        //获取自考考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById(6);
         $this->assign('testTime',$testTime);
 
         //获取教师证课程
-        $course=D('Course')->where("topid=1")->select();
-        $this->assign('course',$course);
+//        $course=D('Course')->where("topid=1")->select();
+//        $this->assign('course',$course);
 
         //考区联动,遍历出市
         $city=D('TestPlace')->where("topid=0")->select();
         $this->assign('city',$city);
 
         //书本选择列表
-        $book=D('book')->getBookByTopid(1);
+        $book=D('book')->getBookByTopid(29);
         $this->assign('book',$book);
 
         //快递公司
@@ -233,18 +235,74 @@ class SelfTestController extends BaseController {
         $this->assign('velivery',$delivery);
 
         //发书情况
-        $send_book=D('SendBook')->getSendBookBySdid($detail['id']);
+        $send_book=D('SendBook')->getSendBookBySdid($detail['id'],7);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);
 
         //缴费情况
-        $order=D('order')->getOrderBystuidTopid($id,1);
+        $order=D('order')->getOrderBystuidTopid($id,7);
         $this->assign('order',$order);
-//        echo M()->_sql();
-//        show_bug($order);
+
+        //获取本科学院和专业
+        $underSchool=D('UnderSchool')->getUnderShool();
+        $underMajor=D('UnderMajor')->getUnderMajor();
+
+        $array=array(
+            'underSchool'   =>$underSchool,
+            'underMajor'   =>$underMajor,
+        );
+        $this->assign($array);
 
 
         $this->display();
 
+    }
+
+
+    /**
+     * 修改自考学生报名表
+     */
+    public function savefrom(){
+
+        //检测是否是教务提交，roleid=1和4的可以修改
+        if(!in_array(session('roleid'),array(1,4))) {
+            $this->error('没有修改权限');
+        }
+
+        $post=I('post.');
+//        show_bug($_POST);
+//        exit();
+        if(!empty($post['place_area_id'])){
+//            echo 1;
+            //查询出考区
+            $testPlaceModel=D('TestPlace');
+//            $id=$post['place_city_id'];
+            $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
+            $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
+            $_POST['test_place']=$place_city['place_name'].$place_area['place_name'];
+        }
+
+        //上传考生照片
+        $upload = new \Think\Upload();// 实例化上传类   开始
+        $upload->maxSize = 3145728;// 设置附件上传大小
+        $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+        $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
+        $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
+        if (!$info) {// 如果没有上传图片，则不修改图片
+            unset( $_POST['pic']);
+        }
+        else {// 上传成功   则修改图片
+            $_POST['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+        }
+
+
+        $selfTestModel=M('self_test');
+        $selfTestModel->create();
+        $saveResult=$selfTestModel->save();
+        if($saveResult){
+            $this->success('修改成功');
+        }else{
+            $this->error('修改失败');
+        }
     }
 }

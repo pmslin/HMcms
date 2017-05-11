@@ -3,15 +3,20 @@ namespace Admin\Controller;
 use Think\Controller;
 class FinanceController extends BaseController {
     public function index(){
+        //财务权限检测
+        cost_check();
 
         $this->display();
     }
 
 
-    /*
+    /**
      * 销售额报表
      */
     public function salesList(){
+        //财务权限检测
+        cost_check();
+
         $get=I('get.');
         $start_time=$get['start_time'];
         $end_time=$get['end_time'];

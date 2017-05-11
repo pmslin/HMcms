@@ -242,7 +242,7 @@ class TeacherController extends BaseController {
         $this->assign('velivery',$delivery);
 
         //发书情况
-        $send_book=D('SendBook')->getSendBookBySdid($detail['id']);
+        $send_book=D('SendBook')->getSendBookBySdid($detail['id'],1);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);
 
@@ -257,8 +257,8 @@ class TeacherController extends BaseController {
 
     }
 
-    /*
-     * 修改报名表
+    /**
+     * 修改教师证学生报名表
      */
     public function savefrom(){
 
@@ -271,7 +271,7 @@ class TeacherController extends BaseController {
 //        show_bug($_POST);
 //        exit();
         if(!empty($post['place_area_id'])){
-            echo 1;
+//            echo 1;
             //查询出考区
             $testPlaceModel=D('TestPlace');
 //            $id=$post['place_city_id'];
@@ -302,11 +302,6 @@ class TeacherController extends BaseController {
         }else{
             $this->error('修改失败');
         }
-
-
-
-
-
     }
 
 

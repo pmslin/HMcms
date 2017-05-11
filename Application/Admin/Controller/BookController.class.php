@@ -5,7 +5,7 @@ use Common\Controller\CommonController;
 
 class bookController extends BaseController {
 
-    /*
+    /**
      * 发书
      */
     public function sendBook(){
@@ -17,11 +17,11 @@ class bookController extends BaseController {
             $post=I('post.');
             $post['send_time']=date("Y-m-d");
             $add=M('send_book')->add($post);
-            $add?$this->success('操作成功！') : $this->error('操作失败');
+            $add?$this->success('发书成功~') : $this->error('发书失败！');
         }
     }
 
-    /*
+    /**
      * 删除发书信息
      */
     public function deleteBook(){
@@ -30,7 +30,7 @@ class bookController extends BaseController {
 
         $id=I('get.id');
         $dele=D('send_book')->deleByid($id);
-        $dele?$this->success('操作成功！') : $this->error('操作失败');
+        $dele?$this->success('删除成功~') : $this->error('删除失败！');
 
 //        show_bug(I('get.id'));
     }
