@@ -103,7 +103,13 @@
                             <label class="col-sm-2 control-label">政治面貌</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="face"  datatype="*">
+                                <select class="form-control m-b" name="face">
+                                    <option value="团员">团员</option>
+                                    <option value="党员">党员</option>
+                                    <option value="群众">群众</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                                <!--<input type="text" class="form-control" name="face"  datatype="*">-->
                             </div>
                         </div>
 
@@ -220,6 +226,84 @@
                             </div>
                         </div>
 
+                        <div id="yesinschool">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">参加工作年份</label>
+
+                                <div class="col-sm-3">
+                                    <div style="width:970px; margin:0px auto;">
+                                        <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+                                               onclick="laydate({  format: 'YYYY'})" name="work_time" datatype="*">
+                                    </div>
+                                </div>
+
+                                <label class="col-sm-2 control-label">最高学位</label>
+
+                                <div class="col-sm-3 radio i-checks">
+                                    <label>
+                                        <input type="radio" value="1" name="degree"  datatype="*" nullmsg="请选择是最高学位"> <i></i> 学士</label>
+                                    <label>
+                                        <input type="radio" value="2" name="degree"> <i></i> 硕士</label>
+                                    <label>
+                                        <input type="radio" value="3" name="degree"> <i></i> 博士</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!--<label class="col-sm-1 control-label">学位证书号码</label>-->
+
+                            <div class="col-sm-5">
+                                <!--<input type="text" class="form-control" name="degree_num" datatype="*">-->
+                            </div>
+
+                            <label class="col-sm-2 control-label">学位证书号码</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="degree_num" datatype="*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">学校代码</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="school_num" datatype="*">
+                            </div>
+
+                            <label class="col-sm-2 control-label">是否师范专业</label>
+
+                            <div class="col-sm-2 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="is_normal"  datatype="*" nullmsg="请选择是否师范专业"> <i></i> 是</label>
+                                <label>
+                                    <input type="radio" value="0" name="is_normal"> <i></i> 否</label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">人事关系所在省份</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="interpersonal" datatype="*">
+                            </div>
+
+                            <label class="col-sm-2 control-label">学习形式</label>
+
+                            <div class="col-sm-5 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="study_form"  datatype="*" nullmsg="请选择学习形式"> <i></i> 普通全日制</label>
+                                <label>
+                                    <input type="radio" value="2" name="study_form"> <i></i> 成人高考</label>
+                                <label>
+                                    <input type="radio" value="3" name="study_form"> <i></i> 远程教育</label>
+                            </div>
+
+                        </div>
+
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label">院校入学时间</label>
 
@@ -240,6 +324,8 @@
                             </div>
                         </div>
 
+
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label">紧急联系人</label>
 
@@ -257,8 +343,14 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">本人联系地址</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-sm-5">
                                 <input type="text" placeholder='___市___区______' class="form-control" name="address" datatype="*">
+                            </div>
+
+                            <label class="col-sm-2 control-label">邮编</label>
+
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="zip_code" datatype="*">
                             </div>
                         </div>
 
@@ -352,6 +444,7 @@
                                 <button class="btn btn-primary"  onclick="return confirm('确定提交?提交后不可修改。')" type="submit" id="save">保存</button>
                             </div>
                         </div>
+                        <span style="font-size:6px;">&nbsp;&nbsp;&nbsp;*&nbsp;不填用“-”代替</span>
 
 
                     </form>
@@ -413,7 +506,15 @@
             });
         });
 
-
+    //是否在校生，显示对应文本框
+//    $("input:radio[name='in_school']").change(function (){
+//        var in_school = $(this).val();
+//        alert(in_school);
+//        if (in_school == 1){
+//            alert(in_school);
+//            $("#yesinschool").hide();
+//        }
+//    });
 
 
 //    });

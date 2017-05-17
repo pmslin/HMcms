@@ -225,6 +225,85 @@
                             </div>
                         </div>
 
+
+                        <div id="yesinschool">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">参加工作年份</label>
+
+                                <div class="col-sm-3">
+                                    <div style="width:970px; margin:0px auto;">
+                                        <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+                                               onclick="laydate({  format: 'YYYY'})" name="work_time" datatype="*"  value="{$detail.work_time}">
+                                    </div>
+                                </div>
+
+                                <label class="col-sm-2 control-label">最高学位</label>
+
+                                <div class="col-sm-3 radio i-checks">
+                                    <label>
+                                        <input type="radio" value="1" name="degree"  <if condition="$detail.degree eq 1">checked</if>   datatype="*" nullmsg="请选择是最高学位"> <i></i> 学士</label>
+                                    <label>
+                                        <input type="radio" value="2" name="degree"  <if condition="$detail.degree eq 2">checked</if> > <i></i> 硕士</label>
+                                    <label>
+                                        <input type="radio" value="3" name="degree"  <if condition="$detail.degree eq 3">checked</if> > <i></i> 博士</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!--<label class="col-sm-1 control-label">学位证书号码</label>-->
+
+                            <div class="col-sm-5">
+                                <!--<input type="text" class="form-control" name="degree_num" datatype="*">-->
+                            </div>
+
+                            <label class="col-sm-2 control-label">学位证书号码</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="degree_num" datatype="*"  value="{$detail.degree_num}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">学校代码</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="school_num" datatype="*"  value="{$detail.school_num}">
+                            </div>
+
+                            <label class="col-sm-2 control-label">是否师范专业</label>
+
+                            <div class="col-sm-2 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="is_normal" <if condition="$detail.is_normal eq 1">checked</if>   datatype="*" nullmsg="请选择是否师范专业"> <i></i> 是</label>
+                                <label>
+                                    <input type="radio" value="0" name="is_normal" <if condition="$detail.is_normal eq 0">checked</if> > <i></i> 否</label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">人事关系所在省份</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="interpersonal" datatype="*"  value="{$detail.interpersonal}">
+                            </div>
+
+                            <label class="col-sm-2 control-label">学习形式</label>
+
+                            <div class="col-sm-5 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="study_form" <if condition="$detail.study_form eq 1">checked</if>   datatype="*" nullmsg="请选择学习形式"> <i></i> 普通全日制</label>
+                                <label>
+                                    <input type="radio" value="2" name="study_form" <if condition="$detail.study_form eq 2">checked</if> > <i></i> 成人高考</label>
+                                <label>
+                                    <input type="radio" value="3" name="study_form" <if condition="$detail.study_form eq 3">checked</if> > <i></i> 远程教育</label>
+                            </div>
+
+                        </div>
+
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label">院校入学时间</label>
 
