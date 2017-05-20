@@ -150,19 +150,76 @@ class TeacherController extends BaseController {
         if(!empty($get['exprot'])){
 
             for ($i = 0; $i < count($list); $i++) {
+
+                //性别
+                if( $list[$i]['sex'] == 0 ){
+                    $sex = '男';
+                }else if ($list[$i]['sex'] == 1){
+                    $sex= '女';
+                }
+
+                //是否师范专业，1是，0否
+                if( $list[$i]['is_normal'] == 0 ){
+                    $is_normal = '否';
+                }else if ($list[$i]['is_normal'] == 1){
+                    $is_normal= '是';
+                }
+
+                //是否在校，1是，0否
+                if( $list[$i]['in_school'] == 0 ){
+                    $in_school = '否';
+                }else if ($list[$i]['in_school'] == 1){
+                    $in_school= '是';
+                }
+
+                //学习形式，1普通全日制，2成人高考，3远程教育
+                if( $list[$i]['study_form'] == 1 ){
+                    $study_form = '普通全日制';
+                }else if ($list[$i]['study_form'] == 2){
+                    $study_form= '成人高考';
+                }else if ($list[$i]['study_form'] == 3){
+                    $study_form= '远程教育';
+                }
+
+                //导出的数据
                 $list[$i]=array(
-                    'key'   =>$list[$i]['num'],
-                    'name'  =>$list[$i]['name'],
-                    'tel'   =>$list[$i]['tel'],
-                    'test_time' =>$list[$i]['test_time'],
-                    'course'    =>$list[$i]['course'],
+                    'key'   =>$list[$i]['num'], //序号
+                    'name'  =>$list[$i]['name'],    //姓名
+                    'idcard'    =>'身份证',  //证件类型
+                    'sex'   =>$sex,//性别
+                    'nation'    =>$list[$i]['nation'], //民族
+                    'face'    =>$list[$i]['face'], //政治面貌
+                    'birthday'    =>$list[$i]['birthday'], //出生日期
+                    'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
+                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
+                    'is_normal'    =>$is_normal, //是否师范专业
+                    'school'    =>$list[$i]['school'], //学校名称
+                    'school_num'    =>$list[$i]['school_num'], //学校代码
+                    'in_school'    =>$in_school, //是否在校
+                    'study_form'    =>$study_form, //学习形式
+                    'college_class'    =>$list[$i]['college_class'], //院系班级
+                    'email'    =>$list[$i]['email'], //邮箱
+                    'tel'   =>$list[$i]['tel'], //手机号码
+                    'address'    =>$list[$i]['address'], //地址
+                    'zip_code'    =>$list[$i]['zip_code'], //邮编
+
+                    //非在校
+                    'degree'    =>$list[$i]['degree'], //最高学位
+                    'degree_num'    =>$list[$i]['degree_num'], //学位证书号码
+                    'work_time'    =>$list[$i]['work_time'], //参加工作年份
+
+
+                    'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
+                    'course'    =>$list[$i]['course'],//报考科目
                 );
 
             }
 
             $name_co = "教师证学生报名表";
 
-            $title_arr = array('序号', '姓名','电话', '首次考试时间', '报考科目');
+            $title_arr = array('序号', '姓名', '证件类型', '性别', '民族', '政治面貌', '出生日期', '户籍所在地', '人事关系所在省份',
+                '是否师范专业', '学校名称','学校代码','是否在校','学习形式','院系班级','邮箱','手机号码','地址','邮编','最高学位','学位证书号码',
+                '参加工作年份','第一次笔试考试时间', '报考科目');
 
 //            $time = date('Y-m-d', time());
 
