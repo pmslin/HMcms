@@ -71,6 +71,12 @@ class SelfTestController extends BaseController {
             $post['create_time']=$time;
             $post['test_place']=$test_place;
             $post['userid']=session('userid');
+//            show_bug($post['under_major']);die();
+            //获取报考专业编码和名称
+            $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major']);
+//            show_bug($underMajor);die();
+            $post['under_major']=$underMajor['name'];//专业名称
+            $post['under_major_num']=$underMajor['number'];
             //添加数据到teacher表
             $addResult=D('self_test')->add($post);
 
@@ -158,19 +164,46 @@ class SelfTestController extends BaseController {
         if(!empty($get['exprot'])){
 
             for ($i = 0; $i < count($list); $i++) {
+                //性别
+                if( $list[$i]['sex'] == 0 ){
+                    $sex = '男';
+                }else if ($list[$i]['sex'] == 1){
+                    $sex= '女';
+                }
+
+                //业务员
+                $user=D("user")->getUserById($list[$i]['userid']);
+
+                //套餐
+                $course_package=D("CoursePackage")->getCourePackageById($list[$i]['course_package']);
+
                 $list[$i]=array(
-                    'key'   =>$list[$i]['num'],
-                    'name'  =>$list[$i]['name'],
-                    'tel'   =>$list[$i]['tel'],
-                    'test_time' =>$list[$i]['test_time'],
-                    'under_major'    =>$list[$i]['under_major'],
+                    'key'   =>$list[$i]['num'], //序号
+                    'test_time' =>$list[$i]['test_time'],   //首次考试时间
+                    'under_major'    =>$list[$i]['under_major'],    //报考专业
+                    'under_major_num'    =>$list[$i]['under_major_num'],    //专业编号
+                    'name'  =>$list[$i]['name'],    //姓名
+                    'sex'    =>$sex,    //性别
+                    'test_place'    =>$list[$i]['test_place'],    //考区
+                    'test_num'    =>$list[$i]['test_num'],    //准考证号
+                    'tel'   =>$list[$i]['tel'],   //联系电话
+                    'idcard'    =>$list[$i]['idcard'],    //身份证号码
+                    'qq'    =>$list[$i]['qq'],    //QQ
+                    'college_school'    =>$list[$i]['college_school'],    //专科专业
+                    'username'    =>$user['username'],    //业务员
+                    'course_package_name'    =>$course_package['name'],    //套餐
+
+
+
+
+
                 );
 
             }
 
             $name_co = "自考学生报名表";
 
-            $title_arr = array('序号', '姓名','电话', '首次考试时间', '报考专业');
+            $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','准考证号','联系电话', '身份证号码', 'QQ','专科专业','业务员','套餐');
 
 //            $time = date('Y-m-d', time());
 
@@ -294,6 +327,14 @@ class SelfTestController extends BaseController {
         else {// 上传成功   则修改图片
             $_POST['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
         }
+
+        //报考专业和编码
+        //获取报考专业编码和名称
+//        show_bug($post);die();
+        $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major_num']);
+//            show_bug($underMajor);die();
+        $_POST['under_major']=$underMajor['name'];//专业名称
+        $_POST['under_major_num']=$underMajor['number'];
 
 
         $selfTestModel=M('self_test');

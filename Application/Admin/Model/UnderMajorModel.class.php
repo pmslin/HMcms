@@ -13,6 +13,12 @@ class UnderMajorModel extends Model
         return M('under_major')->where('status = 1')->select();
     }
 
+    /**
+     * 根据专业编码获取专业信息
+     */
+    public function getUnderMajorByNum($num){
+        return M('under_major')->where(" number='$num' ")->find();
+    }
 
 
 

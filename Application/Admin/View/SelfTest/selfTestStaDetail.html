@@ -156,6 +156,8 @@
                                     <input type="radio" value="2" name="college_grade" <if condition="$detail.college_grade eq 2">checked</if> > <i></i> 大二</label>
                                 <label>
                                     <input type="radio" value="3" name="college_grade" <if condition="$detail.college_grade eq 3">checked</if> > <i></i> 大三</label>
+                                <label>
+                                    <input type="radio" value="4" name="college_grade" <if condition="$detail.college_grade eq 4">checked</if> > <i></i> 已毕业</label>
                             </div>
                         </div>
 
@@ -228,11 +230,11 @@
                             </div>
 
                             <div class="col-sm-3">
-                                <select  class="form-control m-b" name="under_major"  datatype="s" nullmsg="请选择报考专业">
+                                <select  class="form-control m-b" name="under_major_num"  datatype="s" nullmsg="请选择报考专业">
                                     <option value="{$detail.under_major}" id="under_major">{$detail.under_major}</option>
                                     <option value="">-------------------------------</option>
                                     <foreach name="underMajor" item="v">
-                                        <option value="{$v.name}">{$v.number}丨{$v.name}</option>
+                                        <option value="{$v.number}">{$v.number}丨{$v.name}</option>
                                     </foreach>
                                 </select>
                             </div>
@@ -281,17 +283,11 @@
                         </div>
 
                         <div class="form-group">
-                            <!--<label class="col-sm-2 control-label">选择教的是</label>-->
+                            <label class="col-sm-2 control-label">准考证</label>
 
-                            <!--<div class="col-sm-3">-->
-                                <!--<select class="form-control m-b" name="course">-->
-                                    <!--<option value="{$detail.course}">{$detail.course}</option>-->
-                                    <!--<option value="{$detail.course}">-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
-                                    <!--<foreach name="course" item="vo">-->
-                                        <!--<option value="{$vo.cousr_name}">{$vo.cousr_name}</option>-->
-                                    <!--</foreach>-->
-                                <!--</select>-->
-                            <!--</div>-->
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="test_num"  value="{$detail.test_num}">
+                            </div>
 
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-3">
