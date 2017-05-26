@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>自考学生报名表详情</title>
+    <title>普通话学生报名表详情</title>
 
     <link rel="shortcut icon" href="favicon.ico">
     <link href="__PUBLIC__/H/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
@@ -80,12 +80,12 @@
                 </div>
                 <div class="ibox-content">
 
-                    <form  class="form-horizontal demoform"  action="{:U('Admin/SelfTest/savefrom')}" method="post" enctype="multipart/form-data" name="myForm">
+                    <form  class="form-horizontal demoform"  action="{:U('Admin/Mandarin/savefrom')}" method="post" enctype="multipart/form-data" name="myForm">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">姓名</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="name" datatype="*" value="{$detail.name}">
+                                <input type="text" class="form-control" name="name" datatype="*"  value="{$detail.name}">
                             </div>
 
                             <label class="col-sm-2 control-label">性别</label>
@@ -115,7 +115,22 @@
                                     <option value="4" <if condition="$detail.face eq 4">selected</if> >群众</option>
                                     <option value="5" <if condition="$detail.face eq 5">selected</if> >其他</option>
                                 </select>
-                                <!--<input type="text" class="form-control" name="face"  datatype="*" value="{$detail.face}">-->
+                                <!--<input type="text" class="form-control" name="face"  datatype="*">-->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">籍贯</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="hometown" datatype="*" value="{$detail.hometown}">
+                            </div>
+
+                            <label class="col-sm-2 control-label">户口所在地</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" placeholder='___省___市___区（县）' class="form-control"
+                                       name="hukou_address" datatype="*" value="{$detail.hukou_address}">
                             </div>
                         </div>
 
@@ -123,159 +138,189 @@
                             <label class="col-sm-2 control-label">手机号码</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="tel"  datatype="m&*"  errormsg="请输入正确的手机号码" value="{$detail.tel}">
+                                <input type="text" class="form-control" name="tel" value="{$detail.tel}" datatype="m&*" errormsg="请输入正确的手机号码格式">
                             </div>
 
-                            <label class="col-sm-2 control-label">籍贯</label>
-
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="hometown" datatype="*" value="{$detail.hometown}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="col-sm-2 control-label">QQ</label>
 
                             <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="qq" datatype="n&*"  errormsg="请输入正确的邮箱"  value="{$detail.qq}">
+                                <input type="text" class="form-control" name="qq" value="{$detail.qq}" datatype="n&*"  errormsg="请输入正确的QQ">
                             </div>
+                        </div>
 
+
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">身份证号码</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="idcard" datatype="*" value="{$detail.idcard}">
+                                <input type="text" class="form-control" name="idcard" id="idcard" value="{$detail.idcard}"  datatype="*">
+                            </div>
+
+                            <label class="col-sm-2 control-label">出生年月</label>
+
+                            <div class="col-sm-3">
+                                <div style="width:970px; margin:0px auto;">
+                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+                                           onclick="laydate()" name="birthday" id="birthday" datatype="*" value="{$detail.birthday}">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">大专学校全称</label>
+
+                            <label class="col-sm-2 control-label">专业名称</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="college_school" datatype="*" value="{$detail.college_school}">
+                                <input type="text" class="form-control" name="major" datatype="*" value="{$detail.major}">
                             </div>
 
-                            <label class="col-sm-2 control-label">所在年级</label>
+                            <label class="col-sm-2 control-label">所在单位</label>
 
-                            <div class="col-sm-4 radio i-checks">
-                                <label>
-                                    <input type="radio" value="1" name="college_grade"  datatype="*" nullmsg="请选择所在年级" <if condition="$detail.college_grade eq 1">checked</if> > <i></i> 大一</label>
-                                <label>
-                                    <input type="radio" value="2" name="college_grade" <if condition="$detail.college_grade eq 2">checked</if> > <i></i> 大二</label>
-                                <label>
-                                    <input type="radio" value="3" name="college_grade" <if condition="$detail.college_grade eq 3">checked</if> > <i></i> 大三</label>
-                                <label>
-                                    <input type="radio" value="4" name="college_grade" <if condition="$detail.college_grade eq 4">checked</if> > <i></i> 已毕业</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="unit" datatype="*" value="{$detail.unit}">
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">大专专业名称专业名称</label>
 
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="college_major" datatype="*" value="{$detail.college_major}">
-                            </div>
+                        <!--<div class="form-group">-->
+                        <!--<label class="col-sm-2 control-label">毕业院校</label>-->
 
-                            <label class="col-sm-2 control-label">是否在校</label>
+                        <!--<div class="col-sm-3">-->
+                        <!--<input type="text" class="form-control" name="school" datatype="*">-->
+                        <!--</div>-->
 
-                            <div class="col-sm-2 radio i-checks">
-                                <label>
-                                    <input type="radio" value="1" name="in_school"  datatype="*" nullmsg="请选择是否在校" <if condition="$detail.in_school eq 1">checked</if> > <i></i> 是</label>
-                                <label>
-                                    <input type="radio" value="0" name="in_school" <if condition="$detail.in_school eq 0">checked</if> > <i></i> 否</label>
-                            </div>
+                        <!--<label class="col-sm-2 control-label">学历层次</label>-->
 
-                        </div>
+                        <!--<div class="col-sm-5 radio i-checks">-->
+                        <!--<label>-->
+                        <!--<input type="radio" value="1" name="education" datatype="*" nullmsg="请选择学历层次"> <i></i> 高中</label>-->
+                        <!--<label>-->
+                        <!--<input type="radio" value="2" name="education"> <i></i> 中专</label>-->
+                        <!--<label>-->
+                        <!--<input type="radio" value="3" name="education"> <i></i> 专科</label>-->
+                        <!--<label>-->
+                        <!--<input type="radio" value="3" name="education"> <i></i> 本科</label>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group">-->
+                        <!--<label class="col-sm-2 control-label">所在单位</label>-->
+
+                        <!--<div class="col-sm-3">-->
+                        <!--<input type="text"  class="form-control" name="unit"  datatype="*">-->
+                        <!--</div>-->
+
+                        <!--<label class="col-sm-2 control-label">单位性质</label>-->
+
+                        <!--<div class="col-sm-3">-->
+                        <!--<input type="text"  class="form-control" name="unit_property"  datatype="*">-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group">-->
+                        <!--<label class="col-sm-2 control-label">考生类别</label>-->
+
+                        <!--<div class="col-sm-3">-->
+                        <!--<input type="text" class="form-control" name="stu_category" datatype="*">-->
+                        <!--</div>-->
+
+                        <!--<label class="col-sm-2 control-label">居住地区</label>-->
+
+                        <!--<div class="col-sm-3">-->
+                        <!--<input type="text" class="form-control" name="live" datatype="*">-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+
+                        <!--<div class="form-group">-->
+                        <!--<label class="col-sm-2 control-label">报考类别</label>-->
+
+                        <!--<div class="col-sm-3">-->
+                        <!--<input type="text" class="form-control" name="apply_category" datatype="*">-->
+                        <!--</div>-->
+
+                        <!--<label class="col-sm-2 control-label">申报语种</label>-->
+
+                        <!--<div class="col-sm-2 radio i-checks">-->
+                        <!--<label>-->
+                        <!--<input type="radio" value="1" name="languages"  datatype="*" nullmsg="请选择语种"> <i></i> 中文</label>-->
+                        <!--<label>-->
+                        <!--<input type="radio" value="2" name="languages"> <i></i> 英文</label>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+
+                        <!--<div class="form-group">-->
+                        <!--<label class="col-sm-2 control-label">原准考证号码</label>-->
+
+                        <!--<div class="col-sm-3">-->
+                        <!--<input type="text" class="form-control" name="old_num" datatype="*">-->
+                        <!--</div>-->
+
+                        <!--<label class="col-sm-2 control-label">资格证号码</label>-->
+
+                        <!--<div class="col-sm-3">-->
+                        <!--<input type="text" class="form-control" name="certificate_num" datatype="*">-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="form-group">-->
+                        <!--<label class="col-sm-2 control-label">备注</label>-->
+
+                        <!--<div class="col-sm-8">-->
+                        <!--<input type="text" class="form-control" name="remarks" datatype="*">-->
+                        <!--</div>-->
+
+                        <!--</div>-->
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">紧急联系人</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="emergency_contact" datatype="*"  value="{$detail.emergency_contact}">
+                                <input type="text" class="form-control" name="emergency_contact" datatype="*" value="{$detail.emergency_contact}">
                             </div>
 
                             <label class="col-sm-2 control-label">紧急联系人电话</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="emergency_tel" datatype="*"  value="{$detail.emergency_tel}">
+                                <input type="text" class="form-control" name="emergency_tel" datatype="*" value="{$detail.emergency_tel}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">本人联系地址</label>
+                            <label class="col-sm-2 control-label">学校地址</label>
 
                             <div class="col-sm-8">
-                                <input type="text" placeholder='___市___区______' class="form-control" name="address" datatype="*"  value="{$detail.address}">
+                                <input type="text" placeholder='___市___区______' class="form-control" name="school_address" value="{$detail.school_address}" datatype="*">
                             </div>
+
+                            <!--<label class="col-sm-2 control-label">邮编</label>-->
+
+                            <!--<div class="col-sm-2">-->
+                            <!--<input type="text" class="form-control" name="zip_code" datatype="*">-->
+                            <!--</div>-->
                         </div>
 
                         <div class="hr-line-dashed"></div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">主考院校名称</label>
-
-                            <div class="col-sm-3">
-                                <select  class="form-control m-b" name="under_school" datatype="s" nullmsg="请选择主考院校">
-                                    <option value="{$detail.under_school}" id="under_school">{$detail.under_school}</option>
-                                    <option value="">-------------------------------</option>
-                                    <foreach name="underSchool" item="v">
-                                        <option value="{$v.name}">{$v.name}</option>
-                                    </foreach>
-                                </select>
-                            </div>
+                            <!--<label class="col-sm-2 control-label">考区</label>-->
 
                             <!--<div class="col-sm-3">-->
-                            <!--<input type="text" class="form-control" name="under_school"  datatype="*">-->
+                            <!--&lt;!&ndash; 城市 &ndash;&gt;-->
+                            <!--<select  class="form-control m-b" name="place_city_id" id="city">-->
+                            <!--<option>&#45;&#45;请选择市&#45;&#45;</option>-->
+                            <!--<foreach name="city" item="v">-->
+                            <!--<option value="{$v.place_id}"  >{$v.place_name}</option>-->
+                            <!--</foreach>-->
+                            <!--</select>-->
+                            <!--&lt;!&ndash; 区县 &ndash;&gt;-->
+                            <!--<select  class="form-control m-b" name="place_area_id" id="area">-->
+                            <!--<option datatype="s" nullmsg="请选择考区"></option>-->
+                            <!--</select>-->
                             <!--</div>-->
 
-                            <label class="col-sm-2 control-label">报考专业名称</label>
-
-                            <div class="col-sm-2 radio i-checks">
-                                <label>
-                                    <input type="radio" value="1" name="grade" <if condition="$detail.grade eq 1">checked</if>  datatype="*" nullmsg="请选择报名的学历"> <i></i> 大专</label>
-                                <label>
-                                    <input type="radio" value="2" name="grade" <if condition="$detail.grade eq 2">checked</if> > <i></i> 本科</label>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <select  class="form-control m-b" name="under_major_num"  datatype="s" nullmsg="请选择报考专业">
-                                    <option value="{$detail.under_major}" id="under_major">{$detail.under_major}</option>
-                                    <option value="">-------------------------------</option>
-                                    <foreach name="underMajor" item="v">
-                                        <option value="{$v.number}">{$v.number}丨{$v.name}</option>
-                                    </foreach>
-                                </select>
-                            </div>
-
-                            <!--<div class="col-sm-3">-->
-                            <!--<input type="text" class="form-control" name="under_major"  datatype="*">-->
-                            <!--</div>-->
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">考区</label>
-
-                            <div class="col-sm-3">
-
-                                <div style="padding-top: 8px">
-                                    {$detail.test_place}<br/><br/>
-                                </div>
-
-                                <div class="col-sm-3">
-                                    <!-- 城市 -->
-                                    <select  class="form-control m-b" name="place_city_id" id="city" style="width: 240px">
-                                        <option>--请选择市--</option>
-                                        <foreach name="city" item="v">
-                                            <option value="{$v.place_id}"  >{$v.place_name}</option>
-                                        </foreach>
-                                    </select>
-                                    <!-- 区县 -->
-                                    <select  class="form-control m-b" name="place_area_id" id="area" style="width: 240px">
-                                        <option ></option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <label class="col-sm-2 control-label">首次考试时间</label>
+                            <label class="col-sm-2 control-label">考试时间</label>
 
                             <div class="col-sm-3">
                                 <select class="form-control m-b" name="test_time">
@@ -290,15 +335,19 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">准考证</label>
+                            <!--<label class="col-sm-2 control-label">选择教的是</label>-->
 
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="test_num"  value="{$detail.test_num}">
-                            </div>
+                            <!--<div class="col-sm-3">-->
+                            <!--<select class="form-control m-b" name="course">-->
+                            <!--<foreach name="course" item="vo">-->
+                            <!--<option value="{$vo.cousr_name}">{$vo.cousr_name}</option>-->
+                            <!--</foreach>-->
+                            <!--</select>-->
+                            <!--</div>-->
 
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-3">
-                                    <input type="file" name="pic" />
+                                <input type="file" name="pic" />
                             </div>
 
                         </div>
@@ -309,9 +358,9 @@
                             <label class="col-sm-2 control-label">班型选择</label>
 
                             <div class="col-sm-3 form-group radio i-checks">
-                                    <label>
-                                        <input type="radio" value="{$vo.id}" name=""   nullmsg="请选择班型" checked> <i></i>
-                                        {$course_package.name}</label>
+                                <label>
+                                    <input type="radio" value="{$vo.id}" name=""  checked> <i></i>
+                                    {$course_package.name}</label>
                             </div>
 
                             <label class="col-sm-3 control-label"></label>
@@ -324,33 +373,7 @@
                                     <img src="__PUBLIC__/Uploads/{$detail.pic}" width="50px" class="img-responsive" id="img1">
                                 </div>
                             </if>
-
-
                         </div>
-
-                        <!--<div class="form-group">-->
-                                <!--<label class="col-sm-2 control-label">费用是否交齐</label>-->
-
-                                <!--<div class="col-sm-3 form-group radio">-->
-                                    <!--<input class="magic-checkbox" type="radio" name="pay_status" value="1" id="c1"  name="course_package"  datatype="*" nullmsg="请选择费用是否交齐"-->
-                                    <!--<if condition="$detail.pay_status eq 1">checked</if> >-->
-                                    <!--<label for="c1">已交齐</label>-->
-                                    <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-
-                                    <!--<input class="magic-checkbox" type="radio" name="pay_status" value="0" id="c2"-->
-                                    <!--<if condition="$detail.pay_status eq 0">checked</if> >-->
-                                    <!--<label for="c2">未交齐</label>-->
-
-                                <!--</div>-->
-
-                            <!--<if condition="$detail.pay_status eq 0">-->
-                                <!--&lt;!&ndash;<label class="col-sm-1 control-label">已收金额</label>&ndash;&gt;-->
-                                <!--<div class="col-sm-2" id="some_cash" >-->
-                                    <!--<input type="number" class="form-control"  placeholder='已收金额' name="some_cash" style="margin-left: -80px;" value="{$detail.some_cash}">-->
-                                <!--</div>-->
-                            <!--</if>-->
-
-                        <!--</div>-->
 
 
 
@@ -469,8 +492,7 @@
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-5">
                                 <button class="btn btn-primary" type="submit" id="savebook">确定</button>
-                                <!--标记为自考-->
-                                <input type="hidden" name="topcourse_id" value="7">
+                                <input type="hidden" name="topcourse_id" value="1">
                                 <input type="hidden" name="student_id" value="{$detail.id}">
                                 <input type="hidden" name="user_id" value="{$Think.session.userid}">
                             </div>
@@ -680,6 +702,59 @@
 
 
 
+    /*
+     js自身没有trim()函数取消字符串中的空白字符
+     自定义函数：用正则替换掉空白字符
+     */
+    function trim(s) {
+        return s.replace(/^\s+|\s+$/g, "");
+    };
+
+    //根据身份证号码来自动填充出生日期
+    $("#idcard").blur(function () {
+        var iIdNo = $("#idcard").val();
+        var tmpStr = "";
+        var idDate = "";
+        var tmpInt = 0;
+        var strReturn = "";
+
+        iIdNo = trim(iIdNo);
+
+        if ((iIdNo.length != 15) && (iIdNo.length != 18)) {
+            strReturn = "输入的身份证号位数错误";
+            layer.msg(strReturn);
+//            alert(strReturn);
+        }
+
+        if (iIdNo.length == 15) {
+            tmpStr = iIdNo.substring(6, 12);
+            tmpStr = "19" + tmpStr;
+            tmpStr = tmpStr.substring(0, 4) + "-" + tmpStr.substring(4, 6) + "-" + tmpStr.substring(6)
+
+            $("#birthday").val(tmpStr);
+//                return tmpStr;
+        }
+        else {
+            tmpStr = iIdNo.substring(6, 14);
+            tmpStr = tmpStr.substring(0, 4) + "-" + tmpStr.substring(4, 6) + "-" + tmpStr.substring(6)
+
+            $("#birthday").val(tmpStr);
+//                return tmpStr;
+        }
+    });
+
+    //根据学历层次判断所在年级是否必填，研究生不用填“所在年级”
+    $("body").click(function () {
+        var val=$('input:radio[name="education"]:checked').val();
+        if (val == 3){
+            $("#grade").removeAttr("datatype");
+        }else {
+            $("#grade").attr("datatype",'*');
+        }
+//       alert(val) ;
+    });
+
+
     //获取选择发放的所有课本
 //    $("body").click(function(){
 //        $('.chosen-choices li').each(function(index) {
@@ -692,16 +767,7 @@
 
 //    });
 
-    //提交确认
-//    function sures()
-//    {
-//        if(confirm('确认提交？提交后不可修改。'))
-//        {
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
+
 </script>
 
 </body>

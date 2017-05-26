@@ -76,7 +76,7 @@
                 </div>
                 <div class="ibox-content">
 
-                    <form  class="form-horizontal demoform"  action="{:U('Admin/Guide/postfrom')}" method="post" enctype="multipart/form-data">
+                    <form  class="form-horizontal demoform"  action="{:U('Admin/Mandarin/postfrom')}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">姓名</label>
 
@@ -105,10 +105,11 @@
 
                             <div class="col-sm-3">
                                 <select class="form-control m-b" name="face">
-                                    <option value="团员">团员</option>
-                                    <option value="党员">党员</option>
-                                    <option value="群众">群众</option>
-                                    <option value="其他">其他</option>
+                                    <option value="1">团员</option>
+                                    <option value="2">预备党员</option>
+                                    <option value="3">党员</option>
+                                    <option value="4">群众</option>
+                                    <option value="5">其他</option>
                                 </select>
                                 <!--<input type="text" class="form-control" name="face"  datatype="*">-->
                             </div>
@@ -139,7 +140,7 @@
                             <label class="col-sm-2 control-label">QQ</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="qq" datatype="m&*"  errormsg="请输入正确的QQ格式">
+                                <input type="text" class="form-control" name="qq" datatype="n&*"  errormsg="请输入正确的QQ">
                             </div>
                         </div>
 
@@ -148,7 +149,7 @@
                             <label class="col-sm-2 control-label">身份证号码</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="idcard" datatype="*">
+                                <input type="text" class="form-control" name="idcard" id="idcard"  datatype="*">
                             </div>
 
                             <label class="col-sm-2 control-label">出生年月</label>
@@ -156,7 +157,7 @@
                             <div class="col-sm-3">
                                 <div style="width:970px; margin:0px auto;">
                                     <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
-                                           onclick="laydate()" name="birthday" datatype="*">
+                                           onclick="laydate()" name="birthday" id="birthday" datatype="*">
                                 </div>
                             </div>
                         </div>
@@ -353,7 +354,7 @@
                             <div class="col-sm-10 form-group radio i-checks">
                                 <foreach name="TeaCoursePackage" item="vo">
                                     <label>
-                                        <input type="radio" value="{$vo.id}" name="course_package"  datatype="*" nullmsg="请选择班型"> <i></i>
+                                            <input type="radio" value="{$vo.id}" name="course_package"  datatype="*" nullmsg="请选择班型"> <i></i>
                                         {$vo.name}</label>
                                 </foreach>
                             </div>
@@ -406,7 +407,10 @@
 
 <script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
 
+<script src="__PUBLIC__/plugins/layer/layer.js"></script>
 
+<!--身份证识别出生日期-->
+<script src="__PUBLIC__/js/plugins/js/idcardByBirthday.js"></script>
 
 
 
@@ -461,16 +465,6 @@
 
 //    });
 
-    //提交确认
-//    function sures()
-//    {
-//        if(confirm('确认提交？提交后不可修改。'))
-//        {
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
 </script>
 
 </body>
