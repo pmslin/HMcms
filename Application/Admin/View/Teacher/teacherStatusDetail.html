@@ -109,14 +109,21 @@
 
                             <div class="col-sm-3">
                                 <select class="form-control m-b" name="face">
-                                    <option value="{$detail.face}" id="face">{$detail.face}</option>
-                                    <option value="">-------------------------------</option>
-                                    <option value="团员">团员</option>
-                                    <option value="预备党员">预备党员</option>
-                                    <option value="党员">党员</option>
-                                    <option value="群众">群众</option>
-                                    <option value="其他">其他</option>
+                                    <option value="1" <if condition="$detail.face eq 1">selected</if> >团员</option>
+                                    <option value="2" <if condition="$detail.face eq 2">selected</if> >预备党员</option>
+                                    <option value="3" <if condition="$detail.face eq 3">selected</if> >党员</option>
+                                    <option value="4" <if condition="$detail.face eq 4">selected</if> >群众</option>
+                                    <option value="5" <if condition="$detail.face eq 5">selected</if> >其他</option>
                                 </select>
+                                <!--<select class="form-control m-b" name="face">-->
+                                    <!--<option value="{$detail.face}" id="face">{$detail.face}</option>-->
+                                    <!--<option value="">-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
+                                    <!--<option value="团员">团员</option>-->
+                                    <!--<option value="预备党员">预备党员</option>-->
+                                    <!--<option value="党员">党员</option>-->
+                                    <!--<option value="群众">群众</option>-->
+                                    <!--<option value="其他">其他</option>-->
+                                <!--</select>-->
                                 <!--<input type="text" class="form-control" name="face"  datatype="*" value="{$detail.face}">-->
                             </div>
                         </div>

@@ -73,7 +73,7 @@ class SelfTestController extends BaseController {
             $post['userid']=session('userid');
 //            show_bug($post['under_major']);die();
             //获取报考专业编码和名称
-            $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major']);
+            $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major_num']);
 //            show_bug($underMajor);die();
             $post['under_major']=$underMajor['name'];//专业名称
             $post['under_major_num']=$underMajor['number'];
@@ -193,10 +193,6 @@ class SelfTestController extends BaseController {
                     'username'    =>$user['username'],    //业务员
                     'course_package_name'    =>$course_package['name'],    //套餐
 
-
-
-
-
                 );
 
             }
@@ -207,7 +203,14 @@ class SelfTestController extends BaseController {
 
 //            $time = date('Y-m-d', time());
 
-            $title = "自考".$test_time."首次考试学生—";
+            //$title：excel文件名
+            if (empty($test_time)){
+                $title="所有自考考生——";
+            }else{
+                $title = "自考".$test_time."首次考试学生—";
+            }
+
+
 
             if ($list && count($list) > 0) {
                 exportExcel($list, $title_arr, $title);
@@ -237,11 +240,11 @@ class SelfTestController extends BaseController {
             }
         }
 
-        //自考学生详情
+        ////根据学生id获取学生详情
         $detail=D('SelfTest')->getStudentById($id);
         $this->assign('detail',$detail);
 
-        //班型
+        //根据学生报考的班型套餐id，获取班型套餐详情
         $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
         $this->assign('course_package',$course_package);
 //        show_bug($detail);

@@ -1,15 +1,13 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
-class TeacherController extends BaseController {
+class GuideController extends BaseController {
 
-
-
-    //录入教师证报名资料页面
+    //录入导游证报名资料页面
     public function index(){
 //        var_dump(session());
-        //教师证课程、价格列表
-        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(1);
+        //导游证课程、价格列表
+        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(12);
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //考区联动,遍历出市
@@ -17,20 +15,21 @@ class TeacherController extends BaseController {
         $this->assign('city',$city);
 //        var_dump($city);
 
-        //获取教师证课程
-        $course=D('Course')->getCourseByTopid(1);
-        $this->assign('course',$course);
+//        //获取教师证课程
+//        $course=D('Course')->getCourseByTopid(1);
+//        $this->assign('course',$course);
 
-        //获取教师证考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById(1);
+        //获取导游证考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById(15);
         $this->assign('testTime',$testTime);
 //        var_dump($testTime);
 
         $this->display();
     }
 
+
     /*
-     * 教师证报名表提交
+     * 导游证报名表提交
      */
     public function postfrom(){
         if(IS_POST){
@@ -64,7 +63,7 @@ class TeacherController extends BaseController {
             $post['test_place']=$test_place;
             $post['userid']=session('userid');
             //添加数据到teacher表
-            $addResult=D('Teacher')->add($post);
+            $addResult=D('Guide')->add($post);
 
             //添加数据到order表
             $orderData['course_package_id']=$post['course_package'];
@@ -72,7 +71,7 @@ class TeacherController extends BaseController {
             $orderData['user_id']=session('userid');
             $orderData['create_time']=$time;
             $orderData['student_id']=$addResult;
-            $orderData['course_package_topid']=1;   //标记为教师证
+            $orderData['course_package_topid']=12;   //标记为导游证
             //获取套餐价格和名称
             $course_package=D('CoursePackage')->getCourePackageById($post['course_package']);
             $orderData['course_name']=$course_package['name'];
@@ -98,18 +97,21 @@ class TeacherController extends BaseController {
 //        exit();
     }
 
-    //教师证列表页面
-    public function teacherList(){
-        //获取教师证考试时间，用于查询选择
-        $testTime=D('ThTesttime')->getThTestTimeById(1);
+    /**
+     * 导游证列表页面
+     */
+    public function guideList(){
+        //获取导游证考试时间，用于查询选择
+        $testTime=D('ThTesttime')->getThTestTimeById(15);
         $this->assign('testTime',$testTime);
         $this->display();
     }
 
+
     /**
      * ajax获取教师证考生列表
      */
-    public function getTeacherList(){
+    public function getGuideList(){
 
         $get=I('get.');
         $test_time=$get['test_time'];
@@ -130,11 +132,11 @@ class TeacherController extends BaseController {
 //            echo 1;
 //            exit();
             unset($map['test_time']);
-    }
+        }
 
-        $list=M('Teacher as t')
-            ->field('t.*,u.username')
-            ->join('user AS u ON t.userid=u.id',left)
+        $list=M('Guide as g')
+            ->field('g.*,u.username')
+            ->join('user AS u ON g.userid=u.id',left)
             ->where($map)->order('create_time desc')->select();
 //        show_bug($list);
 //        echo M()->_sql();
@@ -159,12 +161,6 @@ class TeacherController extends BaseController {
                     $sex= '女';
                 }
 
-                //是否师范专业，1是，0否
-                if( $list[$i]['is_normal'] == 0 ){
-                    $is_normal = '否';
-                }else if ($list[$i]['is_normal'] == 1){
-                    $is_normal= '是';
-                }
 
                 //是否在校，1是，0否
                 if( $list[$i]['in_school'] == 0 ){
@@ -195,49 +191,46 @@ class TeacherController extends BaseController {
                     $face= '其他';
                 }
 
+                //申报语种
+                if( $list[$i]['languages'] == 1 ){
+                    $languages = '中文';
+                }else if ($list[$i]['languages'] == 2){
+                    $languages= '英文';
+                }
+
                 //导出的数据
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
                     'name'  =>$list[$i]['name'],    //姓名
-                    'idcard'    =>'身份证',  //证件类型
+//                    'idcard'    =>'身份证',  //证件类型
                     'sex'   =>$sex,//性别
-                    'nation'    =>$list[$i]['nation'], //民族
-                    'face'    =>$face, //政治面貌
+//                    'nation'    =>$list[$i]['nation'], //民族
+//                    'face'    =>$list[$i]['face'], //政治面貌
                     'birthday'    =>$list[$i]['birthday'], //出生日期
-                    'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
-                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
-                    'is_normal'    =>$is_normal, //是否师范专业
-                    'school'    =>$list[$i]['school'], //学校名称
-                    'school_num'    =>$list[$i]['school_num'], //学校代码
-                    'in_school'    =>$in_school, //是否在校
-                    'study_form'    =>$study_form, //学习形式
-                    'college_class'    =>$list[$i]['college_class'], //院系班级
+//                    'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
+//                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
+//                    'school'    =>$list[$i]['school'], //学校名称
+//                    'school_num'    =>$list[$i]['school_num'], //学校代码
+//                    'in_school'    =>$in_school, //是否在校
+//                    'study_form'    =>$study_form, //学习形式
+//                    'college_class'    =>$list[$i]['college_class'], //院系班级
                     'email'    =>$list[$i]['email'], //邮箱
                     'tel'   =>$list[$i]['tel'], //手机号码
-                    'address'    =>$list[$i]['address'], //地址
-                    'zip_code'    =>$list[$i]['zip_code'], //邮编
-
-                    //非在校
-                    'degree'    =>$list[$i]['degree'], //最高学位
-                    'degree_num'    =>$list[$i]['degree_num'], //学位证书号码
-                    'work_time'    =>$list[$i]['work_time'], //参加工作年份
-
-
+//                    'address'    =>$list[$i]['address'], //地址
+//                    'zip_code'    =>$list[$i]['zip_code'], //邮编
                     'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
-                    'course'    =>$list[$i]['course'],//报考科目
+                    'languages'    =>$languages,//申报语种
                 );
 
             }
 
-            $name_co = "教师证学生报名表";
+            $name_co = "导游证学生报名表";
 
-            $title_arr = array('序号', '姓名', '证件类型', '性别', '民族', '政治面貌', '出生日期', '户籍所在地', '人事关系所在省份',
-                '是否师范专业', '学校名称','学校代码','是否在校','学习形式','院系班级','邮箱','手机号码','地址','邮编','最高学位','学位证书号码',
-                '参加工作年份','第一次笔试考试时间', '报考科目');
+            $title_arr = array('序号', '姓名','性别','出生年月','邮箱','手机号码','考试时间',  '报考科目');
 
 //            $time = date('Y-m-d', time());
 
-            $title = "教师证".$test_time."首次考试学生—";
+            $title = "导游证".$test_time."首次考试学生—";
 
             if ($list && count($list) > 0) {
                 exportExcel($list, $title_arr, $title);
@@ -254,26 +247,10 @@ class TeacherController extends BaseController {
     }
 
 
-//    public function exceltest(){
-//        $list=M('course')->select();
-//        show_bug($list);
-//        $name_co = "学生报名表";
-//
-//        $title_arr = array('序号', '项目名称','序号', '项目名称');
-//
-//        $time = date('Y-m-d', time());
-//
-//        $title = $name_co . $time;
-//
-//        if ($list && count($list) > 0) {
-//            exportExcel($list, $title_arr, $title);
-//        }
-//    }
-
     /**
-     * 教师证考生详情
+     * 导游证考生详情
      */
-    public function teacherStatusDetail(){
+    public function guideStatusDetail(){
         $id=I('get.id');    //学生id
 
         if(session('roleid')==3){
@@ -285,41 +262,42 @@ class TeacherController extends BaseController {
         }
 
         //根据学生id获取学生详情
-        $detail=D('teacher')->getStudentById($id);
+        $detail=D('guide')->getStudentById($id);
         $this->assign('detail',$detail);
 
+        //根据学生报考的班型套餐id，获取套餐详情
         $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
         $this->assign('course_package',$course_package);
 //        show_bug($detail);
 //        show_bug($course_package);
 
-        //获取教师证考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById(1);
+        //获取考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById(15);
         $this->assign('testTime',$testTime);
-
-        //获取教师证课程
-        $course=D('Course')->where("topid=1")->select();
-        $this->assign('course',$course);
+//
+//        //获取教师证课程
+//        $course=D('Course')->where("topid=1")->select();
+//        $this->assign('course',$course);
 
         //考区联动,遍历出市
         $city=D('TestPlace')->where("topid=0")->select();
         $this->assign('city',$city);
 
         //书本选择列表
-        $book=D('book')->getBookByTopid(1);
+        $book=D('book')->getBookByTopid(54);
         $this->assign('book',$book);
 
         //快递公司
         $delivery=M('delivery')->select();
         $this->assign('velivery',$delivery);
 
-        //发书情况
-        $send_book=D('SendBook')->getSendBookBySdid($detail['id'],1);
+        //发书情况，第二个参数是course_package的证书topid
+        $send_book=D('SendBook')->getSendBookBySdid($detail['id'],12);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);
 
         //缴费情况
-        $order=D('order')->getOrderBystuidTopid($id,1);
+        $order=D('order')->getOrderBystuidTopid($id,12);
         $this->assign('order',$order);
 //        echo M()->_sql();
 //        show_bug($order);
@@ -330,7 +308,7 @@ class TeacherController extends BaseController {
     }
 
     /**
-     * 修改教师证学生报名表
+     * 修改学生报名表
      */
     public function savefrom(){
 
@@ -359,14 +337,14 @@ class TeacherController extends BaseController {
         $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
         $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
         if (!$info) {// 如果没有上传图片，则不修改图片
-           unset( $_POST['pic']);
+            unset( $_POST['pic']);
         }
         else {// 上传成功   则修改图片
             $_POST['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
         }
 
 
-        $teacherModel=M('teacher');
+        $teacherModel=M('guide');
         $teacherModel->create();
         $saveResult=$teacherModel->save();
         if($saveResult){
@@ -375,19 +353,5 @@ class TeacherController extends BaseController {
             $this->error('修改失败');
         }
     }
-
-
-
-    //考区联动
-//    public function ajax_palce(){
-//        if(IS_POST){
-//
-//        }else{
-//
-//        }
-//
-//
-//    }
-
 
 }
