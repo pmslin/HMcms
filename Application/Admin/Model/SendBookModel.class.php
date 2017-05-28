@@ -9,6 +9,7 @@ class SendBookModel extends Model
 
     /**
      * 根据学生id获取已发书本
+     * topid:教师证1，自考7，导游证12，普通话20，专插本23
      */
     public function getSendBookBySdid($id,$topid){
         return M('send_book')->where('student_id=%d AND topcourse_id=%f AND info_status=1',$id,$topid)->select();

@@ -1,13 +1,13 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
-class MandarinController extends BaseController {
+class InserUnderController extends BaseController {
 
-    //录入普通话报名资料页面
+    //录入专插本报名资料页面
     public function index(){
 //        var_dump(session());
-        //普通话课程、价格列表
-        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(20);
+        //专插本课程、价格列表
+        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(23);
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //考区联动,遍历出市
@@ -15,9 +15,12 @@ class MandarinController extends BaseController {
         $this->assign('city',$city);
 //        var_dump($city);
 
+        //获取专插本课程
+        $course=D('Course')->getCourseByTopid(25);
+        $this->assign('course',$course);
 
-        //获取普通话考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById(19);
+        //获取教师证考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById(23);
         $this->assign('testTime',$testTime);
 //        var_dump($testTime);
 
@@ -26,7 +29,7 @@ class MandarinController extends BaseController {
 
 
     /*
-     * 普通话报名表提交
+     * 报名表提交
      */
     public function postfrom(){
         if(IS_POST){
@@ -59,8 +62,8 @@ class MandarinController extends BaseController {
             $post['create_time']=$time;
             $post['test_place']=$test_place;
             $post['userid']=session('userid');
-            //添加数据到导游证表
-            $addResult=D('Mandarin')->add($post);
+            //添加数据到报名数据表
+            $addResult=D('inser_under')->add($post);
 
             //添加数据到order表
             $orderData['course_package_id']=$post['course_package'];
@@ -68,7 +71,7 @@ class MandarinController extends BaseController {
             $orderData['user_id']=session('userid');
             $orderData['create_time']=$time;
             $orderData['student_id']=$addResult;
-            $orderData['course_package_topid']=20;   //*********标记为普通话
+            $orderData['course_package_topid']=23;   //标记为插本***==================
             //获取套餐价格和名称
             $course_package=D('CoursePackage')->getCourePackageById($post['course_package']);
             $orderData['course_name']=$course_package['name'];
@@ -95,10 +98,10 @@ class MandarinController extends BaseController {
     }
 
 
-    //普通话列表页面
-    public function mandarinList(){
-        //获取教师证考试时间，用于查询选择
-        $testTime=D('ThTesttime')->getThTestTimeById(19);
+    //列表页面
+    public function inserUnderList(){
+        //获取插本证考试时间，用于查询选择=============
+        $testTime=D('ThTesttime')->getThTestTimeById(23);
         $this->assign('testTime',$testTime);
         $this->display();
     }
@@ -106,7 +109,7 @@ class MandarinController extends BaseController {
     /**
      * ajax获取教师证考生列表
      */
-    public function getMandarinList(){
+    public function getInserUnderList(){
 
         $get=I('get.');
         $test_time=$get['test_time'];
@@ -129,9 +132,9 @@ class MandarinController extends BaseController {
             unset($map['test_time']);
         }
 
-        $list=M('Mandarin as m')
-            ->field('m.*,u.username')
-            ->join('user AS u ON m.userid=u.id',left)
+        $list=M('inser_under as i')
+            ->field('i.*,u.username')
+            ->join('user AS u ON i.userid=u.id',left)
             ->where($map)->order('create_time desc')->select();
 //        show_bug($list);
 //        echo M()->_sql();
@@ -156,6 +159,12 @@ class MandarinController extends BaseController {
                     $sex= '女';
                 }
 
+                //是否师范专业，1是，0否
+                if( $list[$i]['is_normal'] == 0 ){
+                    $is_normal = '否';
+                }else if ($list[$i]['is_normal'] == 1){
+                    $is_normal= '是';
+                }
 
                 //是否在校，1是，0否
                 if( $list[$i]['in_school'] == 0 ){
@@ -186,46 +195,49 @@ class MandarinController extends BaseController {
                     $face= '其他';
                 }
 
-                //申报语种
-                if( $list[$i]['languages'] == 1 ){
-                    $languages = '中文';
-                }else if ($list[$i]['languages'] == 2){
-                    $languages= '英文';
-                }
-
                 //导出的数据
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
                     'name'  =>$list[$i]['name'],    //姓名
-//                    'idcard'    =>'身份证',  //证件类型
+                    'idcard'    =>'身份证',  //证件类型
                     'sex'   =>$sex,//性别
-//                    'nation'    =>$list[$i]['nation'], //民族
-//                    'face'    =>$list[$i]['face'], //政治面貌
+                    'nation'    =>$list[$i]['nation'], //民族
+                    'face'    =>$face, //政治面貌
                     'birthday'    =>$list[$i]['birthday'], //出生日期
-//                    'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
-//                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
-//                    'school'    =>$list[$i]['school'], //学校名称
-//                    'school_num'    =>$list[$i]['school_num'], //学校代码
-//                    'in_school'    =>$in_school, //是否在校
-//                    'study_form'    =>$study_form, //学习形式
-//                    'college_class'    =>$list[$i]['college_class'], //院系班级
-//                    'email'    =>$list[$i]['email'], //邮箱
+                    'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
+                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
+                    'is_normal'    =>$is_normal, //是否师范专业
+                    'school'    =>$list[$i]['school'], //学校名称
+                    'school_num'    =>$list[$i]['school_num'], //学校代码
+                    'in_school'    =>$in_school, //是否在校
+                    'study_form'    =>$study_form, //学习形式
+                    'college_class'    =>$list[$i]['college_class'], //院系班级
+                    'email'    =>$list[$i]['email'], //邮箱
                     'tel'   =>$list[$i]['tel'], //手机号码
-//                    'address'    =>$list[$i]['address'], //地址
-//                    'zip_code'    =>$list[$i]['zip_code'], //邮编
+                    'address'    =>$list[$i]['address'], //地址
+                    'zip_code'    =>$list[$i]['zip_code'], //邮编
+
+                    //非在校
+                    'degree'    =>$list[$i]['degree'], //最高学位
+                    'degree_num'    =>$list[$i]['degree_num'], //学位证书号码
+                    'work_time'    =>$list[$i]['work_time'], //参加工作年份
+
+
                     'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
-//                    'languages'    =>$languages,//申报语种
+                    'course'    =>$list[$i]['course'],//报考科目
                 );
 
             }
 
-            $name_co = "普通话学生报名表";
+            $name_co = "专插本学生报名表";
 
-            $title_arr = array('序号', '姓名','性别','出生年月','手机号码','考试时间');
+            $title_arr = array('序号', '姓名', '证件类型', '性别', '民族', '政治面貌', '出生日期', '户籍所在地', '人事关系所在省份',
+                '是否师范专业', '学校名称','学校代码','是否在校','学习形式','院系班级','邮箱','手机号码','地址','邮编','最高学位','学位证书号码',
+                '参加工作年份','第一次笔试考试时间', '报考科目');
 
 //            $time = date('Y-m-d', time());
 
-            $title = "普通话".$test_time."首次考试学生—";
+            $title = "专插本".$test_time."首次考试学生—";
 
             if ($list && count($list) > 0) {
                 exportExcel($list, $title_arr, $title);
@@ -243,42 +255,43 @@ class MandarinController extends BaseController {
 
 
     /**
-     * 普通话考生详情
+     * 专插本考生详情
      */
-    public function mandarinStatusDetail(){
+    public function inserUnderStatusDetail(){
         $id=I('get.id');    //学生id
 
         if(session('roleid')==3){
             //如果是招生老师，根据学生id检测是否是该招生老师的学生
-            $seach=D('mandarin')->getStudentById($id);
+            $seach=D('InserUnder')->getStudentById($id);
             if($seach['userid'] != session('userid')){
                 $this->error('这好像不是你的考生哦...');
             }
         }
 
         //根据学生id获取学生详情
-        $detail=D('mandarin')->getStudentById($id);
+        $detail=D('InserUnder')->getStudentById($id);
         $this->assign('detail',$detail);
+//        show_bug($seach);
 
         $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
         $this->assign('course_package',$course_package);
 //        show_bug($detail);
 //        show_bug($course_package);
 
-        //获取普通话考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById(19);
+        //获取专插本考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById(23);
         $this->assign('testTime',$testTime);
 
-        //获取教师证课程
-//        $course=D('Course')->where("topid=1")->select();
-//        $this->assign('course',$course);
+        //获取专插本课程
+        $course=D('Course')->getCourseByTopid(25);
+        $this->assign('course',$course);
 
         //考区联动,遍历出市
         $city=D('TestPlace')->where("topid=0")->select();
         $this->assign('city',$city);
 
-        //普通话书本选择列表
-        $book=D('book')->getBookByTopid(61);
+        //专插本书本选择列表 ====
+        $book=D('book')->getBookByTopid(63);
         $this->assign('book',$book);
 
         //快递公司
@@ -286,12 +299,12 @@ class MandarinController extends BaseController {
         $this->assign('velivery',$delivery);
 
         //发书情况，第二个参数是course_package的证书topid
-        $send_book=D('SendBook')->getSendBookBySdid($detail['id'],20);
+        $send_book=D('SendBook')->getSendBookBySdid($detail['id'],23);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);
 
         //缴费情况
-        $order=D('order')->getOrderBystuidTopid($id,20);
+        $order=D('order')->getOrderBystuidTopid($id,23);
         $this->assign('order',$order);
 //        echo M()->_sql();
 //        show_bug($order);
@@ -302,7 +315,7 @@ class MandarinController extends BaseController {
     }
 
     /**
-     * 修改普通话学生报名表
+     * 修改专插本学生报名表
      */
     public function savefrom(){
 
@@ -338,7 +351,7 @@ class MandarinController extends BaseController {
         }
 
 
-        $teacherModel=M('mandarin');
+        $teacherModel=M('inser_under');
         $teacherModel->create();
         $saveResult=$teacherModel->save();
         if($saveResult){

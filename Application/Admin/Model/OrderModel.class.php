@@ -10,7 +10,7 @@ class OrderModel extends Model
      * 根据学生id和证书topid获取订单信息
      * @param $studentId
      * @param $topid  course_package的主键id
-     * 教师证1，自考7
+     * topid:教师证1，自考7，导游证12，普通话20，专插本23
      */
     public function getOrderBystuidTopid($studentId,$topid){
         return M('order')->where('student_id=%d AND course_package_topid=%f',$studentId,$topid)->select();

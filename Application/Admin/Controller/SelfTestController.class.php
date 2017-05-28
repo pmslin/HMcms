@@ -234,7 +234,7 @@ class SelfTestController extends BaseController {
 
         if(session('roleid')==3){
             //如果是招生老师，根据学生id检测是否是该招生老师的学生
-            $seach=D('teacher')->getStudentById($id);
+            $seach=D('SelfTest')->getStudentById($id);
             if($seach['userid'] != session('userid')){
                 $this->error('这好像不是你的考生哦...');
             }
@@ -262,7 +262,7 @@ class SelfTestController extends BaseController {
         $city=D('TestPlace')->where("topid=0")->select();
         $this->assign('city',$city);
 
-        //书本选择列表
+        //自考书本选择列表
         $book=D('book')->getBookByTopid(29);
         $this->assign('book',$book);
 
@@ -270,7 +270,7 @@ class SelfTestController extends BaseController {
         $delivery=M('delivery')->select();
         $this->assign('velivery',$delivery);
 
-        //发书情况
+        //发书情况，第二个参数是course_package的证书topid
         $send_book=D('SendBook')->getSendBookBySdid($detail['id'],7);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);

@@ -8,7 +8,7 @@ class CourseModel extends Model
 
     /**
      * 根据topid获取课程
-     * topid:教师证1
+     * topid:教师证1，专插本25
      * @param $topid
      * @return mixed
      */

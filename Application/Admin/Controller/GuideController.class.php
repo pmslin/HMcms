@@ -255,7 +255,7 @@ class GuideController extends BaseController {
 
         if(session('roleid')==3){
             //如果是招生老师，根据学生id检测是否是该招生老师的学生
-            $seach=D('teacher')->getStudentById($id);
+            $seach=D('guide')->getStudentById($id);
             if($seach['userid'] != session('userid')){
                 $this->error('这好像不是你的考生哦...');
             }
@@ -283,7 +283,7 @@ class GuideController extends BaseController {
         $city=D('TestPlace')->where("topid=0")->select();
         $this->assign('city',$city);
 
-        //书本选择列表
+        //导游证书本选择列表
         $book=D('book')->getBookByTopid(54);
         $this->assign('book',$book);
 
