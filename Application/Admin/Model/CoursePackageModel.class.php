@@ -30,7 +30,7 @@ class CoursePackageModel extends Model
      * 根据id获取套餐
      */
     public function getCourePackageById($id){
-        return M('course_package')->where('id=%d',$id)->find();
+        return M('course_package')->where('id=%d and status=1',$id)->find();
     }
 
 }

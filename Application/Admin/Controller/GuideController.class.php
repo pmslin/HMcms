@@ -48,9 +48,11 @@ class GuideController extends BaseController {
             D()->startTrans(); //开启事务
             //上传考生照片
             $upload = new \Think\Upload();// 实例化上传类   开始
-            $upload->maxSize = 3145728;// 设置附件上传大小
-            $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+            $upload->maxSize = 307200;// 设置附件上传大小
+            $upload->exts = array('jpg');// 设置附件上传类型
             $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
+//            show_bug($_FILES['pic']);
+//            show_bug($post['name'].'.jpg');exit();
             $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
             if (!$info) {// 上传错误提示错误信息
                 $this->error($upload->getError());
@@ -170,13 +172,13 @@ class GuideController extends BaseController {
                 }
 
                 //学习形式，1普通全日制，2成人高考，3远程教育
-                if( $list[$i]['study_form'] == 1 ){
-                    $study_form = '普通全日制';
-                }else if ($list[$i]['study_form'] == 2){
-                    $study_form= '成人高考';
-                }else if ($list[$i]['study_form'] == 3){
-                    $study_form= '远程教育';
-                }
+//                if( $list[$i]['study_form'] == 1 ){
+//                    $study_form = '普通全日制';
+//                }else if ($list[$i]['study_form'] == 2){
+//                    $study_form= '成人高考';
+//                }else if ($list[$i]['study_form'] == 3){
+//                    $study_form= '远程教育';
+//                }
 
                 //政治面貌
                 if( $list[$i]['face'] == 1 ){
@@ -191,6 +193,37 @@ class GuideController extends BaseController {
                     $face= '其他';
                 }
 
+                //学历层次
+                if( $list[$i]['education'] == 1 ){
+                    $education = '高中';
+                }else if ($list[$i]['education'] == 2){
+                    $education= '中专';
+                }else if ($list[$i]['education'] == 3){
+                    $education= '专科';
+                }else if ($list[$i]['education'] == 4){
+                    $education= '本科';
+                }
+
+                //单位性质
+                if( $list[$i]['unit_property'] == 1 ){
+                    $unit_property = '从业人员';
+                }else if ($list[$i]['unit_property'] == 2){
+                    $unit_property= '非从业人员';
+                }else if ($list[$i]['unit_property'] == 3){
+                    $unit_property= '在校生';
+                }
+
+                //考生类别
+                if( $list[$i]['stu_category'] == 1 ){
+                    $stu_category = '院校生';
+                }else if ($list[$i]['stu_category'] == 2){
+                    $stu_category= '社会青年';
+                }else if ($list[$i]['stu_category'] == 3){
+                    $stu_category= '旅行社职员';
+                }else if ($list[$i]['stu_category'] == 4){
+                    $stu_category= '香港(澳门)居民';
+                }
+
                 //申报语种
                 if( $list[$i]['languages'] == 1 ){
                     $languages = '中文';
@@ -198,35 +231,72 @@ class GuideController extends BaseController {
                     $languages= '英文';
                 }
 
+                //报考类别
+                if( $list[$i]['apply_category'] == 1 ){
+                    $apply_category = '新报';
+                }else if ($list[$i]['apply_category'] == 2){
+                    $apply_category= '加考';
+                }
+
+                //套餐
+                $course_package=D("CoursePackage")->getCourePackageById($list[$i]['course_package']);
+
+                //业务员
+                $user=D("user")->getUserById($list[$i]['userid']);
+
+
                 //导出的数据
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
                     'name'  =>$list[$i]['name'],    //姓名
-//                    'idcard'    =>'身份证',  //证件类型
+                    'tel'   =>$list[$i]['tel'], //手机号码
+                    'email'    =>$list[$i]['email'], //邮箱
+                    'idcard'    =>$list[$i]['idcard'],  //身份证
                     'sex'   =>$sex,//性别
-//                    'nation'    =>$list[$i]['nation'], //民族
-//                    'face'    =>$list[$i]['face'], //政治面貌
-                    'birthday'    =>$list[$i]['birthday'], //出生日期
+                    'nation'    =>$list[$i]['nation'], //民族
+                    'face'    =>$face, //政治面貌
+                    'education'    =>$education, //学历层次
+                    'major'    =>$list[$i]['major'], //学习专业
+                    'in_school'    =>$in_school, //是否在校
+                    'school'    =>$list[$i]['school'], //学校名称
+                    'unit_property'    =>$unit_property, //单位性质
+                    'stu_category'    =>$stu_category, //考生类别
+                    'test_place'    =>$list[$i]['test_place'], //考区
+                    'languages'    =>$languages,//申报语种
+                    'apply_category'    =>$apply_category,//报考类别
+                    'test_time'    =>$list[$i]['test_time'], //报考年份(考试时间)
+                    'entrance_time'    =>$list[$i]['entrance_time'], //入学时间
+                    'graduation_time'    =>$list[$i]['graduation_time'], //预计毕业时间
+                    'unit'    =>$list[$i]['unit'], //所在单位
+                    'course_package_name'    =>$course_package['name'],    //套餐
+                    'emergency_contact' =>$list[$i]['emergency_contact'],    //紧急联系人
+                    'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
+                    'addressAndZip_code'    =>$list[$i]['address'].",".$list[$i]['zip_code'], //地址和邮编
+                    'username'    =>$user['username'],    //业务员
+                    'remarks' =>$list[$i]['remarks'],    //紧急联系电话
+
+
+
+
+//                    'birthday'    =>$list[$i]['birthday'], //出生日期
 //                    'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
 //                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
-//                    'school'    =>$list[$i]['school'], //学校名称
 //                    'school_num'    =>$list[$i]['school_num'], //学校代码
-//                    'in_school'    =>$in_school, //是否在校
 //                    'study_form'    =>$study_form, //学习形式
 //                    'college_class'    =>$list[$i]['college_class'], //院系班级
-                    'email'    =>$list[$i]['email'], //邮箱
-                    'tel'   =>$list[$i]['tel'], //手机号码
 //                    'address'    =>$list[$i]['address'], //地址
 //                    'zip_code'    =>$list[$i]['zip_code'], //邮编
-                    'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
-                    'languages'    =>$languages,//申报语种
+//                    'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
+
                 );
 
             }
 
             $name_co = "导游证学生报名表";
 
-            $title_arr = array('序号', '姓名','性别','出生年月','邮箱','手机号码','考试时间',  '报考科目');
+            $title_arr = array('序号', '姓名','手机号','QQ邮箱','身份证号','性别','民族', '政治面貌', '最高学历','学习专业',
+                '是否在校','院校全称','单位性质','考生类别', '考区', '申报语种','报考类别','报考年份','入学时间',
+                '（预计）毕业时间','工作单位', '套餐', '紧急联系人','紧急联系人电话','通讯地址和邮编','业务员','备注');
 
 //            $time = date('Y-m-d', time());
 

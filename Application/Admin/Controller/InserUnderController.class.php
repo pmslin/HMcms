@@ -19,10 +19,15 @@ class InserUnderController extends BaseController {
         $course=D('Course')->getCourseByTopid(25);
         $this->assign('course',$course);
 
-        //获取教师证考试时间
+        //获取专插本考试时间
         $testTime=D('ThTesttime')->getThTestTimeById(23);
         $this->assign('testTime',$testTime);
 //        var_dump($testTime);
+
+        //获取专插本培训校区
+        $campus=D('Campus')->getCampusByTopid(1);
+        $this->assign('campus',$campus);
+//        show_bug($campus);
 
         $this->display();
     }
@@ -285,6 +290,14 @@ class InserUnderController extends BaseController {
         //获取专插本课程
         $course=D('Course')->getCourseByTopid(25);
         $this->assign('course',$course);
+
+        //该学生选择的校区
+        $orgcampus=D('Campus')->getCampusById($detail['campus']);
+        $this->assign('orgcampus',$orgcampus);
+//        show_bug($orgcampus);
+        //获取专插本培训校区
+        $campus=D('Campus')->getCampusByTopid(1);
+        $this->assign('campus',$campus);
 
         //考区联动,遍历出市
         $city=D('TestPlace')->where("topid=0")->select();

@@ -189,17 +189,19 @@ class SelfTestController extends BaseController {
                     'tel'   =>$list[$i]['tel'],   //联系电话
                     'idcard'    =>$list[$i]['idcard'],    //身份证号码
                     'qq'    =>$list[$i]['qq'],    //QQ
-                    'college_school'    =>$list[$i]['college_school'],    //专科专业
+                    'college_school'    =>$list[$i]['college_major'],    //专科专业
                     'username'    =>$user['username'],    //业务员
                     'course_package_name'    =>$course_package['name'],    //套餐
-
+                    'emergency_contact' =>$list[$i]['emergency_contact'],    //紧急联系人
+                    'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
+                    'address'=>$list[$i]['address'],    //地址
                 );
 
             }
 
             $name_co = "自考学生报名表";
 
-            $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','准考证号','联系电话', '身份证号码', 'QQ','专科专业','业务员','套餐');
+            $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','准考证号','联系电话', '身份证号码', 'QQ','专科专业','业务员','套餐','紧急联系人','紧急联系人电话','地址');
 
 //            $time = date('Y-m-d', time());
 

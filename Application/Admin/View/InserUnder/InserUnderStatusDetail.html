@@ -182,10 +182,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">大专学校地址</label>
+                            <label class="col-sm-2 control-label">收件地址</label>
 
                             <div class="col-sm-8">
-                                <input type="text" placeholder='___市___区______' class="form-control" name="school_address" value="{$detail.school_address}" datatype="*">
+                                <input type="text" placeholder='___省___市____县/区________' class="form-control" name="receive_address" value="{$detail.receive_address}" datatype="*">
                             </div>
                         </div>
 
@@ -235,24 +235,27 @@
                         </div>
 
                         <div class="form-group">
-                            <!--<label class="col-sm-2 control-label">选择教的是</label>-->
-
-                            <!--<div class="col-sm-3">-->
-                            <!--<select class="form-control m-b" name="course">-->
-                            <!--<foreach name="course" item="vo">-->
-                            <!--<option value="{$vo.cousr_name}">{$vo.cousr_name}</option>-->
-                            <!--</foreach>-->
-                            <!--</select>-->
-                            <!--</div>-->
-
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-3">
                                 <input type="file" name="pic" />
                             </div>
-
                         </div>
 
                         <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">培训校区选择</label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control m-b" name="campus">
+                                    <option value="{$orgcampus.id}">{$orgcampus.campus_name}</option>
+                                    <option value="{$orgcampus.id}">-------------------------------</option>
+                                    <foreach name="campus" item="vo">
+                                        <option value="{$vo.id}">{$vo.campus_name}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">班型选择</label>

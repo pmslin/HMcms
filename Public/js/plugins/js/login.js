@@ -13,16 +13,19 @@ $(document).ready(function(){
             },
             success: function (data) {
                 if (data.status == "success") {
-                    $("#msg").html('登陆中...');
+                    // $("#msg").html('登陆中...');
+                    layer.msg('登陆中...');
                     //var url="{:U('Admin/index/index')}";
                    //window.location.href="/index";
                     top.location.href = 'index';
                 } else {
-                    $("#msg").html('账号或密码错误');
+                    // $("#msg").html('账号或密码错误');
+                    layer.msg('账号或密码错误');
                 }
             },
             error: function () {
-                $("#msg").html('网络开小差，请稍后再试！');
+                // $("#msg").html('网络开小差，请稍后再试！');
+                layer.msg('网络开小差，请稍后再试！');
             }
         });
         return false;
