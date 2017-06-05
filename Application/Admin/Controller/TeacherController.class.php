@@ -147,6 +147,11 @@ class TeacherController extends BaseController {
 //            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
         }
 
+        //导出excel和照片时，文件名字显示的考试时间
+        if (empty($test_time)){
+            $test_time=null;
+        }
+
         //导出excel
         if(!empty($get['exprot'])){
 
@@ -237,6 +242,7 @@ class TeacherController extends BaseController {
 
 //            $time = date('Y-m-d', time());
 
+
             $title = "教师证".$test_time."首次考试学生—";
 
             if ($list && count($list) > 0) {
@@ -245,6 +251,17 @@ class TeacherController extends BaseController {
                 $this->error('没有对应的数据');
             }
         }
+
+        //导出考生照片
+        if (!empty($_GET['downImg'])){
+            if ($list && count($list) > 0) {
+                $this->downtest("教师证" . $test_time . "首次考试学生照片.zip", $list);
+            }else{
+                $this->error('没有对应的数据');
+            }
+        }
+
+
 
         $this->ajaxReturn($list,'json');
 
