@@ -369,7 +369,10 @@
 
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-3">
-                                    <input type="file" name="pic" />
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(this)"/>
+                                <div>*&nbsp;图片要求：彩色白底免冠，规格285*385，小于300KB，.jpg文件格式</div>
+
+                                <img src="" id="imgShow" style="width:50px"></img>
                             </div>
 
                         </div>
@@ -437,12 +440,17 @@
 
 <script src="__PUBLIC__/plugins/layer/layer.js"></script>
 
+<!--身份证识别出生日期-->
 <script src="__PUBLIC__/js/plugins/js/idcardByBirthday.js"></script>
 
-
+<!--检测照片规格-->
+<script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
 
 
 <script>
+    //页面返回时清空考区
+    $("#city").val("广州市");
+
     //初始化Validform
     $(".demoform").Validform();
 

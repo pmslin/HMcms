@@ -20,7 +20,7 @@ $(document).ready(function(){
                     top.location.href = 'index';
                 } else {
                     // $("#msg").html('账号或密码错误');
-                    layer.msg('账号或密码错误');
+                    layer.alert('账号或密码错误');
                 }
             },
             error: function () {
