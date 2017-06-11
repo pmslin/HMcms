@@ -275,6 +275,31 @@
                                 </div>
                             </div>
 
+                            <label class="col-sm-2 control-label">备选考区</label>
+
+                            <div class="col-sm-3">
+
+                                <div style="padding-top: 8px">
+                                    {$detail.an_test_place}<br/><br/>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <!-- 城市 -->
+                                    <select  class="form-control m-b" name="an_place_city_id" id="an_city" style="width: 240px">
+                                        <option>--请选择市--</option>
+                                        <foreach name="city" item="v">
+                                            <option value="{$v.place_id}"  >{$v.place_name}</option>
+                                        </foreach>
+                                    </select>
+                                    <!-- 区县 -->
+                                    <select  class="form-control m-b" name="an_place_area_id" id="an_area" style="width: 240px">
+                                        <option ></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">首次考试时间</label>
 
                             <div class="col-sm-3">
@@ -298,7 +323,10 @@
 
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-3">
-                                    <input type="file" name="pic" />
+                                    <input type="file" name="pic"  id="imgurl" onchange="photoCheck(/\.(jpg)$/,200,390,567)"/>
+                                <div style="padding: 5px">
+                                    图片要求：彩色蓝底免冠，规格390*567，小于300KB，.jpg文件格式
+                                </div>
                             </div>
 
                         </div>
@@ -321,7 +349,7 @@
                                 </div>
                                 <else />
                                 <div class="col-sm-3 form-group radio i-checks">
-                                    <img src="__PUBLIC__/Uploads/{$detail.pic}" width="50px" class="img-responsive" id="img1">
+                                    <img src="__PUBLIC__/Uploads/{$detail.pic}" width="50px" class="img-responsive"  id="imgShow">
                                 </div>
                             </if>
 
@@ -580,11 +608,14 @@
 <script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
 <script src="__PUBLIC__/laydate/laydate.js"></script>
 
+<script src="__PUBLIC__/plugins/layer/layer.js"></script>
+
 <script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
 
 <script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
 
-
+<!--检测照片规格-->
+<script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
 
 <script>
     //初始化Validform
@@ -644,7 +675,7 @@
         $('#city').change(function(){
             $.ajax({
                type:"post",
-                url:"{:U('TestPlace/postArea')}",
+                url:"{:U('TestPlace/postSelfTestArea')}",
                 data:'place_id='+$('#city').val(),
                 dataType:'json',
                 success:function(data){
@@ -653,6 +684,20 @@
                 }
             });
         });
+
+    //备选考区联动
+    $('#an_city').change(function(){
+        $.ajax({
+            type:"post",
+            url:"{:U('TestPlace/postSelfTestAreaAn')}",
+            data:'place_id='+$('#an_city').val(),
+            dataType:'json',
+            success:function(data){
+//                    console.log(data);
+                $("#an_area").html(data);
+            }
+        });
+    });
 
 	//图片点击大小变化
     $(function(){

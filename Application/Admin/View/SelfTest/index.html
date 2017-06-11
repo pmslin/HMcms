@@ -346,17 +346,35 @@
                                 </select>
                             </div>
 
-                            <label class="col-sm-2 control-label">第一次考试时间</label>
+                            <label class="col-sm-2 control-label">备选考区</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control m-b" name="test_time">
-                                    <foreach name="testTime" item="vo">
-                                        <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
+                                <!-- 城市 -->
+                                <select  class="form-control m-b" name="an_place_city_id" id="an_city">
+                                    <option>--请选择市--</option>
+                                    <foreach name="city" item="v">
+                                        <option value="{$v.place_id}"  >{$v.place_name}</option>
                                     </foreach>
-
+                                </select>
+                                <!-- 区县 -->
+                                <select  class="form-control m-b" name="an_place_area_id" id="an_area">
+                                    <option></option>
                                 </select>
                             </div>
                         </div>
+						
+						<div class="form-group">
+							 <label class="col-sm-2 control-label">第一次考试时间</label>
+
+								<div class="col-sm-3">
+									<select class="form-control m-b" name="test_time">
+										<foreach name="testTime" item="vo">
+											<option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
+										</foreach>
+
+									</select>
+								</div>
+						</div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">准考证</label>
@@ -367,8 +385,10 @@
 
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-3">
-                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(this)"/>
-                                <div>*&nbsp;图片要求：彩色白底免冠，规格285*385，小于300KB，.jpg文件格式</div>
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg)$/,200,390,567)"/>
+                                <div style="padding: 5px">
+                                    图片要求：彩色蓝底免冠，规格390*567，小于300KB，.jpg文件格式
+                                </div>
 
                                 <img src="" id="imgShow" style="width:50px"></img>
                             </div>
@@ -473,7 +493,7 @@
         $('#city').change(function(){
             $.ajax({
                type:"post",
-                url:"{:U('TestPlace/postArea')}",
+                url:"{:U('TestPlace/postSelfTestArea')}",
                 data:'place_id='+$('#city').val(),
                 dataType:'json',
                 success:function(data){
@@ -482,6 +502,21 @@
                 }
             });
         });
+
+
+    //备选考区联动
+    $('#an_city').change(function(){
+        $.ajax({
+            type:"post",
+            url:"{:U('TestPlace/postSelfTestAreaAn')}",
+            data:'place_id='+$('#an_city').val(),
+            dataType:'json',
+            success:function(data){
+//                    console.log(data);
+                $("#an_area").html(data);
+            }
+        });
+    });
 
 
 

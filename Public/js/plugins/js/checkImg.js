@@ -1,7 +1,8 @@
-function photoCheck(obj) {
+function photoCheck(format,size,width,height) {
 //图片上传过滤
     var file = document.getElementById("imgurl").value;
-    if (!/\.(jpg)$/.test(file)) {
+    format=format;
+    if (!format.test(file)) {
         layer.alert("图片类型必须是.jpg格式！", {icon: 2});
         $("#imgurl").val(""); //清空不合规的照片
         $("#imgShow").attr("src",""); //情况图片预览
@@ -9,9 +10,9 @@ function photoCheck(obj) {
         return false;
 
     }
-
-    var maxsize = 1 * 1024 * 300;//100kb
-    var errMsg = "上传的照片不能超过300kb！";
+// alert(size);
+    var maxsize = 1 * 1024 * size;//size kb
+    var errMsg = "上传的照片不能超过"+size+"kb！";
     var tipMsg = "您的浏览器暂不支持计算上传文件的大小。";
 
     try {
@@ -28,8 +29,9 @@ function photoCheck(obj) {
     } catch (e) {
         alert(e);
     }
+    // alert(width);
 
-    getWH("imgurl",285,385);
+    getWH("imgurl",width,height);
     // if (aa==undefined){
     //     layer.msg("图片尺寸不符");
     //     $("#imgurl").val("");

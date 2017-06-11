@@ -15,7 +15,7 @@ class CampusModel extends Model
     public function getCampusByTopid($topid)
     {
         $campus = M('campus');
-        $list = $campus->where("topid={$topid} and status=1")->order("sort")->select();
+        $list = $campus->where("topid={$topid} and status=1")->order("sort,id")->select();
         return $list;
     }
 

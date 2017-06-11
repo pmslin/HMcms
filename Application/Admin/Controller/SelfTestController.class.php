@@ -9,7 +9,7 @@ class SelfTestController extends BaseController {
     public function index(){
 
         //考区联动,遍历出市
-        $city=D('TestPlace')->where("topid=0")->select();
+        $city=D('SelfTestPlace')->where("topid=0")->select();
 //        $this->assign('city',$city);
 
         //获取考试时间
@@ -48,11 +48,21 @@ class SelfTestController extends BaseController {
 //            exit();
 
             //查询出考区
-            $testPlaceModel=D('TestPlace');
+            $testPlaceModel=D('SelfTestPlace');
 //            $id=$post['place_city_id'];
             $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
             $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
             $test_place=$place_city['place_name'].$place_area['place_name'];
+
+            if (!empty($post['an_place_city_id'])){
+                //查询出备选考区
+                $an_place_city=$testPlaceModel->getPalceNameById($post['an_place_city_id']);
+                $an_place_area=$testPlaceModel->getPalceNameById($post['an_place_area_id']);
+                $an_test_place=$an_place_city['place_name'].$an_place_area['place_name'];
+//                show_bug($an_place_city);exit();
+                $post['an_test_place']=$an_test_place;  //备选考区
+            }
+
 
             D()->startTrans(); //开启事务
             //上传考生照片
@@ -69,7 +79,7 @@ class SelfTestController extends BaseController {
 
             $time=date("Y-m-d");
             $post['create_time']=$time;
-            $post['test_place']=$test_place;
+            $post['test_place']=$test_place;    //考区
             $post['userid']=session('userid');
 //            show_bug($post['under_major']);die();
             //获取报考专业编码和名称
@@ -190,13 +200,14 @@ class SelfTestController extends BaseController {
                     'name'  =>$list[$i]['name'],    //姓名
                     'sex'    =>$sex,    //性别
                     'test_place'    =>$list[$i]['test_place'],    //考区
+                    'an_test_place'    =>$list[$i]['an_test_place'],    //备选考区
                     'test_num'    =>$list[$i]['test_num'],    //准考证号
                     'tel'   =>$list[$i]['tel'],   //联系电话
                     'idcard'    =>$list[$i]['idcard'],    //身份证号码
-                    'qq'    =>$list[$i]['qq'],    //QQ
                     'college_school'    =>$list[$i]['college_major'],    //专科专业
                     'username'    =>$user['username'],    //业务员
                     'course_package_name'    =>$course_package['name'],    //套餐
+                    'qq'    =>$list[$i]['qq'],    //QQ
                     'emergency_contact' =>$list[$i]['emergency_contact'],    //紧急联系人
                     'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
                     'address'=>$list[$i]['address'],    //地址
@@ -206,7 +217,8 @@ class SelfTestController extends BaseController {
 
             $name_co = "自考学生报名表";
 
-            $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','准考证号','联系电话', '身份证号码', 'QQ','专科专业','业务员','套餐','紧急联系人','紧急联系人电话','地址');
+            $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','备选考区', '准考证号','联系电话',
+                '身份证号码','专科专业','业务员','套餐', 'QQ', '紧急联系人','紧急联系人电话','地址');
 
 //            $time = date('Y-m-d', time());
 
@@ -272,7 +284,7 @@ class SelfTestController extends BaseController {
 //        $this->assign('course',$course);
 
         //考区联动,遍历出市
-        $city=D('TestPlace')->where("topid=0")->select();
+        $city=D('SelfTestPlace')->where("topid=0")->select();
         $this->assign('city',$city);
 
         //自考书本选择列表
@@ -324,11 +336,21 @@ class SelfTestController extends BaseController {
         if(!empty($post['place_area_id'])){
 //            echo 1;
             //查询出考区
-            $testPlaceModel=D('TestPlace');
+            $testPlaceModel=D('SelfTestPlace');
 //            $id=$post['place_city_id'];
             $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
             $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
             $_POST['test_place']=$place_city['place_name'].$place_area['place_name'];
+        }
+
+        if(!empty($post['an_place_area_id'])){
+//            echo 1;
+            //查询出备考考区
+            $testPlaceModel=D('SelfTestPlace');
+//            $id=$post['place_city_id'];
+            $an_place_city=$testPlaceModel->getPalceNameById($post['an_place_city_id']);
+            $an_place_area=$testPlaceModel->getPalceNameById($post['an_place_area_id']);
+            $_POST['an_test_place']=$an_place_city['place_name'].$an_place_area['place_name'];
         }
 
         //上传考生照片

@@ -200,9 +200,23 @@ class TeacherController extends BaseController {
                     $face= '其他';
                 }
 
+                //最高学位
+                if( $list[$i]['degree'] == 1 ){
+                    $degree = '学士';
+                }else if ($list[$i]['degree'] == 2){
+                    $degree= '硕士';
+                }else if ($list[$i]['degree'] == 3){
+                    $degree= '博士';
+                }else if ($list[$i]['degree'] == 4){
+                    $degree= '无学位';
+                }
+
                 //导出的数据
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
+                    'test_place' =>$list[$i]['test_place'],//考区
+                    'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
+                    'course'    =>$list[$i]['course'],//报考科目
                     'name'  =>$list[$i]['name'],    //姓名
                     'idcard'    =>'身份证',  //证件类型
                     'sex'   =>$sex,//性别
@@ -213,7 +227,7 @@ class TeacherController extends BaseController {
                     'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
                     'is_normal'    =>$is_normal, //是否师范专业
                     'school'    =>$list[$i]['school'], //学校名称
-                    'school_num'    =>$list[$i]['school_num'], //学校代码
+//                    'school_num'    =>$list[$i]['school_num'], //学校代码
                     'in_school'    =>$in_school, //是否在校
                     'study_form'    =>$study_form, //学习形式
                     'college_class'    =>$list[$i]['college_class'], //院系班级
@@ -221,24 +235,24 @@ class TeacherController extends BaseController {
                     'tel'   =>$list[$i]['tel'], //手机号码
                     'address'    =>$list[$i]['address'], //地址
                     'zip_code'    =>$list[$i]['zip_code'], //邮编
+                    'education'    =>$list[$i]['education'], //学历层次
 
                     //非在校
-                    'degree'    =>$list[$i]['degree'], //最高学位
+                    'degree'    =>$degree, //最高学位
                     'degree_num'    =>$list[$i]['degree_num'], //学位证书号码
                     'work_time'    =>$list[$i]['work_time'], //参加工作年份
 
 
-                    'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
-                    'course'    =>$list[$i]['course'],//报考科目
+                    'create_time'    =>$list[$i]['create_time'],//报名日期
                 );
 
             }
 
             $name_co = "教师证学生报名表";
 
-            $title_arr = array('序号', '姓名', '证件类型', '性别', '民族', '政治面貌', '出生日期', '户籍所在地', '人事关系所在省份',
-                '是否师范专业', '学校名称','学校代码','是否在校','学习形式','院系班级','邮箱','手机号码','地址','邮编','最高学位','学位证书号码',
-                '参加工作年份','第一次笔试考试时间', '报考科目');
+            $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '性别', '民族', '政治面貌', '出生日期', '户籍所在地', '人事关系所在省份',
+                '是否师范专业', '学校名称','是否在校','学习形式','院系班级','邮箱','手机号码','地址','邮编','学历层次','最高学位',
+                '学位证书号码', '参加工作年份','报名日期');
 
 //            $time = date('Y-m-d', time());
 

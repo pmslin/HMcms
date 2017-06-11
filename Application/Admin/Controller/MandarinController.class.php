@@ -201,24 +201,29 @@ class MandarinController extends BaseController {
                 //导出的数据
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
+                    'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
                     'name'  =>$list[$i]['name'],    //姓名
-//                    'idcard'    =>'身份证',  //证件类型
+                    'idcard_type'    =>'身份证',  //证件类型
+                    'idcard'    =>$list[$i]['idcard'], //身份证号码
                     'sex'   =>$sex,//性别
-//                    'nation'    =>$list[$i]['nation'], //民族
+                    'nation'    =>$list[$i]['nation'], //民族
+
+                    'tel'   =>$list[$i]['tel'], //手机号码
+                    'email'    =>$list[$i]['email'], //邮箱
+
+                    //'birthday'    =>$list[$i]['birthday'], //出生日期
 //                    'face'    =>$list[$i]['face'], //政治面貌
-                    'birthday'    =>$list[$i]['birthday'], //出生日期
 //                    'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
 //                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
 //                    'school'    =>$list[$i]['school'], //学校名称
-//                    'school_num'    =>$list[$i]['school_num'], //学校代码
+//
 //                    'in_school'    =>$in_school, //是否在校
 //                    'study_form'    =>$study_form, //学习形式
 //                    'college_class'    =>$list[$i]['college_class'], //院系班级
-//                    'email'    =>$list[$i]['email'], //邮箱
-                    'tel'   =>$list[$i]['tel'], //手机号码
+
 //                    'address'    =>$list[$i]['address'], //地址
 //                    'zip_code'    =>$list[$i]['zip_code'], //邮编
-                    'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
+
 //                    'languages'    =>$languages,//申报语种
                 );
 
@@ -226,7 +231,7 @@ class MandarinController extends BaseController {
 
             $name_co = "普通话学生报名表";
 
-            $title_arr = array('序号', '姓名','性别','出生年月','手机号码','考试时间');
+            $title_arr = array('序号','考试时间', '姓名', '证件类型', '身份证号码', '性别', '民族', '联系电话', 'QQ邮箱');
 
 //            $time = date('Y-m-d', time());
 

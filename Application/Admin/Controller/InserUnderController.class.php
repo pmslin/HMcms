@@ -57,15 +57,15 @@ class InserUnderController extends BaseController {
             $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
             $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
             $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
-            if (!$info) {// 上传错误提示错误信息
-                $this->error($upload->getError());
-            } else {// 上传成功
+//            if (!$info) {// 上传错误提示错误信息
+//                $this->error($upload->getError());
+//            } else {// 上传成功
                 $post['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
-            }
+//            }
 
             $time=date("Y-m-d");
             $post['create_time']=$time;
-            $post['test_place']=$test_place;
+//            $post['test_place']=$test_place;
             $post['userid']=session('userid');
             //添加数据到报名数据表
             $addResult=D('inser_under')->add($post);
@@ -241,9 +241,9 @@ class InserUnderController extends BaseController {
 
             $name_co = "专插本学生报名表";
 
-            $title_arr = array('序号', '姓名', '证件类型', '性别', '民族', '政治面貌', '出生日期', '户籍所在地', '人事关系所在省份',
-                '是否师范专业', '学校名称','学校代码','是否在校','学习形式','院系班级','邮箱','手机号码','地址','邮编','最高学位','学位证书号码',
-                '参加工作年份','第一次笔试考试时间', '报考科目');
+            $title_arr = array('序号', '姓名', '性别', '身份证号码', '政治面貌', '籍贯', '大专学校全称', '大专学校专业',
+                '是否在校', '手机','QQ邮箱','考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
+                '最高学位','学位证书号码', '备注','插本报考学校', '插本报考专业');
 
 //            $time = date('Y-m-d', time());
 

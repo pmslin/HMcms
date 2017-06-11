@@ -368,9 +368,11 @@
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">考生照片</label>
-                            <div class="col-sm-5">
-                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(this)"/>
-                                <div>*&nbsp;图片要求：彩色白底免冠，规格285*385，小于300KB，.jpg文件格式</div>
+                            <div class="col-sm-9">
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,200,285,385)"/>
+                                <div style="padding: 5px">
+                                    照片要求：彩色白底免冠证件照；不允许带帽子、头巾、发带、墨镜；，规格285*385，不大于200KB，.jpg/.jpeg文件格式
+                                </div>
 
                                 <img src="" id="imgShow" style="width:50px"></img>
                             </div>

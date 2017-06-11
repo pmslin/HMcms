@@ -141,10 +141,10 @@
                                 <input type="text" class="form-control" name="tel" value="{$detail.tel}" datatype="m&*" errormsg="请输入正确的手机号码格式">
                             </div>
 
-                            <label class="col-sm-2 control-label">QQ</label>
+                            <label class="col-sm-2 control-label">QQ邮箱</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="qq" value="{$detail.qq}" datatype="n&*"  errormsg="请输入正确的QQ">
+                                <input type="text" class="form-control" name="email" value="{$detail.email}" datatype="e&*"  errormsg="请输入正确的QQ邮箱">
                             </div>
                         </div>
 
@@ -354,8 +354,11 @@
                             <!--</div>-->
 
                             <label class="col-sm-2 control-label">考生照片</label>
-                            <div class="col-sm-3">
-                                <input type="file" name="pic" />
+                            <div class="col-sm-10">
+                                <input type="file" name="pic"  id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,200,285,385)"/>
+                                <div style="padding: 5px">
+                                    照片要求：彩色白底免冠证件照；不允许带帽子、头巾、发带、墨镜；，规格285*385，不大于200KB，.jpg/.jpeg文件格式
+                                </div>
                             </div>
 
                         </div>
@@ -378,7 +381,7 @@
                                 </div>
                                 <else />
                                 <div class="col-sm-3 form-group radio i-checks">
-                                    <img src="__PUBLIC__/Uploads/{$detail.pic}" width="50px" class="img-responsive" id="img1">
+                                    <img src="__PUBLIC__/Uploads/{$detail.pic}" width="50px" class="img-responsive" id="imgShow">
                                 </div>
                             </if>
                         </div>
@@ -614,7 +617,9 @@
 
 <script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
 
-
+<script src="__PUBLIC__/plugins/layer/layer.js"></script>
+<!--检测照片规格-->
+<script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
 
 <script>
     //初始化Validform

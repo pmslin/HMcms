@@ -440,8 +440,11 @@
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">考生照片</label>
-                            <div class="col-sm-5">
-                                <input type="file" name="pic"/>
+                            <div class="col-sm-8">
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,200,285,385)"/>
+                                <div style="padding: 5px">
+                                    照片要求：彩色白底免冠证件照；不允许带帽子、头巾、发带、墨镜；，规格285*385，不大于200KB，.jpg/.jpeg文件格式
+                                </div>
                             </div>
                         </div>
 
@@ -455,7 +458,7 @@
                                 <else/>
                                 <div class="col-sm-5 form-group radio i-checks">
                                     <img src="__PUBLIC__/Uploads/{$detail.pic}" width="50px"
-                                         class="img-responsive" id="img1">
+                                         class="img-responsive" id="imgShow">
                                 </div>
                             </if>
                         </div>
@@ -717,10 +720,13 @@
 <script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
 <script src="__PUBLIC__/laydate/laydate.js"></script>
 
+<script src="__PUBLIC__/plugins/layer/layer.js"></script>
+
 <script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
 
 <script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
-
+<!--检测照片规格-->
+<script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
 
 <script>
     //初始化Validform

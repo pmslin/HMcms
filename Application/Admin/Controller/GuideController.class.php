@@ -262,7 +262,7 @@ class GuideController extends BaseController {
                     'face'    =>$face, //政治面貌
                     'education'    =>$education, //学历层次
                     'major'    =>$list[$i]['major'], //学习专业
-                    'in_school'    =>$in_school, //是否在校
+//                    'in_school'    =>$in_school, //是否在校
                     'school'    =>$list[$i]['school'], //学校名称
                     'unit_property'    =>$unit_property, //单位性质
                     'stu_category'    =>$stu_category, //考生类别
@@ -278,7 +278,8 @@ class GuideController extends BaseController {
                     'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
                     'addressAndZip_code'    =>$list[$i]['address'].",".$list[$i]['zip_code'], //地址和邮编
                     'username'    =>$user['username'],    //业务员
-                    'remarks' =>$list[$i]['remarks'],    //紧急联系电话
+                    'remarks' =>$list[$i]['remarks'],    //备注
+                    'create_time' =>$list[$i]['create_time'],    //备注
 
 
 
@@ -300,8 +301,8 @@ class GuideController extends BaseController {
             $name_co = "导游证学生报名表";
 
             $title_arr = array('序号', '姓名','手机号','QQ邮箱','身份证号','性别','民族', '政治面貌', '最高学历','学习专业',
-                '是否在校','院校全称','单位性质','考生类别', '考区', '申报语种','报考类别','报考年份','入学时间',
-                '（预计）毕业时间','工作单位', '套餐', '紧急联系人','紧急联系人电话','通讯地址和邮编','业务员','备注');
+                '院校全称','单位性质','考生类别', '考区', '申报语种','报考类别','报考年份','入学时间',
+                '（预计）毕业时间','工作单位', '套餐', '紧急联系人','紧急联系人电话','通讯地址和邮编','业务员','备注','填表日期');
 
 //            $time = date('Y-m-d', time());
 
