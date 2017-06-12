@@ -19,6 +19,13 @@ class CourseModel extends Model
         return $list;
     }
 
+    /**
+     * 根据id获取套餐
+     */
+    public function getCoureById($id){
+        return M('course')->where('id=%d and status=1',$id)->find();
+    }
+
 
 
 }

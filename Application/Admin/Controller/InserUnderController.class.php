@@ -205,36 +205,39 @@ class InserUnderController extends BaseController {
                     $face= '其他';
                 }
 
+                //报考类型名称
+//                $course=D("Course")->getCoureById($list[$i]['course']);
+                //班型套餐
+                $course_package=D("CoursePackage")->getCourePackageById($list[$i]['course_package']);
+                //培训校区
+                $campus=D("Campus")->getCampusById($list[$i]['campus']);
+                //业务员招生老师
+                $user=D("user")->getUserById($list[$i]['userid']);
+
                 //导出的数据
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
                     'name'  =>$list[$i]['name'],    //姓名
-                    'idcard'    =>'身份证',  //证件类型
                     'sex'   =>$sex,//性别
-                    'nation'    =>$list[$i]['nation'], //民族
+                    'idcard'    =>$list[$i]['idcard'],  //身份证号
                     'face'    =>$face, //政治面貌
-                    'birthday'    =>$list[$i]['birthday'], //出生日期
-                    'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
-                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
-                    'is_normal'    =>$is_normal, //是否师范专业
-                    'school'    =>$list[$i]['school'], //学校名称
-                    'school_num'    =>$list[$i]['school_num'], //学校代码
+                    'hometown'    =>$list[$i]['hometown'], //籍贯
+                    'school'    =>$list[$i]['school'], //大专学校全称
+                    'major'    =>$list[$i]['major'], //大专专业名称
                     'in_school'    =>$in_school, //是否在校
-                    'study_form'    =>$study_form, //学习形式
-                    'college_class'    =>$list[$i]['college_class'], //院系班级
-                    'email'    =>$list[$i]['email'], //邮箱
                     'tel'   =>$list[$i]['tel'], //手机号码
-                    'address'    =>$list[$i]['address'], //地址
-                    'zip_code'    =>$list[$i]['zip_code'], //邮编
+//                    'email'    =>$list[$i]['email'], //邮箱
+                    'test_time'    =>$list[$i]['test_time'], //考试年度
+                    'course'    =>$list[$i]['course'], //报考类型名称
+                    'course_package'    =>$course_package['name'], //班型套餐
+                    'campus'    =>$campus['campus_name'], //培训校区
+                    'user'    =>$user['username'], //招生老师
+                    'emergency_contact'    =>$list[$i]['emergency_contact'], //紧急联系人
+                    'emergency_tel'    =>$list[$i]['emergency_tel'], //紧急联系人电话
+                    'remarks'    =>$list[$i]['remarks'], //备注
+                    'inser_school'    =>$list[$i]['inser_school'], //插本学校
+                    'inser_major'    =>$list[$i]['inser_major'], //插本专业
 
-                    //非在校
-                    'degree'    =>$list[$i]['degree'], //最高学位
-                    'degree_num'    =>$list[$i]['degree_num'], //学位证书号码
-                    'work_time'    =>$list[$i]['work_time'], //参加工作年份
-
-
-                    'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
-                    'course'    =>$list[$i]['course'],//报考科目
                 );
 
             }
@@ -242,8 +245,8 @@ class InserUnderController extends BaseController {
             $name_co = "专插本学生报名表";
 
             $title_arr = array('序号', '姓名', '性别', '身份证号码', '政治面貌', '籍贯', '大专学校全称', '大专学校专业',
-                '是否在校', '手机','QQ邮箱','考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
-                '最高学位','学位证书号码', '备注','插本报考学校', '插本报考专业');
+                '是否在校', '手机','考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
+                 '备注','插本报考学校', '插本报考专业');
 
 //            $time = date('Y-m-d', time());
 
