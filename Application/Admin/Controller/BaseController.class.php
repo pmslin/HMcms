@@ -29,7 +29,7 @@ class BaseController extends Controller {
 
         foreach($image as $v){
 
-            $this->add_file(file_get_contents("public/Uploads/".$v['pic']), $v['name'].$v['idcard'].'.jpg');
+            $this->add_file(file_get_contents("public/Uploads/".$v['pic']), mb_convert_encoding($v['name'], "GBK").$v['idcard'].'.jpg');
             // 添加打包的图片，第一个参数是图片内容，第二个参数是压缩包里面的显示的名称, 可包含路径
             // 或是想打包整个目录 用 $zip->add_path($image_path);
         }
