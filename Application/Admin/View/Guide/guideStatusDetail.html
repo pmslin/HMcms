@@ -140,7 +140,7 @@
                                 <input type="text"  class="form-control" name="wechat" datatype="*"   value="{$detail.wechat}">
                             </div>
 
-                            <label class="col-sm-2 control-label">邮箱</label>
+                            <label class="col-sm-2 control-label">QQ邮箱</label>
 
                             <div class="col-sm-3">
                                 <input type="text" class="form-control" name="email"  value="{$detail.email}" datatype="e&*"  errormsg="请输入正确的邮箱">
@@ -381,10 +381,10 @@
                             <!--</div>-->
 
                             <label class="col-sm-2 control-label">考生照片</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-8">
                                 <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,300,285,385)"/>
                                 <div style="padding: 5px">
-                                    图片要求：彩色白底免冠，规格285*385，小于300KB，.jpg文件格式
+                                    图片要求：彩色白底免冠，规格285*385，大于50KB,小于300KB，.jpg文件格式
                                 </div>
                             </div>
 
@@ -508,7 +508,7 @@
                     </div>
 
 
-                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 6)">
+                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 6) OR ($Think.session.roleid eq 3)">
                     <form  class="form-horizontal demoform"  action="{:U('Admin/Book/sendBook')}" method="post" enctype="multipart/form-data" >
                         <div class="form-group">
                             <label class="col-sm-2 control-label">发放书本</label>

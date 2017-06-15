@@ -369,7 +369,7 @@
                     </div>
 
 
-                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 6)">
+                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 6) OR ($Think.session.roleid eq 3)">
                     <form  class="form-horizontal demoform"  action="{:U('Admin/Book/sendBook')}" method="post" enctype="multipart/form-data" >
                         <div class="form-group">
                             <label class="col-sm-2 control-label">发放书本</label>

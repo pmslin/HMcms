@@ -384,10 +384,10 @@
                             </div>
 
                             <label class="col-sm-2 control-label">考生照片</label>
-                            <div class="col-sm-3">
-                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg)$/,200,390,567)"/>
+                            <div class="col-sm-5">
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg)$/,500,500,752)"/>
                                 <div style="padding: 5px">
-                                    图片要求：彩色蓝底免冠，规格390*567，小于300KB，.jpg文件格式
+                                    图片要求：彩色蓝底免冠，规格500*752，小于500KB，.jpg文件格式
                                 </div>
 
                                 <img src="" id="imgShow" style="width:50px"></img>
@@ -519,7 +519,16 @@
     });
 
 
+    $("#an_area").change(function(){
+        var area=$("#area").val();
+        var an_area=$("#an_area").val();
+        if (area==an_area){
+            layer.msg("考区和备选考区不能相同");
+            $("#an_area").val("");
+        }
 
+//        alert(123);
+    });
 
 //    });
 

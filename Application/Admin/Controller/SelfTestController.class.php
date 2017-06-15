@@ -192,6 +192,9 @@ class SelfTestController extends BaseController {
                 //套餐
                 $course_package=D("CoursePackage")->getCourePackageById($list[$i]['course_package']);
 
+                //已收金额
+                $some_cash=D("Order")->getOrderBystuidTopid($list[$i]['id'],7);
+
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
                     'test_time' =>$list[$i]['test_time'],   //首次考试时间
@@ -204,13 +207,17 @@ class SelfTestController extends BaseController {
                     'test_num'    =>$list[$i]['test_num'],    //准考证号
                     'tel'   =>$list[$i]['tel'],   //联系电话
                     'idcard'    =>$list[$i]['idcard'],    //身份证号码
-                    'college_school'    =>$list[$i]['college_major'],    //专科专业
+                    'college_major'    =>$list[$i]['college_major'],    //专科专业
+                    'bus_unit'    =>$user['bus_unit'],    //业务员
                     'username'    =>$user['username'],    //业务员
+                    'college_school'=>$list[$i]['college_school'],        //所在单位（大专院校名称）
                     'course_package_name'    =>$course_package['name'],    //套餐
+                    'some_cash'    =>$some_cash[0]['some_cash'],    //套餐
                     'qq'    =>$list[$i]['qq'],    //QQ
                     'emergency_contact' =>$list[$i]['emergency_contact'],    //紧急联系人
                     'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
                     'address'=>$list[$i]['address'],    //地址
+                    'create_time'=>$list[$i]['create_time'],    //录入日期
                 );
 
             }
@@ -218,7 +225,7 @@ class SelfTestController extends BaseController {
             $name_co = "自考学生报名表";
 
             $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','备选考区', '准考证号','联系电话',
-                '身份证号码','专科专业','业务员','套餐', 'QQ', '紧急联系人','紧急联系人电话','地址');
+                '身份证号码','专科专业','业务部门','业务员','所在单位','套餐','实收金额', 'QQ', '紧急联系人','紧急联系人电话','地址','录入日期');
 
 //            $time = date('Y-m-d', time());
 

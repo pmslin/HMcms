@@ -11,8 +11,12 @@ class bookController extends BaseController {
     public function sendBook(){
 
         if(IS_POST){
-            //权限检测
-            book_check();
+            //导游证和专升本不做限制
+            if ($_POST['topcourse_id']!=12 &&$_POST['topcourse_id']!=23){
+                //权限检测
+                book_check();
+            }
+
 
             $post=I('post.');
             $post['send_time']=date("Y-m-d");

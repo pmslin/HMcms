@@ -214,6 +214,18 @@ class InserUnderController extends BaseController {
                 //业务员招生老师
                 $user=D("user")->getUserById($list[$i]['userid']);
 
+                //发书情况
+                $send_book=D("SendBook")->getSendBookBySdid($list[$i]['id'],23);
+
+                //是否发齐
+                $send_status=D("SendBook")->getSendBookBySdidDesc($list[$i]['id'],23);
+                if( $send_status[0]['send_status'] == 0 ){
+                    $send_status = '未发齐';
+                }else if ($send_status[0]['send_status'] == 1){
+                    $send_status= '已发齐';
+                }
+//                show_bug($send_book);exit();
+
                 //导出的数据
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
@@ -226,6 +238,7 @@ class InserUnderController extends BaseController {
                     'major'    =>$list[$i]['major'], //大专专业名称
                     'in_school'    =>$in_school, //是否在校
                     'tel'   =>$list[$i]['tel'], //手机号码
+                    'qq'   =>$list[$i]['qq'], //手机号码
 //                    'email'    =>$list[$i]['email'], //邮箱
                     'test_time'    =>$list[$i]['test_time'], //考试年度
                     'course'    =>$list[$i]['course'], //报考类型名称
@@ -235,6 +248,10 @@ class InserUnderController extends BaseController {
                     'emergency_contact'    =>$list[$i]['emergency_contact'], //紧急联系人
                     'emergency_tel'    =>$list[$i]['emergency_tel'], //紧急联系人电话
                     'remarks'    =>$list[$i]['remarks'], //备注
+                    'book_name'    =>$send_book[0]['book_name'], //已发放的课本
+                    'velivery_num'    =>$send_book[0]['velivery_num'], //快递单号
+                    'send_time'    =>$send_book[0]['send_time'], //发放时间
+                    'send_status'    =>$send_status, //是否发齐
                     'inser_school'    =>$list[$i]['inser_school'], //插本学校
                     'inser_major'    =>$list[$i]['inser_major'], //插本专业
 
@@ -245,12 +262,17 @@ class InserUnderController extends BaseController {
             $name_co = "专插本学生报名表";
 
             $title_arr = array('序号', '姓名', '性别', '身份证号码', '政治面貌', '籍贯', '大专学校全称', '大专学校专业',
-                '是否在校', '手机','考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
-                 '备注','插本报考学校', '插本报考专业');
+                '是否在校', '手机','QQ','考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
+                 '备注','已发放的课本','快递单号','发放时间','是否发齐','插本报考学校', '插本报考专业');
 
 //            $time = date('Y-m-d', time());
+            if (!empty($test_time)){
+                $test_time=$test_time.'年';
+            }else{
+                $test_time="全部";
+            }
 
-            $title = "专插本".$test_time."首次考试学生—";
+            $title = "诺信教育专插本".$test_time."考生报名表—";
 
             if ($list && count($list) > 0) {
                 exportExcel($list, $title_arr, $title);
