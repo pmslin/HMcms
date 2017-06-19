@@ -31,7 +31,10 @@ function photoCheck(format,size,width,height) {
     }
     // alert(width);
 
-    getWH("imgurl",width,height);
+    if (width>0){
+        getWH("imgurl",width,height);
+    }
+
     // if (aa==undefined){
     //     layer.msg("图片尺寸不符");
     //     $("#imgurl").val("");

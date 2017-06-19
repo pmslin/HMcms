@@ -254,6 +254,7 @@ class InserUnderController extends BaseController {
                     'send_status'    =>$send_status, //是否发齐
                     'inser_school'    =>$list[$i]['inser_school'], //插本学校
                     'inser_major'    =>$list[$i]['inser_major'], //插本专业
+                    'receive_address'    =>$list[$i]['receive_address'], //收件地址
 
                 );
 
@@ -263,7 +264,7 @@ class InserUnderController extends BaseController {
 
             $title_arr = array('序号', '姓名', '性别', '身份证号码', '政治面貌', '籍贯', '大专学校全称', '大专学校专业',
                 '是否在校', '手机','QQ','考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
-                 '备注','已发放的课本','快递单号','发放时间','是否发齐','插本报考学校', '插本报考专业');
+                 '备注','已发放的课本','快递单号','发放时间','是否发齐','插本报考学校', '插本报考专业', '收件地址');
 
 //            $time = date('Y-m-d', time());
             if (!empty($test_time)){

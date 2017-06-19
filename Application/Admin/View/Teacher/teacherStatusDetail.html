@@ -441,9 +441,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">考生照片</label>
                             <div class="col-sm-8">
-                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,200,285,385)"/>
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,200,0,0)"/>
                                 <div style="padding: 5px">
-                                    照片要求：彩色白底免冠证件照；不允许带帽子、头巾、发带、墨镜；，规格285*385，不大于200KB，.jpg/.jpeg文件格式
+                                    照片要求：彩色白底免冠证件照；不允许带帽子、头巾、发带、墨镜；不大于200KB，.jpg/.jpeg文件格式
                                 </div>
                             </div>
                         </div>
@@ -869,6 +869,17 @@
             $("#grade").attr("datatype", '*');
         }
 //       alert(val) ;
+    });
+
+
+    //只需要广州，佛山下拉有区，其他市取消“区”的下拉选择
+    $("#city").change(function(){
+        var city=$("#city").val();
+        if (city==8 || city==17){
+            jQuery("#area").attr("style","display:block;");
+        }else {
+            jQuery("#area").attr("style","display:none;");
+        }
     });
 
 

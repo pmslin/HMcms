@@ -163,6 +163,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label">学历层次</label>
+
+                            <div class="col-sm-3 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="education" datatype="*" nullmsg="请选择学历层次" class="education">
+                                    <i></i> 大专</label>
+                                <label>
+                                    <input type="radio" value="2" name="education" class="education"> <i></i> 本科</label>
+                                <label>
+                                    <input type="radio" value="3" name="education" class="education"> <i></i> 研究生</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
 
                             <label class="col-sm-2 control-label">专业名称</label>
 
@@ -341,9 +355,9 @@
 
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-10">
-                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,80,285,385)"/>
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,80,0,0)"/>
                                 <div style="padding: 5px">
-                                    照片要求：彩色白底免冠证件照；不允许带帽子、头巾、发带、墨镜；，规格285*385，不大于80KB，.jpg/.jpeg文件格式
+                                    照片要求：彩色白底免冠证件照；不允许带帽子、头巾、发带、墨镜；不大于80KB，.jpg/.jpeg文件格式
                                 </div>
 
                                 <img src="" id="imgShow" style="width:50px"></img>

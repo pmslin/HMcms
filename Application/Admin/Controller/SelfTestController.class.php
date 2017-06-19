@@ -208,7 +208,7 @@ class SelfTestController extends BaseController {
                     'tel'   =>$list[$i]['tel'],   //联系电话
                     'idcard'    =>$list[$i]['idcard'],    //身份证号码
                     'college_major'    =>$list[$i]['college_major'],    //专科专业
-                    'bus_unit'    =>$user['bus_unit'],    //业务员
+                    'bus_unit'    =>$user['bus_unit'],    //业务部门
                     'username'    =>$user['username'],    //业务员
                     'college_school'=>$list[$i]['college_school'],        //所在单位（大专院校名称）
                     'course_package_name'    =>$course_package['name'],    //套餐

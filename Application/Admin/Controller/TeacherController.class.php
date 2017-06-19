@@ -220,6 +220,9 @@ class TeacherController extends BaseController {
                     $education= '研究生';
                 }
 
+                //业务员
+                $user=D("user")->getUserById($list[$i]['userid']);
+
                 //导出的数据
                 $list[$i]=array(
                     'key'   =>$list[$i]['num'], //序号
@@ -227,7 +230,8 @@ class TeacherController extends BaseController {
                     'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
                     'course'    =>$list[$i]['course'],//报考科目
                     'name'  =>$list[$i]['name'],    //姓名
-                    'idcard'    =>'身份证',  //证件类型
+                    'idcard_type'    =>'身份证',  //证件类型
+                    'idcard'  =>$list[$i]['idcard'],    //身份证号码
                     'sex'   =>$sex,//性别
                     'nation'    =>$list[$i]['nation'], //民族
                     'face'    =>$face, //政治面貌
@@ -251,7 +255,8 @@ class TeacherController extends BaseController {
                     'degree_num'    =>$list[$i]['degree_num'], //学位证书号码
                     'work_time'    =>$list[$i]['work_time'], //参加工作年份
 
-
+                    'bus_unit'    =>$user['bus_unit'],    //业务部门
+                    'username'    =>$user['username'],    //业务员
                     'create_time'    =>$list[$i]['create_time'],//报名日期
                 );
 
@@ -259,9 +264,9 @@ class TeacherController extends BaseController {
 
             $name_co = "教师证学生报名表";
 
-            $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
+            $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '身份证号码', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
                 '是否师范专业', '学校名称','是否在校','学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
-                '学位证书号码', '参加工作年份','报名日期');
+                '学位证书号码', '参加工作年份', '业务部门','业务员','报名日期');
 
 //            $time = date('Y-m-d', time());
 
