@@ -169,10 +169,14 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">学历层次</label>
 
-                            <div class="col-sm-3 radio i-checks">
+                            <div class="col-sm-5 radio i-checks">
                                 <label>
-                                    <input type="radio" value="1" name="education" datatype="*"
+                                    <input type="radio" value="4" name="education" datatype="*"
                                            nullmsg="请选择学历层次"
+                                    <if condition="$detail.education eq 4">checked</if>
+                                    > <i></i> 中专</label>
+                                <label>
+                                    <input type="radio" value="1" name="education"
                                     <if condition="$detail.education eq 1">checked</if>
                                     > <i></i> 大专</label>
                                 <label>

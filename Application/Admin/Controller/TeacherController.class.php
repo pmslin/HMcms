@@ -112,9 +112,13 @@ class TeacherController extends BaseController {
     public function getTeacherList(){
 
         $get=I('get.');
+//                show_bug($get);
         $test_time=$get['test_time'];
+        $date_b=$get['date_b'];
+        $date_e=$get['date_e'];
+        $date_e=empty($date_e)?date("Y-m-d"):$date_e;
 
-//        show_bug($get);
+
 
         //如果是招生老师，只显示自己招收的学生
         if(session('roleid')==3){
@@ -130,7 +134,12 @@ class TeacherController extends BaseController {
 //            echo 1;
 //            exit();
             unset($map['test_time']);
-    }
+        }
+
+        //报名日期查询
+        if (!empty($date_b)){
+            $map['create_time']=array('between',array($date_b,$date_e));
+        }
 
         $list=M('Teacher as t')
             ->field('t.*,u.username')

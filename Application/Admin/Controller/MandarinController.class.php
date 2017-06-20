@@ -110,6 +110,9 @@ class MandarinController extends BaseController {
 
         $get=I('get.');
         $test_time=$get['test_time'];
+        $date_b=$get['date_b'];
+        $date_e=$get['date_e'];
+        $date_e=empty($date_e)?date("Y-m-d"):$date_e;
 
 //        show_bug($get);
 
@@ -127,6 +130,11 @@ class MandarinController extends BaseController {
 //            echo 1;
 //            exit();
             unset($map['test_time']);
+        }
+
+        //报名日期查询
+        if (!empty($date_b)){
+            $map['create_time']=array('between',array($date_b,$date_e));
         }
 
         $list=M('Mandarin as m')
@@ -191,12 +199,20 @@ class MandarinController extends BaseController {
                     $face= '其他';
                 }
 
-                //申报语种
-                if( $list[$i]['languages'] == 1 ){
-                    $languages = '中文';
-                }else if ($list[$i]['languages'] == 2){
-                    $languages= '英文';
+                //学历
+                if( $list[$i]['education'] == 1 ){
+                    $education = '大专';
+                }else if ($list[$i]['education'] == 2){
+                    $education= '本科';
+                }else if ($list[$i]['education'] == 3){
+                    $education= '研究生';
+                }else if ($list[$i]['education'] == 4){
+                    $education= '中专';
                 }
+
+                //业务员
+                $user=D("user")->getUserById($list[$i]['userid']);
+
 
                 //导出的数据
                 $list[$i]=array(
@@ -207,9 +223,12 @@ class MandarinController extends BaseController {
                     'idcard'    =>$list[$i]['idcard'], //身份证号码
                     'sex'   =>$sex,//性别
                     'nation'    =>$list[$i]['nation'], //民族
-
                     'tel'   =>$list[$i]['tel'], //手机号码
+                    'education'   =>$education, //手机号码
                     'email'    =>$list[$i]['email'], //邮箱
+                    'bus_unit'    =>$user['bus_unit'],    //业务部门
+                    'username'    =>$user['username'],    //业务员
+                    'create_time'    =>$list[$i]['create_time'],//报名日期
 
                     //'birthday'    =>$list[$i]['birthday'], //出生日期
 //                    'face'    =>$list[$i]['face'], //政治面貌
@@ -231,7 +250,7 @@ class MandarinController extends BaseController {
 
             $name_co = "普通话学生报名表";
 
-            $title_arr = array('序号','考试时间', '姓名', '证件类型', '身份证号码', '性别', '民族', '联系电话', 'QQ邮箱');
+            $title_arr = array('序号','考试时间', '姓名', '证件类型', '身份证号码', '性别', '民族', '联系电话','学历', 'QQ邮箱', '业务部门','业务员','报名日期');
 
 //            $time = date('Y-m-d', time());
 

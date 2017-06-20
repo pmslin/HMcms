@@ -62,13 +62,18 @@
                 <foreach name="testTime" item="vo">
                     <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
                 </foreach>
-
             </select>
-
-
-        <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
-        <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
-        <input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
+        报名日期:
+        <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+               onclick="laydate()" name="date_b" id="date_b" >
+        --
+        <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+               onclick="laydate()" name="date_e" id="date_e" >
+        <div style="padding: 10px; float: right">
+            <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
+            <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
+            <input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
+        </div>
     </div>
         <hr>
     </if>
@@ -129,6 +134,8 @@
                 "data": function ( d ) {
                     //添加额外的参数传给服务器
                     d.test_time = $('#test_time').val();
+                    d.date_b = $('#date_b').val();
+                    d.date_e = $('#date_e').val();
                 }
             },
             "columns": [
@@ -153,7 +160,9 @@
     function exprot()
     {
         test_time = $('#test_time').val();
-        var url = "{:U('admin/Mandarin/getMandarinList/exprot/1/test_time/"+test_time+"')}";
+        date_b = $('#date_b').val();
+        date_e = $('#date_e').val();
+        var url = "{:U('admin/Mandarin/getMandarinList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"')}";
 //        alert(url);
         window.location.href = url;
     }
@@ -162,7 +171,9 @@
     function downImg()
     {
         test_time = $('#test_time').val();
-        var url = "{:U('admin/Mandarin/getMandarinList/downImg/1/test_time/"+test_time+"')}";
+        date_b = $('#date_b').val();
+        date_e = $('#date_e').val();
+        var url = "{:U('admin/Mandarin/getMandarinList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"')}";
         window.location.href = url;
     }
 
