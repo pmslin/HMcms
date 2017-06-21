@@ -212,12 +212,13 @@ class SelfTestController extends BaseController {
                     'username'    =>$user['username'],    //业务员
                     'college_school'=>$list[$i]['college_school'],        //所在单位（大专院校名称）
                     'course_package_name'    =>$course_package['name'],    //套餐
-                    'some_cash'    =>$some_cash[0]['some_cash'],    //套餐
+                    'some_cash'    =>$some_cash[0]['some_cash'],    //已缴金额
                     'qq'    =>$list[$i]['qq'],    //QQ
                     'emergency_contact' =>$list[$i]['emergency_contact'],    //紧急联系人
                     'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
                     'address'=>$list[$i]['address'],    //地址
                     'create_time'=>$list[$i]['create_time'],    //录入日期
+
                 );
 
             }
