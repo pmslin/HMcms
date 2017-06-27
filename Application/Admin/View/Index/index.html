@@ -120,6 +120,22 @@
                     </ul>
                 </li>
 
+                <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 15) ">
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-user"></i>
+                        <span class="nav-label">账号管理</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a class="J_menuItem" href="User/AddUser"><i class="glyphicon glyphicon-chevron-right"></i>添加账号</a>
+                        </li>
+
+                    </ul>
+                </li>
+                </if>
+
                 <!--<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">-->
                     <!--<li>-->
                         <!--<a href="#">-->

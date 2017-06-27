@@ -258,10 +258,18 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">是否大学在读</label>
 
-                            <div class="col-sm-5 radio i-checks">
+                            <div class="col-sm-8 radio i-checks">
                                 <label>
-                                    <input type="radio" value="1" name="grade" id="grade" datatype="*"
-                                           nullmsg="请选择所在年级"
+                                    <input type="radio" value="6" name="grade" id="grade" datatype="*"
+                                           nullmsg="请选择是否大学在读"
+                                    <if condition="$detail.grade eq 6">checked</if>
+                                    > <i></i> 中二</label>
+                                <label>
+                                    <input type="radio" value="7" name="grade"
+                                    <if condition="$detail.grade eq 7">checked</if>
+                                    > <i></i> 中三</label>
+                                <label>
+                                    <input type="radio" value="1" name="grade"
                                     <if condition="$detail.grade eq 1">checked</if>
                                     > <i></i> 大一</label>
                                 <label>
@@ -316,8 +324,12 @@
 
                             <div class="col-sm-5 radio i-checks">
                                 <label>
-                                    <input type="radio" value="1" name="education" datatype="*"
+                                    <input type="radio" value="4" name="education" datatype="*"
                                            nullmsg="请选择学历层次"
+                                    <if condition="$detail.education eq 4">checked</if>
+                                    > <i></i> 中专</label>
+                                <label>
+                                    <input type="radio" value="1" name="education"
                                     <if condition="$detail.education eq 1">checked</if>
                                     > <i></i> 大专</label>
                                 <label>

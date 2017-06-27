@@ -54,7 +54,8 @@ class TeacherController extends BaseController {
             $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
             $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
             if (!$info) {// 上传错误提示错误信息
-                $this->error($upload->getError());
+                // $this->error($upload->getError());
+                unset( $_POST['pic']);
             } else {// 上传成功
                 $post['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
             }
@@ -152,6 +153,11 @@ class TeacherController extends BaseController {
         foreach($list as $key => $value){
             $list[$key]['num']=$key+1;
             $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
+            if (empty($value['pic'])){
+                $list[$key]['msg']='照片未上传';
+            }else{
+                $list[$key]['msg']='';
+            }
 //            $list[$key]['delete']='<button class="layui-btn" onclick="delete('.$value['id'].')" >作废</button>';
 //            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
         }
@@ -181,11 +187,11 @@ class TeacherController extends BaseController {
                 }
 
                 //是否在校，1是，0否
-                if( $list[$i]['in_school'] == 0 ){
-                    $in_school = '否';
-                }else if ($list[$i]['in_school'] == 1){
-                    $in_school= '是';
-                }
+//                if( $list[$i]['in_school'] == 0 ){
+//                    $in_school = '否';
+//                }else if ($list[$i]['in_school'] == 1){
+//                    $in_school= '是';
+//                }
 
                 //学习形式，1普通全日制，2成人高考，3远程教育
                 if( $list[$i]['study_form'] == 1 ){
@@ -227,6 +233,8 @@ class TeacherController extends BaseController {
                     $education= '本科';
                 }else if ($list[$i]['education'] == 3){
                     $education= '研究生';
+                }else if ($list[$i]['education'] == 4){
+                    $education= '中专';
                 }
 
                 //业务员
@@ -253,7 +261,7 @@ class TeacherController extends BaseController {
                     'is_normal'    =>$is_normal, //是否师范专业
                     'school'    =>$list[$i]['school'], //学校名称
 //                    'school_num'    =>$list[$i]['school_num'], //学校代码
-                    'in_school'    =>$in_school, //是否在校
+//                    'in_school'    =>$in_school, //是否在校
                     'study_form'    =>$study_form, //学习形式
                     'college_class'    =>$list[$i]['college_class'], //院系班级
                     'email'    =>$list[$i]['email'], //邮箱
@@ -278,7 +286,7 @@ class TeacherController extends BaseController {
             $name_co = "教师证学生报名表";
 
             $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '身份证号码', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
-                '是否师范专业', '学校名称','是否在校','学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
+                '是否师范专业', '学校名称','学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
                 '学位证书号码', '参加工作年份','套餐', '业务部门','业务员','报名日期','备注');
 
 //            $time = date('Y-m-d', time());

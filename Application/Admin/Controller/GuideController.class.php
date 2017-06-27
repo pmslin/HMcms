@@ -55,7 +55,8 @@ class GuideController extends BaseController {
 //            show_bug($post['name'].'.jpg');exit();
             $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
             if (!$info) {// 上传错误提示错误信息
-                $this->error($upload->getError());
+//                $this->error($upload->getError());
+                unset( $_POST['pic']);
             } else {// 上传成功
                 $post['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
             }
@@ -147,6 +148,11 @@ class GuideController extends BaseController {
         foreach($list as $key => $value){
             $list[$key]['num']=$key+1;
             $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
+            if (empty($value['pic'])){
+                $list[$key]['msg']='照片未上传';
+            }else{
+                $list[$key]['msg']='';
+            }
 //            $list[$key]['delete']='<button class="layui-btn" onclick="delete('.$value['id'].')" >作废</button>';
 //            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
         }

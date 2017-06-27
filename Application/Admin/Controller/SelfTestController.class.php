@@ -72,7 +72,8 @@ class SelfTestController extends BaseController {
             $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
             $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
             if (!$info) {// 上传错误提示错误信息
-                $this->error($upload->getError());
+//                $this->error($upload->getError());
+                unset( $_POST['pic']);
             } else {// 上传成功
                 $post['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
             }
@@ -167,6 +168,11 @@ class SelfTestController extends BaseController {
         foreach($list as $key => $value){
             $list[$key]['num']=$key+1;
             $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
+            if (empty($value['pic'])){
+                $list[$key]['msg']='照片未上传';
+            }else{
+                $list[$key]['msg']='';
+            }
 //            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
         }
 
