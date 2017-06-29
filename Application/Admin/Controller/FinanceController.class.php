@@ -20,12 +20,14 @@ class FinanceController extends BaseController {
         $get=I('get.');
         $start_time=$get['start_time'];
         $end_time=$get['end_time'];
-//        show_bug($start_time);
-//        show_bug($end_time);
+
+//        $map=array();
+        $map['order.status']=1;
+
         if(!empty($start_time) || !empty($end_time)){
             $map['create_time']=array('between',array($start_time,$end_time));
         }
-//        show_bug($_GET);
+
 
 
         $list=M('order')
@@ -41,16 +43,9 @@ class FinanceController extends BaseController {
 //            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
         }
 
-        //2
-
-
-//        echo M()->_sql();
-//        show_bug($list);
 
         $this->ajaxReturn($list,'json');
 
-//        $this->assign('list',$list);
-//        $this->display();
 
     }
 }

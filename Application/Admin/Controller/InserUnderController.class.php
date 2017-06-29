@@ -137,6 +137,8 @@ class InserUnderController extends BaseController {
             unset($map['test_time']);
         }
 
+        $map['i.status']=1;
+
         $list=M('inser_under as i')
             ->field('i.*,u.username')
             ->join('user AS u ON i.userid=u.id',left)

@@ -157,6 +157,8 @@ class SelfTestController extends BaseController {
             unset($map['test_time']);
         }
 
+        $map['s.status']=1;
+
         $list=M('self_test as s')
             ->field('s.*,u.username')
             ->join('user AS u ON s.userid=u.id',left)

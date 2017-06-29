@@ -142,6 +142,8 @@ class TeacherController extends BaseController {
             $map['create_time']=array('between',array($date_b,$date_e));
         }
 
+        $map['t.status']=1;
+
         $list=M('Teacher as t')
             ->field('t.*,u.username')
             ->join('user AS u ON t.userid=u.id',left)
@@ -237,6 +239,23 @@ class TeacherController extends BaseController {
                     $education= '中专';
                 }
 
+                //是否大学在读（年级）
+                if( $list[$i]['grade'] == 1 ){
+                    $grade = '大一';
+                }else if ($list[$i]['grade'] == 2){
+                    $grade= '大二';
+                }else if ($list[$i]['grade'] == 3){
+                    $grade= '大三';
+                }else if ($list[$i]['grade'] == 4){
+                    $grade= '大四';
+                }else if ($list[$i]['grade'] == 5){
+                    $grade= '已毕业';
+                }else if ($list[$i]['grade'] == 6){
+                    $grade= '中二';
+                }else if ($list[$i]['grade'] == 7){
+                    $grade= '中三';
+                }
+
                 //业务员
                 $user=D("user")->getUserById($list[$i]['userid']);
 
@@ -260,6 +279,7 @@ class TeacherController extends BaseController {
 //                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
                     'is_normal'    =>$is_normal, //是否师范专业
                     'school'    =>$list[$i]['school'], //学校名称
+                    'grade'    =>$grade, //是否大学在读（年级）
 //                    'school_num'    =>$list[$i]['school_num'], //学校代码
 //                    'in_school'    =>$in_school, //是否在校
                     'study_form'    =>$study_form, //学习形式
@@ -286,7 +306,7 @@ class TeacherController extends BaseController {
             $name_co = "教师证学生报名表";
 
             $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '身份证号码', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
-                '是否师范专业', '学校名称','学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
+                '是否师范专业', '学校名称','是否大学在读' ,'学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
                 '学位证书号码', '参加工作年份','套餐', '业务部门','业务员','报名日期','备注');
 
 //            $time = date('Y-m-d', time());

@@ -137,6 +137,8 @@ class GuideController extends BaseController {
             unset($map['test_time']);
         }
 
+        $map['g.status']=1;
+
         $list=M('Guide as g')
             ->field('g.*,u.username')
             ->join('user AS u ON g.userid=u.id',left)

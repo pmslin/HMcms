@@ -138,6 +138,8 @@ class MandarinController extends BaseController {
             $map['create_time']=array('between',array($date_b,$date_e));
         }
 
+        $map['m.status']=1;
+
         $list=M('Mandarin as m')
             ->field('m.*,u.username')
             ->join('user AS u ON m.userid=u.id',left)

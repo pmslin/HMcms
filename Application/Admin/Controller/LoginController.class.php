@@ -8,7 +8,7 @@ class LoginController extends Controller {
     public function index(){
         if(session('username') != null || session('roleid') != null){
 //            redirect('/admin/index',2,'正在跳转');
-            $this->success("已登陆~");
+            $this->success("已登陆~",'index');
         }else{
             $this->display();
         }
