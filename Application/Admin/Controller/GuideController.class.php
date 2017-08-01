@@ -139,10 +139,17 @@ class GuideController extends BaseController {
 
         $map['g.status']=1;
 
-        $list=M('Guide as g')
-            ->field('g.*,u.username')
-            ->join('user AS u ON g.userid=u.id',left)
-            ->where($map)->order('create_time desc')->select();
+        if(empty($get['exprot'])) {  //列表，把不需要的字段剔除
+            $list=M('Guide as g')
+                ->field('g.id,g.name,g.tel,g.create_time,g.test_time,g.pic,u.username')
+                ->join('user AS u ON g.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }else{
+            $list=M('Guide as g')
+                ->field('g.*,u.username')
+                ->join('user AS u ON g.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }
 //        show_bug($list);
 //        echo M()->_sql();
 //        exit();

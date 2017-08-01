@@ -35,6 +35,7 @@ class FinanceController extends BaseController {
             ->join('user AS u ON order.user_id=u.id',left)
             ->where($map)
             ->group('user_id')
+            ->order('count desc')
             ->select();
 
         foreach($list as $key => $value){

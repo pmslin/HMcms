@@ -144,10 +144,17 @@ class TeacherController extends BaseController {
 
         $map['t.status']=1;
 
-        $list=M('Teacher as t')
-            ->field('t.*,u.username')
-            ->join('user AS u ON t.userid=u.id',left)
-            ->where($map)->order('create_time desc')->select();
+        if(empty($get['exprot'])){  //列表，把不需要的字段剔除
+            $list=M('Teacher as t')
+                ->field('t.id,t.name,t.tel,t.create_time,t.test_time,t.pic,u.username')
+                ->join('user AS u ON t.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }else{  //导出excle，所需字段较多
+            $list=M('Teacher as t')
+                ->field('t.*,u.username')
+                ->join('user AS u ON t.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }
 //        show_bug($list);
 //        echo M()->_sql();
 //        exit();
@@ -160,8 +167,6 @@ class TeacherController extends BaseController {
             }else{
                 $list[$key]['msg']='';
             }
-//            $list[$key]['delete']='<button class="layui-btn" onclick="delete('.$value['id'].')" >作废</button>';
-//            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
         }
 
         //导出excel和照片时，文件名字显示的考试时间

@@ -159,10 +159,17 @@ class SelfTestController extends BaseController {
 
         $map['s.status']=1;
 
-        $list=M('self_test as s')
-            ->field('s.*,u.username')
-            ->join('user AS u ON s.userid=u.id',left)
-            ->where($map)->order('create_time desc')->select();
+        if(empty($get['exprot'])) {  //列表，把不需要的字段剔除
+            $list=M('self_test as s')
+                ->field('s.id,s.name,s.tel,s.create_time,s.test_time,s.pic,u.username')
+                ->join('user AS u ON s.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }else{
+            $list=M('self_test as s')
+                ->field('s.*,u.username')
+                ->join('user AS u ON s.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }
 //        show_bug($list);
 //        echo M()->_sql();
 //        exit();

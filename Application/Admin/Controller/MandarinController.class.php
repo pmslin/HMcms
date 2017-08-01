@@ -140,10 +140,17 @@ class MandarinController extends BaseController {
 
         $map['m.status']=1;
 
-        $list=M('Mandarin as m')
-            ->field('m.*,u.username')
-            ->join('user AS u ON m.userid=u.id',left)
-            ->where($map)->order('create_time desc')->select();
+        if(empty($get['exprot'])) {  //列表，把不需要的字段剔除
+            $list=M('Mandarin as m')
+                ->field('m.id,m.name,m.tel,m.create_time,m.test_time,m.pic,u.username')
+                ->join('user AS u ON m.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }else{
+            $list=M('Mandarin as m')
+                ->field('m.*,u.username')
+                ->join('user AS u ON m.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }
 //        show_bug($list);
 //        echo M()->_sql();
 //        exit();

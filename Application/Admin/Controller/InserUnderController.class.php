@@ -139,10 +139,18 @@ class InserUnderController extends BaseController {
 
         $map['i.status']=1;
 
-        $list=M('inser_under as i')
-            ->field('i.*,u.username')
-            ->join('user AS u ON i.userid=u.id',left)
-            ->where($map)->order('create_time desc')->select();
+        if(empty($get['exprot'])) {  //列表，把不需要的字段剔除
+            $list=M('inser_under as i')
+                ->field('i.id,i.name,i.tel,i.create_time,i.test_time,i.pic,u.username')
+                ->join('user AS u ON i.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }else{
+            $list=M('inser_under as i')
+                ->field('i.*,u.username')
+                ->join('user AS u ON i.userid=u.id',left)
+                ->where($map)->order('create_time desc')->select();
+        }
+
 //        show_bug($list);
 //        echo M()->_sql();
 //        exit();
