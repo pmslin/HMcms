@@ -17,7 +17,7 @@ class UnderMajorModel extends Model
      * 根据专业编码获取专业信息
      */
     public function getUnderMajorByNum($num){
-        return M('under_major')->where(" number='$num' ")->find();
+        return M('under_major')->where("number='$num' AND status=1")->find();
     }
 
 

@@ -85,7 +85,8 @@ class SelfTestController extends BaseController {
 //            show_bug($post['under_major']);die();
             //获取报考专业编码和名称
             $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major_num']);
-//            show_bug($underMajor);die();
+//            show_bug($underMajor['name']);show_bug($underMajor['number']);
+//            show_bug($underMajor);exit();
             $post['under_major']=$underMajor['name'];//专业名称
             $post['under_major_num']=$underMajor['number'];
             //添加数据到teacher表
