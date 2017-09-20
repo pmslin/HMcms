@@ -140,6 +140,8 @@
                                         style="width: 240px">
                                     <option></option>
                                 </select>
+								
+								<input type="text" class="form-control" name="outarea"  id="outarea"  style="display:none" > <!--省外文本框 -->
                             </div>
                         </div>
 
@@ -182,6 +184,14 @@
                                     <if condition="$detail.sex eq 1">selected</if>
                                     >女</option>
                                 </select>
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <label class="col-sm-3 control-label">民族</label>
+
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="nation" datatype="*" value="{$detail.nation}">
                             </div>
                         </div>
 
@@ -307,6 +317,10 @@
                                     <input type="radio" value="3" name="study_form"
                                     <if condition="$detail.study_form eq 3">checked</if>
                                     > <i></i> 远程教育</label>
+								<label>
+                                    <input type="radio" value="4" name="study_form"
+                                    <if condition="$detail.study_form eq 4">checked</if>
+                                    > <i></i> 自学考试</label>
                             </div>
                         </div>
 
@@ -492,6 +506,34 @@
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="remark" datatype="*"  value="{$detail.remark}">
                             </div>
+                        </div>
+						
+						<div class="form-group">
+                            <label class="col-sm-2 control-label">是否包含普通话</label>
+
+                            <div class="col-sm-3 form-group radio">
+                                <input class="magic-checkbox" type="radio" name="is_mandarin" value="1" id="m1"  <if condition="$detail.is_mandarin eq 1">checked</if>
+                                     datatype="*" nullmsg="请选择是否包含普通话">
+                                <label for="m1">含普通话</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <input class="magic-checkbox" type="radio" name="is_mandarin" value="0" id="m2"  <if condition="$detail.is_mandarin eq 0">checked</if>>
+                                <label for="m2">不含普通话</label>
+							</div>
+							 
+							<div class="col-sm-6" id="mandarin_date">
+								<label class="col-sm-3 control-label">普通话考试时间</label>
+
+								<div class="col-sm-4">
+									<select class="form-control m-b" name="mandarin_date">
+										<option value="{$detail.mandarin_date}" id="originalTime">{$detail.mandarin_date}</option>
+										<option value="">-------------------------------</option>
+										<foreach name="mandarinDate" item="vo">
+											<option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
+										</foreach>
+									</select>
+								</div>
+							</div>
                         </div>
 
 
@@ -885,14 +927,33 @@
 
 
     //只需要广州，佛山下拉有区，其他市取消“区”的下拉选择
-    $("#city").change(function(){
+	$("#city").change(function(){
         var city=$("#city").val();
-        if (city==8 || city==17){
+        if (city==8 || city==17 || city==14){
             jQuery("#area").attr("style","display:block;");
-        }else {
-            jQuery("#area").attr("style","display:none;");
-        }
+			
+			jQuery("#outarea").attr("style","display:none;");//隐藏省外文本框
+			$("#outarea").removeAttr("datatype");//省外文本框去掉必填验证
+        }else if(city==89) { //#outarea省外
+           jQuery("#outarea").attr("style","display:block;"); //显示省外文本框
+		   $("#outarea").attr("datatype",'*'); //省外文本框加上必填验证
+		   
+		   jQuery("#area").attr("style","display:none;");
+        }else{
+			 jQuery("#area").attr("style","display:none;");
+			 
+			 jQuery("#outarea").attr("style","display:none;");//隐藏省外文本框
+			 $("#outarea").removeAttr("datatype");//省外文本框去掉必填验证
+		}
     });
+    <!-- $("#city").change(function(){ -->
+        <!-- var city=$("#city").val(); -->
+        <!-- if (city==8 || city==17 || city==14){ -->
+            <!-- jQuery("#area").attr("style","display:block;"); -->
+        <!-- }else { -->
+            <!-- jQuery("#area").attr("style","display:none;"); -->
+        <!-- } -->
+    <!-- }); -->
 
 
     //获取选择发放的所有课本

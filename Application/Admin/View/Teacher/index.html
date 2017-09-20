@@ -119,6 +119,8 @@
                                 <select class="form-control m-b" name="place_area_id" id="area">
                                     <option datatype="s" nullmsg="请选择考区"></option>
                                 </select>
+								
+								<input type="text" class="form-control" name="outarea"  id="outarea" datatype="*" style="display:none" > <!--省外文本框 -->
                             </div>
                           </div>
 
@@ -253,6 +255,8 @@
                                     <input type="radio" value="2" name="study_form"> <i></i> 成人高考</label>
                                 <label>
                                     <input type="radio" value="3" name="study_form"> <i></i> 远程教育</label>
+								<label>
+                                    <input type="radio" value="4" name="study_form"> <i></i> 自学考试</label>
                             </div>
                         </div>
 
@@ -396,6 +400,33 @@
                                 </foreach>
                             </div>
                         </div>
+						
+						<div class="form-group">
+                            <label class="col-sm-2 control-label">是否包含普通话</label>
+
+                            <div class="col-sm-3 form-group radio">
+                                <input class="magic-checkbox" type="radio" name="is_mandarin" value="1" id="m1"
+                                     datatype="*" nullmsg="请选择是否包含普通话">
+                                <label for="m1">含普通话</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <input class="magic-checkbox" type="radio" name="is_mandarin" value="0" id="m2">
+                                <label for="m2">不含普通话</label>
+							</div>
+							 
+							<div class="col-sm-6" id="mandarin_date" style="display:none;">
+								<label class="col-sm-3 control-label">普通话考试时间</label>
+
+								<div class="col-sm-4">
+									<select class="form-control m-b" name="mandarin_date">
+										<foreach name="mandarinDate" item="vo">									
+											<option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
+										</foreach>
+
+									</select>
+								</div>
+							</div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">费用是否交齐</label>
@@ -409,6 +440,10 @@
                                 <input class="magic-checkbox" type="radio" name="pay_status" value="0" id="c2">
                                 <label for="c2">未交齐</label>
 
+                            </div>
+							
+							<div class="col-sm-3" id="some_cash" style="display:none;">
+                                    <input type="number" class="form-control"  placeholder='已收金额' name="some_cash" style="margin-left: -80px;" >
                             </div>
                         </div>
 
@@ -430,7 +465,7 @@
                                 </button>
                             </div>
                         </div>
-                        <span style="font-size:6px;">&nbsp;&nbsp;&nbsp;*&nbsp;不填用“-”代替</span>
+                        <!-- <span style="font-size:6px;">&nbsp;&nbsp;&nbsp;*&nbsp;不填用“-”代替</span> -->
 
 
                     </form>
@@ -485,6 +520,18 @@
         //alert(pay_status);
     });
 
+
+    //根据是否包含普通话，显示普通话考试日期框
+    $("input:radio[name='is_mandarin']").change(function () {
+        var pay_status = $(this).val();
+        if (pay_status == 1) {
+            $("#mandarin_date").removeAttr("style", "display:none;");
+        } else {
+            $("#mandarin_date").attr("style", "display:none;");
+        }
+        //alert(pay_status);
+    });
+
     //考区联动
     $('#city').change(function () {
         $.ajax({
@@ -516,11 +563,22 @@
     //只需要广州，佛山下拉有区，其他市取消“区”的下拉选择
     $("#city").change(function(){
         var city=$("#city").val();
-        if (city==8 || city==17){
+        if (city==8 || city==17 || city==14){
             jQuery("#area").attr("style","display:block;");
-        }else {
-            jQuery("#area").attr("style","display:none;");
-        }
+			
+			jQuery("#outarea").attr("style","display:none;");//隐藏省外文本框
+			$("#outarea").removeAttr("datatype");//省外文本框去掉必填验证
+        }else if(city==89) { //#outarea省外
+           jQuery("#outarea").attr("style","display:block;"); //显示省外文本框
+		   $("#outarea").attr("datatype",'*'); //省外文本框加上必填验证
+		   
+		   jQuery("#area").attr("style","display:none;");
+        }else{
+			 jQuery("#area").attr("style","display:none;");
+			 
+			 jQuery("#outarea").attr("style","display:none;");//隐藏省外文本框
+			 $("#outarea").removeAttr("datatype");//省外文本框去掉必填验证
+		}
     });
 
     //是否在校生，显示对应文本框

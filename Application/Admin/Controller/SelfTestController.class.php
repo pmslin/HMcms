@@ -230,10 +230,12 @@ class SelfTestController extends BaseController {
                     'course_package_name'    =>$course_package['name'],    //套餐
                     'some_cash'    =>$some_cash[0]['some_cash'],    //已缴金额
                     'qq'    =>$list[$i]['qq'],    //QQ
+                    'wechar'    =>$list[$i]['wechar'],    //微信号
                     'emergency_contact' =>$list[$i]['emergency_contact'],    //紧急联系人
                     'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
                     'address'=>$list[$i]['address'],    //地址
                     'create_time'=>$list[$i]['create_time'],    //录入日期
+                    'remarks'=>$list[$i]['remarks'],    //备注
 
                 );
 
@@ -242,7 +244,7 @@ class SelfTestController extends BaseController {
             $name_co = "自考学生报名表";
 
             $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','备选考区', '准考证号','联系电话',
-                '身份证号码','专科专业','业务部门','业务员','所在单位','套餐','实收金额', 'QQ', '紧急联系人','紧急联系人电话','地址','录入日期');
+                '身份证号码','专科专业','业务部门','业务员','所在单位','套餐','实收金额', 'QQ', '微信号', '紧急联系人','紧急联系人电话','地址','录入日期', '备注');
 
 //            $time = date('Y-m-d', time());
 
@@ -348,6 +350,7 @@ class SelfTestController extends BaseController {
      * 修改自考学生报名表
      */
     public function savefrom(){
+//        show_bug($_POST);exit();
 
         //检测是否是教务提交，roleid=1和4的可以修改
         if(!in_array(session('roleid'),array(1,4))) {
@@ -394,7 +397,8 @@ class SelfTestController extends BaseController {
         //获取报考专业编码和名称
 //        show_bug($post);die();
         $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major_num']);
-//            show_bug($underMajor);die();
+//        show_bug($_POST);
+//            show_bug($underMajor);exit();
         $_POST['under_major']=$underMajor['name'];//专业名称
         $_POST['under_major_num']=$underMajor['number'];
 

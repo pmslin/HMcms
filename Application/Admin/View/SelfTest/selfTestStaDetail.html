@@ -238,7 +238,7 @@
 
                             <div class="col-sm-3">
                                 <select  class="form-control m-b" name="under_major_num"  datatype="s" nullmsg="请选择报考专业">
-                                    <option value="{$detail.under_major}" id="under_major">{$detail.under_major}</option>
+                                    <option value="{$detail.under_major_num}" id="under_major">{$detail.under_major}</option>
                                     <option value="">-------------------------------</option>
                                     <foreach name="underMajor" item="v">
                                         <option value="{$v.number}">{$v.number}丨{$v.name}</option>
@@ -312,6 +312,13 @@
                                 </select>
                                 <input type="hidden" id="ttime" value="{$detail.test_time}">
                             </div>
+							
+								
+							<label class="col-sm-2 control-label">微信号</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" value="{$detail.wechar}" name="wechar" datatype="s&*"  nullmsg="请输入微信号">
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -329,6 +336,14 @@
                                 </div>
                             </div>
 
+                        </div>
+						
+						<div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control"  value="{$detail.remarks}" name="remarks" datatype="*">
+                            </div>
                         </div>
 
                         <div class="hr-line-dashed"></div>
@@ -414,6 +429,7 @@
                                         <th>已发放的课本</th>
                                         <th>快递单号</th>                                       
                                         <th>发放时间</th>
+										<th>发书人</th>
                                         <th>是否发齐</th>
                                         <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
                                         <th>操作</th>
@@ -428,6 +444,7 @@
                                             <td>{$vo.book_name}</td>
                                             <td>{$vo.velivery_name}:{$vo.velivery_num}</td>
                                             <td>{$vo.send_time}</td>
+											<td>{$vo.username}</td>
                                             <td>
                                                 <if condition="$vo.send_status eq 1"> 已发齐
                                                 <else />未发齐
@@ -449,7 +466,7 @@
                     </div>
 
 
-                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 6)">
+                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 6) OR ($Think.session.roleid eq 3)">
                     <form  class="form-horizontal demoform"  action="{:U('Admin/Book/sendBook')}" method="post" enctype="multipart/form-data" >
                         <div class="form-group">
                             <label class="col-sm-2 control-label">发放书本</label>
@@ -458,7 +475,7 @@
                                 <select data-placeholder="点击选择课本..." class="chzn-select" multiple style="width:850px;"tabindex="4"  id="selectbook">
                                     <option value=""></option>
                                     <foreach name="book" item="vo">
-                                        <option value="{$vo.book_name}">{$vo.book_name}</option>
+                                        <option value="{$vo.book_name}">{$vo.num}丨{$vo.book_name}</option>
                                     </foreach>
                                 </select>
                                 <input type="hidden" name="book_name" value="1" id="postbook">

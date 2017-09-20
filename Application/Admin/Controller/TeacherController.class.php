@@ -7,7 +7,6 @@ class TeacherController extends BaseController {
 
     //录入教师证报名资料页面
     public function index(){
-//        var_dump(session());
         //教师证课程、价格列表
         $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(1);
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
@@ -15,7 +14,6 @@ class TeacherController extends BaseController {
         //考区联动,遍历出市
         $city=D('TestPlace')->where("topid=0")->select();
         $this->assign('city',$city);
-//        var_dump($city);
 
         //获取教师证课程
         $course=D('Course')->getCourseByTopid(1);
@@ -24,7 +22,11 @@ class TeacherController extends BaseController {
         //获取教师证考试时间
         $testTime=D('ThTesttime')->getThTestTimeById(1);
         $this->assign('testTime',$testTime);
-//        var_dump($testTime);
+
+        //获取普通话考试时间
+        $mandarinDate=D('ThTesttime')->getThTestTimeById(19);
+        $this->assign('mandarinDate',$mandarinDate);
+
 
         $this->display();
     }
@@ -39,12 +41,16 @@ class TeacherController extends BaseController {
 //            show_bug($post);
 //            exit();
 
-            //查询出考区
-            $testPlaceModel=D('TestPlace');
-//            $id=$post['place_city_id'];
-            $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
-            $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
-            $test_place=$place_city['place_name'].$place_area['place_name'];
+            if (empty($post['outarea'])){
+                //查询出考区
+                $testPlaceModel=D('TestPlace');
+                $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
+                $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
+                $test_place=$place_city['place_name'].$place_area['place_name'];
+            }else{
+                $test_place=$post['outarea'];
+            }
+
 
             D()->startTrans(); //开启事务
             //上传考生照片
@@ -193,6 +199,13 @@ class TeacherController extends BaseController {
                     $is_normal= '是';
                 }
 
+                //是否包含普通话
+                if( $list[$i]['is_mandarin'] == 0 ){
+                    $is_mandarin = '';
+                }else if ($list[$i]['is_mandarin'] == 1){
+                    $is_mandarin= '是';
+                }
+
                 //是否在校，1是，0否
 //                if( $list[$i]['in_school'] == 0 ){
 //                    $in_school = '否';
@@ -207,6 +220,8 @@ class TeacherController extends BaseController {
                     $study_form= '成人高考';
                 }else if ($list[$i]['study_form'] == 3){
                     $study_form= '远程教育';
+                }else if ($list[$i]['study_form'] == 4){
+                    $study_form= '自学考试';
                 }
 
                 //政治面貌
@@ -303,6 +318,8 @@ class TeacherController extends BaseController {
                     'bus_unit'    =>$user['bus_unit'],    //业务部门
                     'username'    =>$user['username'],    //业务员
                     'create_time'    =>$list[$i]['create_time'],//报名日期
+                    'is_mandarin'    =>$is_mandarin,//是否报名普通话
+                    'mandarin_date'    =>$list[$i]['mandarin_date'],//普通话考试日期
                     'remark'=>$list[$i]['remark'],    //备注
                 );
 
@@ -312,7 +329,7 @@ class TeacherController extends BaseController {
 
             $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '身份证号码', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
                 '是否师范专业', '学校名称','是否大学在读' ,'学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
-                '学位证书号码', '参加工作年份','套餐', '业务部门','业务员','报名日期','备注');
+                '学位证书号码', '参加工作年份','套餐', '业务部门','业务员','报名日期','是否包含普通话','普通话考试日期','备注');
 
 //            $time = date('Y-m-d', time());
 
@@ -412,9 +429,10 @@ class TeacherController extends BaseController {
         //缴费情况
         $order=D('order')->getOrderBystuidTopid($id,1);
         $this->assign('order',$order);
-//        echo M()->_sql();
-//        show_bug($order);
 
+        //获取普通话考试时间
+        $mandarinDate=D('ThTesttime')->getThTestTimeById(19);
+        $this->assign('mandarinDate',$mandarinDate);
 
         $this->display();
 
@@ -434,13 +452,16 @@ class TeacherController extends BaseController {
 //        show_bug($_POST);
 //        exit();
         if(!empty($post['place_area_id'])){
-//            echo 1;
             //查询出考区
             $testPlaceModel=D('TestPlace');
-//            $id=$post['place_city_id'];
             $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
             $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
-            $_POST['test_place']=$place_city['place_name'].$place_area['place_name'];
+            if ($post['place_city_id'] != 89){
+                $_POST['test_place']=$place_city['place_name'].$place_area['place_name'].$post['outarea'];
+            }else{ //如果是省外，直接保存文本框内容
+                $_POST['test_place']=$post['outarea'];
+            }
+
         }
 
         //上传考生照片

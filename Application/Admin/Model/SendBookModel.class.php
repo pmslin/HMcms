@@ -12,7 +12,11 @@ class SendBookModel extends Model
      * topid:教师证1，自考7，导游证12，普通话20，专插本23
      */
     public function getSendBookBySdid($id,$topid){
-        return M('send_book')->where('student_id=%d AND topcourse_id=%f AND info_status=1',$id,$topid)->select();
+        $data=M('send_book s')->join('user u ON s.user_id = u.id')
+            ->field('u.username,s.*')
+            ->where('student_id=%d AND topcourse_id=%f AND info_status=1',$id,$topid)->select();
+        return $data;
+//        return M('send_book')->where('student_id=%d AND topcourse_id=%f AND info_status=1',$id,$topid)->select();
     }
 
     /**

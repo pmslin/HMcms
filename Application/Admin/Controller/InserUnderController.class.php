@@ -148,7 +148,7 @@ class InserUnderController extends BaseController {
             $list=M('inser_under as i')
                 ->field('i.*,u.username')
                 ->join('user AS u ON i.userid=u.id',left)
-                ->where($map)->order('create_time desc')->select();
+                ->where($map)->order('create_time asc')->select();
         }
 
 //        show_bug($list);
@@ -254,6 +254,7 @@ class InserUnderController extends BaseController {
                     'in_school'    =>$in_school, //是否在校
                     'tel'   =>$list[$i]['tel'], //手机号码
                     'qq'   =>$list[$i]['qq'], //手机号码
+                    'wechar'   =>$list[$i]['wechar'], //微信号
 //                    'email'    =>$list[$i]['email'], //邮箱
                     'test_time'    =>$list[$i]['test_time'], //考试年度
                     'course'    =>$list[$i]['course'], //报考类型名称
@@ -269,6 +270,7 @@ class InserUnderController extends BaseController {
                     'send_status'    =>$send_status, //是否发齐
                     'inser_school'    =>$list[$i]['inser_school'], //插本学校
                     'inser_major'    =>$list[$i]['inser_major'], //插本专业
+                    'create_time'    =>$list[$i]['create_time'], //报名日期
                     'receive_address'    =>$list[$i]['receive_address'], //收件地址
 
                 );
@@ -278,8 +280,8 @@ class InserUnderController extends BaseController {
             $name_co = "专插本学生报名表";
 
             $title_arr = array('序号', '姓名', '性别', '身份证号码', '政治面貌', '籍贯', '大专学校全称', '大专学校专业',
-                '是否在校', '手机','QQ','考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
-                 '备注','已发放的课本','快递单号','发放时间','是否发齐','插本报考学校', '插本报考专业', '收件地址');
+                '是否在校', '手机','QQ','微信号', '考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
+                 '备注','已发放的课本','快递单号','发放时间','是否发齐','插本报考学校', '插本报考专业', '报名日期', '收件地址');
 
 //            $time = date('Y-m-d', time());
             if (!empty($test_time)){
