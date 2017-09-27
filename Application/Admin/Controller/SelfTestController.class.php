@@ -129,6 +129,11 @@ class SelfTestController extends BaseController {
         //自考考试时间，用于查询选择
         $testTime=D('ThTesttime')->getThTestTimeById(6);
         $this->assign('testTime',$testTime);
+
+        //专业
+        $underMajor=D('UnderMajor')->getUnderMajor();
+        $this->assign('underMajor',$underMajor);
+
         $this->display();
     }
 
@@ -139,6 +144,12 @@ class SelfTestController extends BaseController {
 
         $get=I('get.');
         $test_time=$get['test_time'];
+        $date_b=$get['date_b'];
+        $date_e=$get['date_e'];
+        $date_e=empty($date_e)?date("Y-m-d"):$date_e;
+        $is_check=$get['is_check'];//是否核实
+        $is_bk=$get['is_bk'];//是否预报名
+        $underMajor=$get['underMajor'];//专业
 
 //        show_bug($get);
 
@@ -156,6 +167,23 @@ class SelfTestController extends BaseController {
 //            echo 1;
 //            exit();
             unset($map['test_time']);
+        }
+
+        //报名日期查询
+        if (!empty($date_b)){
+            $map['create_time']=array('between',array($date_b,$date_e));
+        }
+        //是否核实
+        if ($is_check>0){
+            $map['s.is_check']=$is_check;
+        }
+        //是否预报名
+        if ($is_bk>0){
+            $map['s.is_bk']=$is_bk;
+        }
+        //专业
+        if ($underMajor){
+            $map['s.under_major_num']=$underMajor;
         }
 
         $map['s.status']=1;
@@ -329,6 +357,10 @@ class SelfTestController extends BaseController {
         //缴费情况
         $order=D('order')->getOrderBystuidTopid($id,7);
         $this->assign('order',$order);
+
+        //自考课程、价格列表
+        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(7);
+        $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //获取本科学院和专业
         $underSchool=D('UnderSchool')->getUnderShool();

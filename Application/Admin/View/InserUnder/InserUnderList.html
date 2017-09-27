@@ -62,13 +62,27 @@
                 <foreach name="testTime" item="vo">
                     <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
                 </foreach>
-
             </select>
-
-
-        <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
-        <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
-        <input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
+		&nbsp;&nbsp;&nbsp;&nbsp;是否核实：
+            <select  class="btn btn-default dropdown-toggle" id="is_check">
+                <option value="-1">全部</option>
+                <option value="1">核实</option>
+				<option value="0">未核实</option>
+            </select>
+		&nbsp;&nbsp;&nbsp;&nbsp;是否预报名：
+            <select  class="btn btn-default dropdown-toggle" id="is_bk">
+                <option value="-1">全部</option>
+                <option value="1">是</option>
+				<option value="0">不是</option>
+            </select>
+			
+		<br/>	
+		<div style="padding: 10px; float: right">
+			<input type="button" class="btn btn-primary" onclick="search()"  value="查询">
+			<input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
+			<input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
+		</div>
+		
     </div>
         <hr>
     </if>
@@ -130,6 +144,8 @@
                 "data": function ( d ) {
                     //添加额外的参数传给服务器
                     d.test_time = $('#test_time').val();
+					d.is_check = $('#is_check').val();
+                    d.is_bk = $('#is_bk').val();
                 }
             },
             "columns": [
@@ -155,7 +171,9 @@
     function exprot()
     {
         test_time = $('#test_time').val();
-        var url = "{:U('admin/InserUnder/getInserUnderList/exprot/1/test_time/"+test_time+"')}";
+		is_check = $('#is_check').val();
+        is_bk = $('#is_bk').val();
+        var url = "{:U('admin/InserUnder/getInserUnderList/exprot/1/test_time/"+test_time+"/is_check/"+is_check+"/is_bk/"+is_bk+"')}";
 //        alert(url);
         window.location.href = url;
     }
@@ -164,7 +182,9 @@
     function downImg()
     {
         test_time = $('#test_time').val();
-        var url = "{:U('admin/InserUnder/getInserUnderList/downImg/1/test_time/"+test_time+"')}";
+		is_check = $('#is_check').val();
+        is_bk = $('#is_bk').val();
+        var url = "{:U('admin/InserUnder/getInserUnderList/downImg/1/test_time/"+test_time+"/is_check/"+is_check+"/is_bk/"+is_bk+"')}";
         window.location.href = url;
     }
 

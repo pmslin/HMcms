@@ -57,18 +57,26 @@
     <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
     <div class="form-group">
         首次考试时间：
-            <select  class="btn btn-default dropdown-toggle" id="test_time" style="width: 20%">
+            <select  class="btn btn-default dropdown-toggle" id="test_time">
                 <option value="0">全部</option>
                 <foreach name="testTime" item="vo">
                     <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
                 </foreach>
             </select>
         报名日期:
-        <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+        <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
                onclick="laydate()" name="date_b" id="date_b" >
         --
-        <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+        <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
                onclick="laydate()" name="date_e" id="date_e" >
+		&nbsp;&nbsp;&nbsp;&nbsp;是否核实：
+            <select  class="btn btn-default dropdown-toggle" id="is_check">
+                <option value="-1">全部</option>
+                <option value="1">核实</option>
+                <option value="0">未核实</option>
+            </select>
+
+        <br/>
         <div style="padding: 10px; float: right">
             <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
             <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
@@ -137,6 +145,7 @@
                     d.test_time = $('#test_time').val();
                     d.date_b = $('#date_b').val();
                     d.date_e = $('#date_e').val();
+					d.is_check = $('#is_check').val();
                 }
             },
             "columns": [
@@ -164,7 +173,8 @@
         test_time = $('#test_time').val();
         date_b = $('#date_b').val();
         date_e = $('#date_e').val();
-        var url = "{:U('admin/Mandarin/getMandarinList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"')}";
+		is_check = $('#is_check').val();
+        var url = "{:U('admin/Mandarin/getMandarinList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"')}";
 //        alert(url);
         window.location.href = url;
     }
@@ -175,7 +185,8 @@
         test_time = $('#test_time').val();
         date_b = $('#date_b').val();
         date_e = $('#date_e').val();
-        var url = "{:U('admin/Mandarin/getMandarinList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"')}";
+		is_check = $('#is_check').val();
+        var url = "{:U('admin/Mandarin/getMandarinList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"')}";
         window.location.href = url;
     }
 

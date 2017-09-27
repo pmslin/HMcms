@@ -114,6 +114,7 @@ class MandarinController extends BaseController {
         $date_b=$get['date_b'];
         $date_e=$get['date_e'];
         $date_e=empty($date_e)?date("Y-m-d"):$date_e;
+        $is_check=$get['is_check'];//是否核实
 
 //        show_bug($get);
 
@@ -123,19 +124,20 @@ class MandarinController extends BaseController {
         }
 
         if( $test_time!=0 || !empty($get['exprot']) ){
-//            exit();
             $map['test_time']=$test_time;
         }
 
         if( $test_time==0 && !empty($get['exprot']) ){
-//            echo 1;
-//            exit();
             unset($map['test_time']);
         }
 
         //报名日期查询
         if (!empty($date_b)){
             $map['create_time']=array('between',array($date_b,$date_e));
+        }
+        //是否核实
+        if ($is_check>0){
+            $map['m.is_check']=$is_check;
         }
 
         $map['m.status']=1;
@@ -346,6 +348,10 @@ class MandarinController extends BaseController {
         $send_book=D('SendBook')->getSendBookBySdid($detail['id'],20);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);
+
+        //普通话课程、价格列表
+        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(20);
+        $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //缴费情况
         $order=D('order')->getOrderBystuidTopid($id,20);

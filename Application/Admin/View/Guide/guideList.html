@@ -57,18 +57,27 @@
     <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
     <div class="form-group">
         首次考试时间：
-            <select  class="btn btn-default dropdown-toggle" id="test_time" style="width: 20%">
+            <select  class="btn btn-default dropdown-toggle" id="test_time">
                 <option value="0">全部</option>
                 <foreach name="testTime" item="vo">
                     <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
                 </foreach>
 
             </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;是否核实：
+            <select  class="btn btn-default dropdown-toggle" id="is_check">
+                <option value="-1">全部</option>
+                <option value="1">核实</option>
+                <option value="0">未核实</option>
+            </select>
 
+        <br/>
+        <div style="padding: 10px; float: right">
+            <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
+            <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
+            <input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
+        </div>
 
-        <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
-        <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
-        <input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
     </div>
         <hr>
     </if>
@@ -130,6 +139,8 @@
                 "data": function ( d ) {
                     //添加额外的参数传给服务器
                     d.test_time = $('#test_time').val();
+					d.is_check = $('#is_check').val();
+                   
                 }
             },
             "columns": [
@@ -155,7 +166,8 @@
     function exprot()
     {
         test_time = $('#test_time').val();
-        var url = "{:U('admin/Guide/getGuideList/exprot/1/test_time/"+test_time+"')}";
+		is_check = $('#is_check').val();
+        var url = "{:U('admin/Guide/getGuideList/exprot/1/test_time/"+test_time+"/is_check/"+is_check+"')}";
 //        alert(url);
         window.location.href = url;
     }
@@ -164,7 +176,8 @@
     function downImg()
     {
         test_time = $('#test_time').val();
-        var url = "{:U('admin/Guide/getGuideList/downImg/1/test_time/"+test_time+"')}";
+		is_check = $('#is_check').val();
+        var url = "{:U('admin/Guide/getGuideList/downImg/1/test_time/"+test_time+"/is_check/"+is_check+"')}";
         window.location.href = url;
     }
 

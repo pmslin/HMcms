@@ -23,14 +23,14 @@ class CoursePackageModel extends Model
      * 根据名字获取套餐
      */
     public function getCourePackageByName($name){
-        return M('course_package')->where('name=%d AND status=1',$name)->find();
+        return M('course_package')->where('name=%d',$name)->find();
     }
 
     /**
      * 根据id获取套餐
      */
     public function getCourePackageById($id){
-        return M('course_package')->where('id=%d and status=1',$id)->find();
+        return M('course_package')->where('id=%d',$id)->find();
     }
 
 }

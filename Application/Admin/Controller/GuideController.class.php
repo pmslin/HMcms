@@ -118,6 +118,7 @@ class GuideController extends BaseController {
 
         $get=I('get.');
         $test_time=$get['test_time'];
+        $is_check=$get['is_check'];//是否核实
 
 //        show_bug($get);
 
@@ -127,15 +128,18 @@ class GuideController extends BaseController {
         }
 
         if( $test_time!=0 || !empty($get['exprot']) ){
-//            exit();
             $map['test_time']=$test_time;
         }
 
         if( $test_time==0 && !empty($get['exprot']) ){
-//            echo 1;
-//            exit();
             unset($map['test_time']);
         }
+
+        //是否核实
+        if ($is_check>0){
+            $map['g.is_check']=$is_check;
+        }
+
 
         $map['g.status']=1;
 
@@ -394,6 +398,10 @@ class GuideController extends BaseController {
         $send_book=D('SendBook')->getSendBookBySdid($detail['id'],12);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);
+
+        //导游证课程、价格列表
+        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(12);
+        $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //缴费情况
         $order=D('order')->getOrderBystuidTopid($id,12);
