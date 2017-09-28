@@ -13,7 +13,7 @@ class ComController extends BaseController {
                 $this->error('没有修改权限');
             }
             $post=I("post.");
-            $course=$post['course'];
+            $course=$post['course_cat'];
             $studentId=$post['id'];
             if ($course==='jsz') $model=M("teacher");
             if ($course==='zk') $model=M("self_test");
@@ -38,7 +38,7 @@ class ComController extends BaseController {
                 $this->error('没有删除权限');
             }
             $post=I("post.");
-            $course=$post['course'];
+            $course=$post['course_cat'];
             $studentId=$post['id'];
             if ($course==='jsz') $model=M("teacher");
             if ($course==='zk') $model=M("self_test");

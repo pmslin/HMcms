@@ -599,7 +599,7 @@
                                 <!--<button class="btn btn-primary" type="submit" id="iwanModify">我要修改</button>-->
                                 <button class="btn btn-primary" type="submit" id="save"">确认修改</button>						
 								 <button class="btn btn-primary" type="submit" id="check"">核实资料</button>			
-								 <input type="hidden" name="course" id="course" value="jsz">
+								 <input type="hidden" name="course_cat" id="course" value="jsz">
                                 <input type="hidden" name="id" id="stu_id" value="{$detail.id}">
 								<input type="hidden" name="picinfo" value="{$detail.pic}">
                             </div>
@@ -919,6 +919,19 @@
     //            }
     //            //alert(pay_status);
     //        });
+
+
+    //根据是否包含普通话，显示普通话考试日期框
+    $("input:radio[name='is_mandarin']").change(function () {
+        var pay_status = $(this).val();
+        if (pay_status == 1) {
+            $("#mandarin_date").removeAttr("style", "display:none;");
+        } else {
+            $("#mandarin_date").attr("style", "display:none;");
+        }
+        //alert(pay_status);
+    });
+
 
     //考区联动
     $('#city').change(function () {
