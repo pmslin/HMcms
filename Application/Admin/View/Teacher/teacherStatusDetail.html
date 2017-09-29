@@ -561,6 +561,7 @@
                                 <label for="m2">不含普通话</label>
 							</div>
 							 
+							 
 							<div class="col-sm-6" id="mandarin_date">
 								<label class="col-sm-3 control-label">普通话考试时间</label>
 
@@ -568,12 +569,15 @@
 									<select class="form-control m-b" name="mandarin_date">
 										<option value="{$detail.mandarin_date}" id="originalTime">{$detail.mandarin_date}</option>
 										<option value="">-------------------------------</option>
+										<option value=""></option>
 										<foreach name="mandarinDate" item="vo">
 											<option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
 										</foreach>
 									</select>
 								</div>
 							</div>
+							</if>
+							
                         </div>
 						
 						<div class="form-group">
@@ -924,15 +928,14 @@
 
 
     //根据是否包含普通话，显示普通话考试日期框
-    $("input:radio[name='is_mandarin']").change(function () {
-        var pay_status = $(this).val();
-        if (pay_status == 1) {
-            $("#mandarin_date").removeAttr("style", "display:none;");
-        } else {
-            $("#mandarin_date").attr("style", "display:none;");
-        }
-        //alert(pay_status);
-    });
+    //$("input:radio[name='is_mandarin']").change(function () {
+    //    var pay_status = $(this).val();
+    //    if (pay_status == 1) {
+    //        $("#mandarin_date").removeAttr("style", "display:none;");
+    //    } else {
+    //        $("#mandarin_date").attr("style", "display:none;");
+    //    }
+    //});
 
 
     //考区联动
