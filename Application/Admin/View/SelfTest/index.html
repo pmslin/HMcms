@@ -17,6 +17,8 @@
     <link href="__PUBLIC__/H/css/style.min.css?v=4.0.0" rel="stylesheet">
     <link href="__PUBLIC__/magic-check/magic-check.css" rel="stylesheet">
     <link href="__PUBLIC__/Validform/style.css" rel="stylesheet">
+	
+	<script src="__PUBLIC__/H/js/jquery.min.js?v=2.1.4"></script>
 
 
 
@@ -423,24 +425,42 @@
                                 </foreach>
                             </div>
                         </div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">是否预报名</label>
+							<div class="col-sm-3 form-group radio">
+								<input class="magic-checkbox" type="radio" name="is_bk" value="1" id="cbk1"
+									   name="course_package" datatype="*" nullmsg="请选择费用是否交齐">
+								<label for="cbk1">是</label>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                        <div class="form-group">
-                                <label class="col-sm-2 control-label">费用是否交齐</label>
+								<input class="magic-checkbox" type="radio" name="is_bk" value="0" id="cbk2">
+								<label for="cbk2">否</label>
+							</div>
+						</div>
+						
+						
+						
+						<!-- 费用是否交齐等 财务-->
+						<include file="Public/cost" />
 
-                                <div class="col-sm-3 form-group radio">
-                                    <input class="magic-checkbox" type="radio" name="pay_status" value="1" id="c1"  name="course_package"  datatype="*" nullmsg="请选择费用是否交齐">
-                                    <label for="c1">已交齐</label>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- <div class="form-group"> -->
+                                <!-- <label class="col-sm-2 control-label">费用是否交齐</label> -->
 
-                                    <input class="magic-checkbox" type="radio" name="pay_status" value="0" id="c2">
-                                    <label for="c2">未交齐</label>
+                                <!-- <div class="col-sm-3 form-group radio"> -->
+                                    <!-- <input class="magic-checkbox" type="radio" name="pay_status" value="1" id="c1"  name="course_package"  datatype="*" nullmsg="请选择费用是否交齐"> -->
+                                    <!-- <label for="c1">已交齐</label> -->
+                                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
 
-                                </div>
+                                    <!-- <input class="magic-checkbox" type="radio" name="pay_status" value="0" id="c2"> -->
+                                    <!-- <label for="c2">未交齐</label> -->
 
-                                <div class="col-sm-3" id="some_cash" style="display:none;">
-                                    <input type="number" class="form-control"  placeholder='已收金额' name="some_cash" style="margin-left: -80px;" >
-                                </div>
-                        </div>
+                                <!-- </div> -->
+
+                                <!-- <div class="col-sm-3" id="some_cash" style="display:none;"> -->
+                                    <!-- <input type="number" class="form-control"  placeholder='已收金额' name="some_cash" style="margin-left: -80px;" > -->
+                                <!-- </div> -->
+                        <!-- </div> -->
 
 
                         <div class="hr-line-dashed"></div>
@@ -462,7 +482,7 @@
 </div>
 
 
-<script src="__PUBLIC__/H/js/jquery.min.js?v=2.1.4"></script>
+
 <script src="__PUBLIC__/H/js/bootstrap.min.js?v=3.3.5"></script>
 <script src="__PUBLIC__/H/js/content.min.js?v=1.0.0"></script>
 <script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
@@ -494,15 +514,15 @@
         });
 
         //根据费用是否交齐，显示输入框
-        $("input:radio[name='pay_status']").change(function (){
-            var pay_status=$(this).val();
-            if (pay_status==0){
-                $("#some_cash").removeAttr("style","display:none;");
-            }else {
-                $("#some_cash").attr("style","display:none;");
-            }
-            //alert(pay_status);
-        });
+//        $("input:radio[name='pay_status']").change(function (){
+//            var pay_status=$(this).val();
+//            if (pay_status==0){
+//                $("#some_cash").removeAttr("style","display:none;");
+//            }else {
+//                $("#some_cash").attr("style","display:none;");
+//            }
+//            //alert(pay_status);
+//        });
 
         //考区联动
         $('#city').change(function(){

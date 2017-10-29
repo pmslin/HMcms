@@ -18,6 +18,7 @@
     <link href="__PUBLIC__/magic-check/magic-check.css" rel="stylesheet">
     <link href="__PUBLIC__/Validform/style.css" rel="stylesheet">
 
+	<script src="__PUBLIC__/H/js/jquery.min.js?v=2.1.4"></script>
 
     <!--点提交新页面打开-->
     <!--<base target="_blank">-->
@@ -186,7 +187,7 @@
 
                             <div class="col-sm-5">
                                 <div style="width:970px; margin:0px auto;">
-                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px; padding:5px;"
                                            onclick="laydate()" name="birthday" id="birthday" datatype="*">
                                 </div>
                             </div>
@@ -315,7 +316,7 @@
                             <div class="col-sm-5">
                                 <div style="width:970px; margin:0px auto;">
                                     <input placeholder=" 请输入日期" class="laydate-icon"
-                                           style=" width:242px; height:30px;"
+                                           style=" width:242px; height:30px; padding:5px;"
                                            onclick="laydate({  format: 'YYYY'})" name="work_time" datatype="*">
                                 </div>
                             </div>
@@ -343,7 +344,7 @@
 
                             <div class="col-sm-5">
                                 <div style="width:970px; margin:0px auto;">
-                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+                                    <input placeholder=" 请输入日期" class="laydate-icon time_input" style=" width:242px; height:30px; padding:5px;"
                                            onclick="laydate()" name="entrance_time" datatype="*" nullmsg="请选择院校入学时间">
                                 </div>
                             </div>
@@ -354,7 +355,7 @@
 
                             <div class="col-sm-5">
                                 <div style="width:970px; margin:0px auto;">
-                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px;"
+                                    <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px; padding:5px;"
                                            onclick="laydate()" name="graduation_time" datatype="*" nullmsg="请选择预计毕业时间">
                                 </div>
                             </div>
@@ -452,7 +453,32 @@
 							</div>
                         </div>
 						
-						<!-- 费用是否交齐等 -->
+						<div class="form-group">
+							<label class="col-sm-2 control-label">是否预报名</label>
+							<div class="col-sm-3 form-group radio">
+								<input class="magic-checkbox" type="radio" name="is_bk" value="1" id="cbk1"
+									   name="course_package" datatype="*" nullmsg="请选择费用是否交齐">
+								<label for="cbk1">是</label>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+								<input class="magic-checkbox" type="radio" name="is_bk" value="0" id="cbk2">
+								<label for="cbk2">否</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+                            <label class="col-sm-3 control-label">特殊情况备注</label>
+
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="remark" datatype="*">
+                            </div>
+                        </div>
+						
+						
+						
+						
+						
+						<!-- 费用是否交齐等 财务-->
 						<include file="Public/cost" />
 						
 						
@@ -477,13 +503,7 @@
                         <!-- </div> -->
 						
 						
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">特殊情况备注</label>
-
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="remark" datatype="*">
-                            </div>
-                        </div>
+                        
 
                         <div class="hr-line-dashed"></div>
 
@@ -507,7 +527,7 @@
 </div>
 
 
-<script src="__PUBLIC__/H/js/jquery.min.js?v=2.1.4"></script>
+
 <script src="__PUBLIC__/H/js/bootstrap.min.js?v=3.3.5"></script>
 <script src="__PUBLIC__/H/js/content.min.js?v=1.0.0"></script>
 <script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
@@ -540,15 +560,15 @@
     });
 
     //根据费用是否交齐，显示输入框
-    $("input:radio[name='pay_status']").change(function () {
-        var pay_status = $(this).val();
-        if (pay_status == 0) {
-            $("#some_cash").removeAttr("style", "display:none;");
-        } else {
-            $("#some_cash").attr("style", "display:none;");
-        }
-        //alert(pay_status);
-    });
+//    $("input:radio[name='pay_status']").change(function () {
+//        var pay_status = $(this).val();
+//        if (pay_status == 0) {
+//            $("#some_cash").removeAttr("style", "display:none;");
+//        } else {
+//            $("#some_cash").attr("style", "display:none;");
+//        }
+//        //alert(pay_status);
+//    });
 
 
     //根据是否包含普通话，显示普通话考试日期框
