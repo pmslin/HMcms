@@ -19,9 +19,6 @@
     <link href="__PUBLIC__/Validform/style.css" rel="stylesheet">
 
     <link href="__PUBLIC__/plugins/chosen/css/chosen.css" rel="stylesheet">
-	
-	
-	<script src="__PUBLIC__/H/js/jquery.min.js?v=2.1.4"></script>
 
     <!--点提交新页面打开-->
     <!--<base target="_blank">-->
@@ -599,30 +596,15 @@
 
 
                         <div class="hr-line-dashed"></div>
-						
-						
-						
-						
-						<!-- 费用是否交齐等 财务-->
-						<include file="Public/cost" />
-						
-						
-						
 
 					<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 3)">
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-5">
                                 <!--<button class="btn btn-primary" type="submit" id="iwanModify">我要修改</button>-->
                                 <button class="btn btn-primary" type="submit" id="save"">确认修改</button>			
-								 
-                                 <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
+								 <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
 								 <button class="btn btn-primary" type="submit" id="check"">核实资料</button>	
 								 </if>
-
-                                 <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
-                                 <button class="btn btn-primary" type="submit" id="audit"">财务审核</button>    
-                                 </if>
-
 								 <input type="hidden" name="course_cat" id="course" value="jsz">
                                 <input type="hidden" name="id" id="stu_id" value="{$detail.id}">
 								<input type="hidden" name="picinfo" value="{$detail.pic}">
@@ -875,7 +857,7 @@
 </div>
 
 
-
+<script src="__PUBLIC__/H/js/jquery.min.js?v=2.1.4"></script>
 <script src="__PUBLIC__/H/js/bootstrap.min.js?v=3.3.5"></script>
 <script src="__PUBLIC__/H/js/content.min.js?v=1.0.0"></script>
 <script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
@@ -1098,7 +1080,7 @@
         $("#check").attr("disabled", 'disabled');
      </if>
 	
-	//核实资料提交
+	  //核实资料提交
     $("#check").click(function(){
          $('#course,#stu_id').attr("disabled", false);
         document.myForm.action="{:U('Admin/Com/check')}";

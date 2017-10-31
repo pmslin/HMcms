@@ -5,24 +5,6 @@
     }
 </style>
 
-
-<script>
-	$(function(){
-	
-		is_proxy();
-
-		//检测是否返代理提成，如是，显示代理信息（详情页）
-		function is_proxy(){
-			var is_proxy = $('input:radio[name="is_proxy"]:checked').val();
-			if (is_proxy == 1) {
-					$(".proxy_div").removeAttr("style", "display:none;");
-			}
-		}
-		
-	}); 
-</script>
-
-
 <div class="hr-line-dashed"></div>
 
 <div class="ibox-content text-center booktitle">
@@ -32,31 +14,31 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">费用是否交齐</label>
     <div class="col-sm-3 form-group radio">
-        <input class="magic-checkbox" type="radio" name="pay_status" value="1" id="c1" <if condition="$detail.pay_status eq 1">checked</if>
+        <input class="magic-checkbox" type="radio" name="pay_status" value="1" id="c1"
                name="course_package" datatype="*" nullmsg="请选择费用是否交齐">
         <label for="c1">一次性交齐</label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-        <input class="magic-checkbox" type="radio" name="pay_status" value="0" id="c2"  <if condition="$detail.pay_status eq 0">checked</if>  >
+        <input class="magic-checkbox" type="radio" name="pay_status" value="0" id="c2">
         <label for="c2">预报名</label>
     </div>
 
     <label class="col-sm-1 control-label">已收金额</label>
     <div class="col-sm-2" id="some_cash">
-        <input type="number" class="form-control" placeholder="元" name="some_cash" value="{$detail.some_cash}" datatype="*" nullmsg="请输入已收金额">
+        <input type="number" class="form-control" placeholder="元" name="some_cash" datatype="*" nullmsg="请输入已收金额">
     </div>
 </div>
 
 <div class="form-group">
     <label class="col-sm-2 control-label">缴费方式</label>
     <div class="col-sm-2">
-        <input type="text" class="form-control" name="pay_way" value="{$detail.pay_way}"  datatype="*" nullmsg="请输入缴费方式">
+        <input type="text" class="form-control" name="pay_way" datatype="*" nullmsg="请输入缴费方式">
     </div>
 
     <label class="col-sm-2 control-label">缴费时间</label>
     <div class="col-sm-2">
         <div>
-            <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px; padding:5px;"  value="{$detail.pay_time}" 
+            <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px; padding:5px;"
                    onclick="laydate()" name="pay_time" datatype="*" nullmsg="请选择缴费时间">
         </div>
     </div>
@@ -65,12 +47,12 @@
 <div class="form-group">
     <label class="col-sm-2 control-label">是否返代理提成</label>
     <div class="col-sm-3 form-group radio">
-        <input class="magic-checkbox" type="radio" name="is_proxy" value="1" id="is_proxy1" <if condition="$detail.is_proxy eq 1">checked</if>
+        <input class="magic-checkbox" type="radio" name="is_proxy" value="1" id="is_proxy1"
                name="course_package" datatype="*" nullmsg="请选择是否返代理提成">
         <label for="is_proxy1">是</label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-        <input class="magic-checkbox" type="radio" name="is_proxy" value="0" id="is_proxy2"  <if condition="$detail.is_proxy eq 0">checked</if>  >
+        <input class="magic-checkbox" type="radio" name="is_proxy" value="0" id="is_proxy2">
         <label for="is_proxy2">否</label>
     </div>
 </div>
@@ -79,31 +61,30 @@
 <div class="form-group proxy_div" style="display:none;">
     <label class="col-sm-2 control-label">代理姓名</label>
     <div class="col-sm-2">
-        <input type="text" class="form-control" name="proxy_name" id="proxy_name" value="{$detail.proxy_name}"  nullmsg="请输入代理姓名">
+        <input type="text" class="form-control" name="proxy_name" id="proxy_name"  nullmsg="请输入代理姓名">
     </div>
 
     <label class="col-sm-2 control-label">代理金额</label>
     <div class="col-sm-2">
-        <input type="number" class="form-control" placeholder="元" name="proxy_money" value="{$detail.proxy_money}" id="proxy_money"  nullmsg="请输入代理金额">
+        <input type="number" class="form-control" placeholder="元" name="proxy_money" id="proxy_money"  nullmsg="请输入代理金额">
     </div>
 </div>
 
 <div class="form-group proxy_div" style="display:none;">
     <label class="col-sm-2 control-label">代理提成转账方式</label>
     <div class="col-sm-2">
-        <input type="text" class="form-control" name="proxy_pay_way" id="proxy_pay_way" value="{$detail.proxy_pay_way}"  nullmsg="代理提成转账方式">
+        <input type="text" class="form-control" name="proxy_pay_way" id="proxy_pay_way"  nullmsg="代理提成转账方式">
     </div>
 
     <label class="col-sm-2 control-label">备注（财务）</label>
     <div class="col-sm-5">
-        <input type="text" class="form-control" value="{$detail.proxy_remark}" name="proxy_remark">
+        <input type="text" class="form-control" name="proxy_remark">
     </div>
 </div>
 <!-- <div> -->
 
 
 <script>
-
     //根据是否返代理提成，是否代理姓名，代理金额，代理提成转账方式，备注（财务）和实现必填设置
     $("input:radio[name='is_proxy']").change(function () {
         var is_proxy = $(this).val();
@@ -120,9 +101,4 @@
         }
         //alert(pay_status);
     });
-	
-	
 </script>
-
-
-
