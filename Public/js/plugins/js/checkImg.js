@@ -1,3 +1,5 @@
+
+//证件照照片检测
 function photoCheck(format,size,width,height) {
 //图片上传过滤
     var file = document.getElementById("imgurl").value;
@@ -61,6 +63,7 @@ function photoCheck(format,size,width,height) {
 }
 
 
+//身份证照片检测
 function photoIdPicCheck(format,size,width,height) {
 //图片上传过滤
     var file = document.getElementById("idImgurl").value;
