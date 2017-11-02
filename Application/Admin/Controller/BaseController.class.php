@@ -12,7 +12,7 @@ class BaseController extends Controller {
 
 
 
-
+    //导出考生证件照
     public function downtest($filename,$image)
     {
         //下面是实例操作过程：

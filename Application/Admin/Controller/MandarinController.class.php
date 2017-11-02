@@ -64,26 +64,26 @@ class MandarinController extends BaseController {
             $addResult=D('Mandarin')->add($post);
 
             //添加数据到order表
-            $orderData['course_package_id']=$post['course_package'];
-            $orderData['pay_status']=$post['pay_status'];
-            $orderData['user_id']=session('userid');
-            $orderData['create_time']=$time;
-            $orderData['student_id']=$addResult;
-            $orderData['course_package_topid']=20;   //*********标记为普通话
-            //获取套餐价格和名称
-            $course_package=D('CoursePackage')->getCourePackageById($post['course_package']);
-            $orderData['course_name']=$course_package['name'];
-            $orderData['course_price']=$course_package['price'];
-            //已收费用，交齐直接记录课程总额，未交齐记录已交费用
-            if($post['pay_status']==1){
-                $orderData['some_cash']=$course_package['price'];
-            }else{
-                $orderData['some_cash']=$post['some_cash'];
-            }
-            $addOrder=D('Order')->add($orderData);  //add()
+//            $orderData['course_package_id']=$post['course_package'];
+//            $orderData['pay_status']=$post['pay_status'];
+//            $orderData['user_id']=session('userid');
+//            $orderData['create_time']=$time;
+//            $orderData['student_id']=$addResult;
+//            $orderData['course_package_topid']=20;   //*********标记为普通话
+//            //获取套餐价格和名称
+//            $course_package=D('CoursePackage')->getCourePackageById($post['course_package']);
+//            $orderData['course_name']=$course_package['name'];
+//            $orderData['course_price']=$course_package['price'];
+//            //已收费用，交齐直接记录课程总额，未交齐记录已交费用
+//            if($post['pay_status']==1){
+//                $orderData['some_cash']=$course_package['price'];
+//            }else{
+//                $orderData['some_cash']=$post['some_cash'];
+//            }
+//            $addOrder=D('Order')->add($orderData);  //add()
 
 
-            if($addResult && $addOrder){
+            if($addResult){
                 D()->commit(); //事务提交
                 $this->success('录入成功','index');
             }else{
@@ -144,7 +144,7 @@ class MandarinController extends BaseController {
 
         if(empty($get['exprot'])) {  //列表，把不需要的字段剔除
             $list=M('Mandarin as m')
-                ->field('m.id,m.name,m.tel,m.create_time,m.test_time,m.pic,u.username')
+                ->field('m.id,m.name,m.tel,m.create_time,m.test_time,m.pic,u.username,m.idcard')
                 ->join('user AS u ON m.userid=u.id',left)
                 ->where($map)->order('create_time desc')->select();
         }else{

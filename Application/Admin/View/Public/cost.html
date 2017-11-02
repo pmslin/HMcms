@@ -42,8 +42,8 @@
     </div>
 
     <label class="col-sm-1 control-label">已收金额</label>
-    <div class="col-sm-2" id="some_cash">
-        <input type="number" class="form-control" placeholder="元" name="some_cash" value="{$detail.some_cash}" datatype="*" nullmsg="请输入已收金额">
+    <div class="col-sm-2">
+        <input type="number" class="form-control" placeholder="元" name="some_cash" id="some_cash" value="{$detail.some_cash}" datatype="*" nullmsg="请输入已收金额">
     </div>
 </div>
 
@@ -57,7 +57,7 @@
     <div class="col-sm-2">
         <div>
             <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px; padding:5px;"  value="{$detail.pay_time}" 
-                   onclick="laydate()" name="pay_time" datatype="*" nullmsg="请选择缴费时间">
+                   onclick="laydate()" name="pay_time" id="pay_time" datatype="*" nullmsg="请选择缴费时间">
         </div>
     </div>
 </div>

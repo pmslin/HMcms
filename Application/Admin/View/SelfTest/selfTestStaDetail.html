@@ -369,7 +369,7 @@
                             <label class="col-sm-2 control-label">班型选择</label>
 							
 							 <div class="col-sm-4">
-                              <select class="form-control m-b" name="course_package">
+                              <select class="form-control m-b" name="course_package"  id="course_package">
 									<option value="{$detail.course_package}">{$course_package.name}</option>
 									<option value="{$detail.course_package}">----------------------------------------------</option>
                                     <foreach name="TeaCoursePackage" item="vo">
@@ -422,6 +422,21 @@
 
                         <!--</div>-->
 
+
+                        <!-- 修改，核实资料按钮。-->
+                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 5)">
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-5">                           
+                                    <button class="btn btn-primary" type="submit" id="save">确认修改</button>
+                                    <button class="btn btn-primary" type="submit" id="check"">核实资料</button>
+                                    <input type="hidden" name="course_cat" id="course" value="zk">
+                                    <input type="hidden" name="topcourse_id" id="topcourse_id" value="7">
+                                    <input type="hidden" name="id" id="stu_id"  value="{$detail.id}">
+                                </div>
+                            </div>
+                        </if>
+
+
                         <div class="hr-line-dashed"></div>
 						
 						
@@ -430,19 +445,17 @@
 						<include file="Public/cost" />
 						
 						
-						
-
-					<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
-                        <div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-5">
-                                <!--<button class="btn btn-primary" type="submit" id="iwanModify">我要修改</button>-->
-                                <button class="btn btn-primary" type="submit" id="save">确认修改</button>
-								<button class="btn btn-primary" type="submit" id="check"">核实资料</button>
-								<input type="hidden" name="course_cat" id="course" value="zk">
-                                <input type="hidden" name="id" id="stu_id"  value="{$detail.id}">
+						<!-- 财务审核按钮-->
+                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-5">
+                                     <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
+                                     <button class="btn btn-primary" type="submit" id="audit"">财务审核</button>    
+                                     </if>                          
+                                </div>
                             </div>
-                        </div>
-					</if>
+                        </if>
+                    
 
                     </form>
                     <!--修改表单结束-->
@@ -778,25 +791,48 @@
 	$("#originalTime").val(test_time);
 	<!-- alert(test_time); -->
 
-	//核实按钮，如果已核实将按钮改为“已核实”，并设置不可点击
-	  <if condition="$detail.is_check eq 1 ">
+
+
+	 //教务
+    //判断资料是否核实，已核实的按钮标记为“已核实”并且不能点击
+     <if condition="$detail.is_check eq 1 ">
         $("#check").text("已核实");
         $("#check").attr("disabled", 'disabled');
      </if>
-
-     //核实资料提交
+    
+    //核实资料提交按钮提交地址
     $("#check").click(function(){
-         $('#course,#stu_id').attr("disabled", false);
+        $('#course,#stu_id').attr("disabled", false);
         document.myForm.action="{:U('Admin/Com/check')}";
         document.myForm.submit();
     });
+
+
+    
+    //财务
+    //判断资料是否核实，已核实的按钮标记为“已核实”并且不能点击
+     <if condition="$detail.is_audit eq 1 ">
+        $("#audit").text("已审核");
+        $("#audit").attr("disabled", 'disabled');
+     </if>
+
+    //财务审核提交按钮提交地址
+    $("#audit").click(function(){
+        $('#course,#topcourse_id,#course_package,#stu_id,#pay_time,#some_cash').attr("disabled", false);
+        document.myForm.action="{:U('Admin/Com/audit')}";
+        document.myForm.submit();
+    });
+
+
+
+    
 
     //修改表单提交
     $("#save").click(function(){
         document.myForm.action="{:U('Admin/SelfTest/savefrom')}";
         document.myForm.submit();
     });
-	
+
 	//删除报名表提交
     $("#delete").click(function(){
         $('#course,#stu_id').attr("disabled", false);

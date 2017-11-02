@@ -11,7 +11,7 @@ class OrderController extends BaseController {
      * 费用续缴操作
      */
     public function saveCost(){
-        //权限检测
+        //权限检测,财务+超管
         cost_check();
 
 //        show_bug($_POST);

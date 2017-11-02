@@ -533,7 +533,7 @@
 						<div class="form-group">
                             <label class="col-sm-3 control-label">班型选择</label>
                             <div class="col-sm-5">
-                              <select class="form-control m-b" name="course_package">
+                              <select class="form-control m-b" name="course_package" id="course_package">
 									<option value="{$detail.course_package}">{$course_package.name}</option>
 									<option value="{$detail.course_package}">----------------------------------------------</option>
                                     <foreach name="TeaCoursePackage" item="vo">
@@ -598,6 +598,27 @@
 						</div>
 
 
+                        <!-- 修改，核实资料按钮。业务员可修改图片-->
+                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 3) OR ($Think.session.roleid eq 5)">
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-5">
+
+                                <button class="btn btn-primary" type="submit" id="save"">确认修改</button>          
+                                 
+                                 <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 5)">
+                                 <button class="btn btn-primary" type="submit" id="check"">核实资料</button>    
+                                 </if>
+
+                                <input type="hidden" name="course_cat" id="course" value="jsz">
+                                <input type="hidden" name="topcourse_id" id="topcourse_id" value="1">
+                                <input type="hidden" name="id" id="stu_id" value="{$detail.id}">
+                                <input type="hidden" name="picinfo" value="{$detail.pic}">
+                            </div>
+                        </div>
+                        </if>
+
+
+
                         <div class="hr-line-dashed"></div>
 						
 						
@@ -608,24 +629,13 @@
 						
 						
 						
-
-					<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 3)">
+                    <!-- 财务审核按钮-->
+					<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-5">
-                                <!--<button class="btn btn-primary" type="submit" id="iwanModify">我要修改</button>-->
-                                <button class="btn btn-primary" type="submit" id="save"">确认修改</button>			
-								 
-                                 <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
-								 <button class="btn btn-primary" type="submit" id="check"">核实资料</button>	
-								 </if>
-
                                  <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
                                  <button class="btn btn-primary" type="submit" id="audit"">财务审核</button>    
-                                 </if>
-
-								 <input type="hidden" name="course_cat" id="course" value="jsz">
-                                <input type="hidden" name="id" id="stu_id" value="{$detail.id}">
-								<input type="hidden" name="picinfo" value="{$detail.pic}">
+                                 </if>							
                             </div>
                         </div>
 					</if>
@@ -880,14 +890,12 @@
 <script src="__PUBLIC__/H/js/content.min.js?v=1.0.0"></script>
 <script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
 <script src="__PUBLIC__/laydate/laydate.js"></script>
-
 <script src="__PUBLIC__/plugins/layer/layer.js"></script>
-
 <script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
-
 <script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
 <!--检测照片规格-->
 <script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
+
 
 <script>
     //初始化Validform
@@ -1093,22 +1101,43 @@
         $('#imgurl,#stu_id').attr("disabled", false);//移除不可编辑（招生老师修改照片）
     </if>
 
-    //如果是招生老师，而且照片为空，放开上传照片按钮为可点击
+    //如果是招生老师，而且照片为空，放开上传身份证照片按钮为可点击
     <if condition="$Think.session.roleid eq 3 AND $detail.id_pic eq null ">
         $('#idImgurl,#stu_id').attr("disabled", false);//移除不可编辑（招生老师修改照片）
     </if>
 	
+
+    //教务
+    //判断资料是否核实，已核实的按钮标记为“已核实”并且不能点击
 	 <if condition="$detail.is_check eq 1 ">
         $("#check").text("已核实");
         $("#check").attr("disabled", 'disabled');
      </if>
 	
-	//核实资料提交
+	//核实资料提交按钮提交地址
     $("#check").click(function(){
-         $('#course,#stu_id').attr("disabled", false);
+        $('#course,#stu_id').attr("disabled", false);
         document.myForm.action="{:U('Admin/Com/check')}";
         document.myForm.submit();
     });
+
+
+    
+    //财务
+    //判断资料是否核实，已核实的按钮标记为“已核实”并且不能点击
+     <if condition="$detail.is_audit eq 1 ">
+        $("#audit").text("已审核");
+        $("#audit").attr("disabled", 'disabled');
+     </if>
+
+    //财务审核提交按钮提交地址
+    $("#audit").click(function(){
+        $('#course,#topcourse_id,#course_package,#stu_id,#pay_time,#some_cash').attr("disabled", false);
+        document.myForm.action="{:U('Admin/Com/audit')}";
+        document.myForm.submit();
+    });
+
+
 
     //修改表单提交
     $("#save").click(function(){
