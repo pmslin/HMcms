@@ -61,7 +61,7 @@
                     <!--<h5 style="padding-top: 8px;padding-right: 13px;">教师证学生报名表详情</h5>-->
                     <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
                     <button class="btn btn-warning" type="submit" id="iwanModify">我要修改</button>
-					<button class="btn btn-danger" type="submit" id="delete"  onclick="return confirm('是否确认删除？')"  style="float:right;">删除</button>
+					<button class="btn btn-danger" type="submit" id=""  onclick="sure('{:U('Admin/Com/delete')}')"   style="float:right;">删除</button>
                     </if>
                     <!--<div class="ibox-tools">-->
                         <!--<a class="collapse-link">-->
@@ -339,7 +339,11 @@
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-5">
                                     <button class="btn btn-primary" type="submit" id="save">确认修改</button>
-                                    <button class="btn btn-primary" type="submit" id="check"">核实资料</button>
+
+                                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
+                                    <button class="btn btn-primary" type="submit" id="check" onclick="sure('{:U('Admin/Com/check')}')" >核实资料</button>
+                                    </if>
+
                                     <input type="hidden" name="course_cat" id="course" value="zcb">
                                     <input type="hidden" name="topcourse_id" id="topcourse_id" value="23">
                                     <input type="hidden" name="id" id="stu_id" value="{$detail.id}">
@@ -362,7 +366,7 @@
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-5">
                                      <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
-                                     <button class="btn btn-primary" type="submit" id="audit"">财务审核</button>    
+                                     <button class="btn btn-primary" type="submit" id="audit">财务审核</button>    
                                      </if>                          
                                 </div>
                             </div>
@@ -583,11 +587,10 @@
 <script src="__PUBLIC__/H/js/content.min.js?v=1.0.0"></script>
 <script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
 <script src="__PUBLIC__/laydate/laydate.js"></script>
-
 <script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
-
 <script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
-
+<!--一些公共方法-->
+<script src="__PUBLIC__/js/plugins/js/formPublic.js"></script>
 
 
 <script>
@@ -746,11 +749,11 @@
      </if>
     
     //核实资料提交按钮提交地址
-    $("#check").click(function(){
-        $('#course,#stu_id').attr("disabled", false);
-        document.myForm.action="{:U('Admin/Com/check')}";
-        document.myForm.submit();
-    });
+    // $("#check").click(function(){
+    //     $('#course,#stu_id').attr("disabled", false);
+    //     document.myForm.action="{:U('Admin/Com/check')}";
+    //     document.myForm.submit();
+    // });
 
 
     
@@ -763,9 +766,14 @@
 
     //财务审核提交按钮提交地址
     $("#audit").click(function(){
-        $('#course,#topcourse_id,#course_package,#stu_id,#pay_time,#some_cash').attr("disabled", false);
-        document.myForm.action="{:U('Admin/Com/audit')}";
-        document.myForm.submit();
+         var msg = "是否要进行该操作？\n\n请再次确认！"; 
+         if (confirm(msg)==true){ 
+            $('#course,#topcourse_id,#course_package,#stu_id,#pay_time,#some_cash').attr("disabled", false);
+            document.myForm.action="{:U('Admin/Com/audit')}";
+            document.myForm.submit();
+         }else{ 
+          return false; 
+         }        
     });
 
 
@@ -776,12 +784,6 @@
         document.myForm.submit();
     });
 	
-	//删除报名表提交
-    $("#delete").click(function(){
-        $('#course,#stu_id').attr("disabled", false);
-        document.myForm.action="{:U('Admin/Com/delete')}";
-        document.myForm.submit();
-    });
 
 
     //获取选择发放的所有课本
