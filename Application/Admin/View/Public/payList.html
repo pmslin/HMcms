@@ -1,0 +1,128 @@
+
+
+<!--缴费情况   开始-->
+<div class="ibox-content text-center booktitle">
+    <h3 class="m-b-xxs">缴费情况</h3>
+</div>
+
+<div class="col-sm-12">
+    <div class="ibox-content">
+        <table class="table table-bordered" >
+            <thead>
+            <tr>
+				<th>序号</th>
+                <th>班型</th>
+                <th>期数</th>
+                <th>金额</th>
+                <th>缴费时间</th>
+                <!-- <th>是否收齐</th> -->
+                <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5) ">
+					<th>操作</th>
+                </if>
+            </tr>
+            </thead>
+            <tbody>
+            <if condition="$order neq null">
+                <foreach name="order" key="key" item="vo">
+                    <tr>
+						<td>{$key+1}</td>
+                        <td>{$vo.course_name}</td>
+                        <td>{$vo.periods}</td>
+                        <td>{$vo.some_cash}</td>
+                        <td>{$vo.create_time}</td>
+                        <!-- <td> -->
+                            <!-- <if condition="$vo.pay_status eq 1"> 已收齐 -->
+                                <!-- <else/> -->
+                                <!-- 未收齐 -->
+                            <!-- </if> -->
+                        <!-- </td> -->
+                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5) ">
+							<td><a href="{:U('Admin/Order/deleteOrder','id='.$vo['id'])}"> <button class="btn"  >删除</button> </a></td>
+                        </if>
+                    </tr>
+                </foreach>
+                <else/>
+                <td colspan=6 style="text-align: center">无缴费记录</td>
+            </if>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="ibox-content text-center ">
+</div>
+
+
+<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
+    <form class="form-horizontal demoform" action="{:U('Admin/Order/saveCost')}" method="post"
+          enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">期数</label>
+
+            <div class="col-sm-3">
+                <select class="form-control m-b" name="periods">
+                    <option value="一期">一期</option>
+                    <option value="二期">二期</option>
+                    <option value="三期">三期</option>
+                    <option value="四期">四期</option>
+                    <option value="五期">五期</option>
+                    <option value="六期">六期</option>
+                    <option value="七期">七期</option>
+                    <option value="八期">八期</option>
+                    <option value="九期">九期</option>
+                    <option value="十期">十期</option>
+                    <option value="退费">退费</option>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">金额</label>
+
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="some_cash" datatype="n"
+                       nullmsg="请输入本期缴费金额" errormsg="本期缴费金额请填数字">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">日期</label>
+
+            <div class="col-sm-3">
+                <input placeholder="请输入日期" class="laydate-icon time_input"
+                       style=" width:242px; height:33px; padding:5px;"
+                       onclick="laydate()" name="create_time" datatype="*" nullmsg="请输入本次缴费日期">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">费用是否缴齐</label>
+
+            <div class="col-sm-3 radio i-checks">
+                <label>
+                    <input type="radio" value="1" name="pay_status" datatype="*"
+                           nullmsg="请勾选费用是否缴齐"> <i></i> 已缴齐</label>
+                <label>
+                    <input type="radio" value="0" name="pay_status"> <i></i> 未缴齐</label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-5">
+                <button class="btn btn-primary" type="submit" id="saveorder">确定</button>
+                <input type="hidden" name="student_id" value="{$detail.id}">
+                <input type="hidden" name="order_course_cat" id="order_course_cat" value="">
+
+            </div>
+        </div>
+
+    </form>
+</if>
+<!--缴费情况   结束-->
+
+<script>
+    var order_course_cat = $("#course").val();
+    $("#order_course_cat").val(order_course_cat);
+</script>

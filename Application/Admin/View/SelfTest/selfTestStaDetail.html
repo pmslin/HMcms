@@ -465,6 +465,11 @@
                     <!--修改表单结束-->
 
 
+                    <!-- 交费情况-->
+                    <include file="Public/payList" />
+
+
+
                     <!--发书操作开始-->
                     <!-- <div class="hr-line-dashed"></div> -->
 
@@ -579,91 +584,7 @@
                     <!--发书操作结束-->
 
 
-                    <!--缴费情况   开始-->
-                    <div class="ibox-content text-center booktitle">
-                        <h3 class="m-b-xxs">缴费情况</h3>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="ibox-content">
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>选择班型</th>
-                                    <th>价格</th>
-                                    <th>已收费用</th>
-                                    <th>未收费用</th>
-                                    <th>是否收齐</th>
-                                    <!--<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">-->
-                                        <!--<th>操作</th>-->
-                                    <!--</if>-->
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <if condition="$order neq null">
-                                    <foreach name="order" key="key" item="vo">
-                                        <tr>
-                                            <td>{$vo.course_name}</td>
-                                            <td>{$vo.course_price}</td>
-                                            <td>{$vo.some_cash}</td>
-                                            <td>{$vo['course_price']-$vo['some_cash']}</td>
-                                            <td>
-                                                <if condition="$vo.pay_status eq 1"> 已收齐
-                                                    <else />未收齐
-                                                </if>
-                                            </td>
-                                            <!--<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">-->
-                                                <!--<td><a href="{:U('Admin/Book/deleteBook','id='.$vo['id'])}"> <button class="btn"  >删除</button> </a></td>-->
-                                            <!--</if>-->
-                                        </tr>
-                                    </foreach>
-                                    <else />
-                                    <td colspan=6 style="text-align: center">无缴费记录</td>
-                                </if>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="ibox-content text-center ">
-                    </div>
-
-
-                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
-                        <form  class="form-horizontal demoform"  action="{:U('Admin/Order/saveCost')}" method="post" enctype="multipart/form-data" >
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">本次续交费用</label>
-
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control" name="some_cash" datatype="n" nullmsg="请输入本次续缴费用">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">费用是否缴齐</label>
-
-                                <div class="col-sm-3 radio i-checks">
-                                    <label>
-                                        <input type="radio" value="1" name="pay_status" datatype="*" nullmsg="请勾选费用是否缴齐"> <i></i> 已缴齐</label>
-                                    <label>
-                                        <input type="radio" value="0" name="pay_status"> <i></i> 未缴齐</label>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <div class="col-sm-4 col-sm-offset-5">
-                                    <button class="btn btn-primary" type="submit" id="saveorder">确定</button>
-                                    <input type="hidden" name="order_id" value="{$order[0].id}">
-                                    <input type="hidden" name="pay_cash" value="{$order[0]['some_cash']}">  <!--未交齐费用-->
-                                    <!--<input type="hidden" name="topcourse_id" value="1">-->
-                                    <!--<input type="hidden" name="user_id" value="{$Think.session.userid}">-->
-                                </div>
-                            </div>
-
-                        </form>
-                    </if>
-                    <!--缴费情况   结束-->
+                    
 
                 </div>
             </div>

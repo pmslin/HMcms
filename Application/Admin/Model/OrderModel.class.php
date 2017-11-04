@@ -13,7 +13,7 @@ class OrderModel extends Model
      * topid:教师证1，自考7，导游证12，普通话20，专插本23
      */
     public function getOrderBystuidTopid($studentId,$topid){
-        return M('order')->where('student_id=%d AND course_package_topid=%f',$studentId,$topid)->select();
+        return M('order')->where('student_id=%d AND course_package_topid=%f AND status=1',$studentId,$topid)->order("create_time")->select();
     }
 
 
@@ -31,6 +31,15 @@ class OrderModel extends Model
         $data['pay_status']=$pay_status;
         return M('order')->save($data);
 
+    }
+
+    /***根据交费记录id删除缴费记录
+     * @param $orderId Order表主键
+     * @return bool
+     */
+    public function deleteOrderByOrderId($orderId){
+        $data['status']=99;
+        return M("order")->where("id=%d",$orderId)->save($data);
     }
 
 

@@ -15,6 +15,7 @@ class ComController extends BaseController {
             $post=I("post.");
             $course=$post['course_cat'];
             $studentId=$post['id'];
+            //从提交过来的证书编号，确定是哪个证书，操作哪个表
             if ($course==='jsz') $model=M("teacher");
             if ($course==='zk') $model=M("self_test");
             if ($course==='dyz') $model=M("guide");
@@ -40,6 +41,7 @@ class ComController extends BaseController {
             $post=I("post.");
             $course=$post['course_cat'];
             $studentId=$post['id'];
+            //从提交过来的证书编号，确定是哪个证书，操作哪个表
             if ($course==='jsz') $model=M("teacher");
             if ($course==='zk') $model=M("self_test");
             if ($course==='dyz') $model=M("guide");
@@ -65,6 +67,7 @@ class ComController extends BaseController {
             $post=I("post.");
             $course=$post['course_cat'];
             $studentId=$post['id'];
+            //从提交过来的证书编号，确定是哪个证书，操作哪个表
             if ($course==='jsz') $model=M("teacher");
             if ($course==='zk') $model=M("self_test");
             if ($course==='dyz') $model=M("guide");
