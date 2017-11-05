@@ -6,6 +6,11 @@ class FinanceController extends BaseController {
         //财务权限检测
         cost_check();
 
+        $search=array();
+        $search['date_b']=date("Y-m-d",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1,date("Y")));
+        $search['date_e']=date("Y-m-d",mktime(23,59,59,date("m"),date("d")-date("w")+7,date("Y")));
+//        show_bug($search);
+//        $this->assign('search',$search);
         $this->display();
     }
 
@@ -31,18 +36,31 @@ class FinanceController extends BaseController {
 
 
         $list=M('order')
-            ->field('order.id,sum(order.some_cash) as count,u.username,order.course_name')
+            ->field('order.id,sum(order.some_cash) as count,u.username,u.bus_unit')
             ->join('user AS u ON order.user_id=u.id',left)
             ->where($map)
             ->group('user_id')
             ->order('count desc')
             ->select();
 
+        $sum=array();
         foreach($list as $key => $value){
             $list[$key]['num']=$key+1;
-//            $list[$key]['ac']='<button class="layui-btn" onclick="detail('.$value['id'].')" >详情</button>';
-//            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
+
         }
+
+        foreach ($list as $k=>$v){
+            $sum['username']='<b style="font-size: 20px;">合计</b>';
+            $sum['count'] += $v['count'];
+            $sum['num']='';
+            $sum['bus_unit']='';
+        }
+
+        array_push($list,$sum);
+
+//        show_bug($list);
+//
+//        echo 123;
 
 
         $this->ajaxReturn($list,'json');

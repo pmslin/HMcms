@@ -13,7 +13,17 @@ class OrderModel extends Model
      * topid:教师证1，自考7，导游证12，普通话20，专插本23
      */
     public function getOrderBystuidTopid($studentId,$topid){
-        return M('order')->where('student_id=%d AND course_package_topid=%f AND status=1',$studentId,$topid)->order("create_time")->select();
+        $data = M('order')
+            ->where('student_id=%d AND course_package_topid=%f AND status=1',$studentId,$topid)
+            ->order("create_time")
+            ->select();
+        $sum=array();
+        foreach ($data as $k=>$v){
+            $sum['periods']='合计';
+            $sum['some_cash']+=$v['some_cash'];
+        }
+        array_push($data,$sum);
+        return $data;
     }
 
 

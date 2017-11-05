@@ -828,6 +828,11 @@
 
     $("#iwanModify").click(function () {
         $('input,select,textarea,radio', $('form[name="myForm"]')).removeAttr("disabled", 'disabled');
+
+        //如果财务已审核，金额等信息不允许修改
+        <if condition="$detail.is_audit eq 1">
+        $('#some_cash,#pay_time').attr("disabled",'disabled');
+        </if>
     });
 
 
@@ -1023,8 +1028,9 @@
     //财务审核提交按钮提交地址，财务审核要放开传入的字段较多，不适应公共方法
     $("#audit").click(function(){
          var msg = "是否要进行该操作？\n\n请再次确认！"; 
-         if (confirm(msg)==true){ 
-            $('#course,#topcourse_id,#course_package,#stu_id,#pay_time,#some_cash').attr("disabled", false);
+         if (confirm(msg)==true){
+            //#c1,#c2是费用是否交齐name='pay_status' 
+            $('#course,#topcourse_id,#course_package,#stu_id,#pay_time,#some_cash,#c1,#c2').attr("disabled", false);
             document.myForm.action="{:U('Admin/Com/audit')}";
             document.myForm.submit();
          }else{ 

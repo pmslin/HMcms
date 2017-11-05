@@ -57,10 +57,10 @@
     <hr>
 
     <div>
-        查询时间段：
-        <input placeholder=" 请输入开始时间" class="laydate-icon" onclick="laydate()" id="start_time" >
+        缴费时间段：
+        <input placeholder=" 请输入开始时间" class="laydate-icon" onclick="laydate()" id="start_time" value="{$search.date_b}">
         到
-        <input placeholder=" 请输入结束时间" class="laydate-icon" onclick="laydate()" id="end_time" >
+        <input placeholder=" 请输入结束时间" class="laydate-icon" onclick="laydate()" id="end_time" value="{$search.date_e}">
 
         <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
     </div>
@@ -72,7 +72,8 @@
         <tr>
             <th>序号</th>
             <th>招生老师</th>
-            <th>销售额</th>
+            <th>业绩</th>
+			<th>部门</th>
 
         </tr>
         </thead>
@@ -107,6 +108,7 @@
                 { "data": "num" },
                 { "data": "username" },
                 { "data": "count" },
+				{ "data": "bus_unit" },
 
             ]
 

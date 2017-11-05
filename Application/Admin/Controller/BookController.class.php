@@ -6,7 +6,7 @@ use Common\Controller\CommonController;
 class bookController extends BaseController {
 
     /**
-     * 发书
+     * 发书操作
      */
     public function sendBook(){
 
@@ -36,6 +36,8 @@ class bookController extends BaseController {
         $dele=D('send_book')->deleByid($id);
         $dele?$this->success('删除成功~') : $this->error('删除失败！');
 
-//        show_bug(I('get.id'));
     }
+
+
+
 }

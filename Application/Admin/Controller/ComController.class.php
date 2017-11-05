@@ -79,10 +79,16 @@ class ComController extends BaseController {
             $save=$model->where('id=%d',$studentId)->setField('is_audit','1');
 
             $teacherInfo=$model->where('id=%d',$studentId)->find();
+            if ($post['pay_status']==1){
+                $pay_status="一次性交齐";
+            }else{
+                $pay_status="预报名";
+            }
 
             //记录到订单表
             $orderData['course_package_id']=$post['course_package']; //套餐id
-//            $orderData['pay_status']=$post['pay_status']; //是否交齐
+            $orderData['periods']=$pay_status; //期数
+            $orderData['pay_status']=$post['pay_status']; //是否交齐
             $orderData['user_id']=$teacherInfo['userid']; //业务员id
             $orderData['create_time']=$post['pay_time'];    //缴费时间
             $orderData['student_id']=$post['id'];   //学生id

@@ -71,12 +71,22 @@ class OrderController extends BaseController {
      * 删除交费记录
      */
     public function deleteOrder(){
-        //权限检测,财务+超管
-        cost_check();
+        if (IS_GET){
+            //权限检测,财务+超管
+            cost_check();
 
-        $orderId=I("get.id");
-        $result=D("order")->deleteOrderByOrderId($orderId);
-        $result?$this->success('删除成功') : $this->error('删除失败');
+            $orderId=I("get.id");
+            $result=D("order")->deleteOrderByOrderId($orderId);
+            $result?$this->success('删除成功') : $this->error('删除失败');
+        }
+    }
+
+
+    /***
+     * 订单列表页面
+     */
+    public function orderListIndex(){
+        echo 123;
     }
 
 }

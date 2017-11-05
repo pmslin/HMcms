@@ -173,7 +173,7 @@ class TeacherController extends BaseController {
 
         $map['t.status']=1;
 
-        if(empty($get['exprot'])){  //列表，把不需要的字段剔除
+        if(empty($get['exprot'])){  //列表数据，把不需要的字段剔除
             $list=M('Teacher as t')
                 ->field('t.id,t.name,t.tel,t.create_time,t.test_time,t.pic,u.username,t.idcard')
                 ->join('user AS u ON t.userid=u.id',left)
