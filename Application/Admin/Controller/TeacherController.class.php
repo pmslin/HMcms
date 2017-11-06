@@ -142,6 +142,11 @@ class TeacherController extends BaseController {
         $date_e=empty($date_e)?date("Y-m-d"):$date_e;
         $is_check=$get['is_check'];//是否核实
         $is_bk=$get['is_bk'];//是否预报名
+        $pay_date_b=$get['pay_date_b'];//缴费时间
+        $pay_date_e=empty($pay_date_e)?date("Y-m-d"):$pay_date_e;//缴费时间
+        $is_audit=$get['is_audit'];//是否审核
+        $user_name=$get['user_name'];//业务员姓名
+        $stundet_name=$get['stundet_name'];//学生姓名
 
 
 
@@ -160,7 +165,7 @@ class TeacherController extends BaseController {
 
         //报名日期查询
         if (!empty($date_b)){
-            $map['create_time']=array('between',array($date_b,$date_e));
+            $map['t.create_time']=array('between',array($date_b,$date_e));
         }
         //是否核实
         if ($is_check>0){
@@ -170,18 +175,44 @@ class TeacherController extends BaseController {
         if ($is_bk>0){
             $map['t.is_bk']=$is_bk;
         }
+        //缴费时间查询
+        if (!empty($pay_date_b)){
+            $map['o.create_time']=array('between',array($pay_date_b,$pay_date_e));
+        }
+        //是否审核
+        if ($is_audit>0){
+            $map['t.is_audit']=$is_audit;
+        }
+        //业务员姓名
+        if ($user_name){
+            $map['u.username']=array("like","%{$user_name}%");
+        }
+        //学生姓名
+        if ($stundet_name){
+            $map['t.name']=array("like","%{$stundet_name}%");
+        }
 
         $map['t.status']=1;
 
-        if(empty($get['exprot'])){  //列表数据，把不需要的字段剔除
+        if(empty($get['exprot']) && empty($pay_date_b)){  //列表数据，把不需要的字段剔除
             $list=M('Teacher as t')
                 ->field('t.id,t.name,t.tel,t.create_time,t.test_time,t.pic,u.username,t.idcard')
-                ->join('user AS u ON t.userid=u.id',left)
+                ->join('user AS u ON t.userid=u.id',"left")
                 ->where($map)->order('create_time desc')->select();
-        }else{  //导出excle，所需字段较多
+        }elseif ($get['cost_exprot']>1){  //财务导出excel
+            $map['o.status']=1;
+            $map['o.num']='jsz';
+            $list=M()->table(array('order'=>'o'))
+                ->join('teacher t ON t.id = o.student_id',"left")
+                ->join('user u ON t.userid=u.id',"left")
+                ->where($map)
+                ->order('o.create_time DESC')
+                ->select();
+        }
+        else{  //导出excle，所需字段较多
             $list=M('Teacher as t')
                 ->field('t.*,u.username')
-                ->join('user AS u ON t.userid=u.id',left)
+                ->join('user AS u ON t.userid=u.id',"left")
                 ->where($map)->order('create_time desc')->select();
         }
 //        show_bug($list);

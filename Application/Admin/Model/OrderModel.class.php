@@ -26,6 +26,17 @@ class OrderModel extends Model
         return $data;
     }
 
+    //xxxx
+    public function getOrderStudent($map){
+        $list=M('order o')
+            ->join('teacher t ON t.id = o.student_id',"left")
+            ->join('user u ON t.userid=u.id',"left")
+            ->where($map)
+            ->order('o.create_time DESC')
+            ->select();
+        return $list;
+    }
+
 
     /**
      * 续缴操作
