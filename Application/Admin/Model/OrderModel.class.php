@@ -53,6 +53,19 @@ class OrderModel extends Model
     }
 
 
+    /***订单表与报名表表名称和报名表id关联查询
+     * @param $table 报名表 表名称
+     * @param $topid 报名表 id
+     * @return mixed
+     */
+    public function getOrderBytable($table,$topid){
+        $sql="SELECT o.id as oid,o.*,t.id as tid,t.* FROM `order` o LEFT JOIN $table t ON o.user_id = t.id WHERE o. STATUS = 1 AND o.course_package_topid = $topid";
+        $teacherList=M()->query($sql);
+        return $teacherList;
+    }
+
+
+
 
 }
 

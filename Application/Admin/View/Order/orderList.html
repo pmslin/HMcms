@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <link href="__PUBLIC__/plugins/DataTables/css/jquery.dataTables.css" rel="stylesheet">
+    <script src="__PUBLIC__/plugins/DataTables/js/jquery.js"></script>
+    <script src="__PUBLIC__/plugins/DataTables/js/jquery.dataTables.js"></script>
+    <link href="__PUBLIC__/plugins/bootstrap.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/plugins/DataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <script src="__PUBLIC__/plugins/DataTables/dataTables.bootstrap.js"></script>
+
+    <!--<script src="__PUBLIC__/plugins/layui/layui.js"></script>-->
+    <link href="__PUBLIC__/plugins/layui/css/layui.css" rel="stylesheet">
+
+    <script src="__PUBLIC__/plugins/layer/layer.js"></script>
+    <link href="__PUBLIC__/plugins/layer/skin/default/layer.css" rel="stylesheet">
+    <script src="__PUBLIC__/laydate/laydate.js"></script>
+
+</head>
+
+<style>
+    .content{ margin: 20px}
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        color: white !important;
+        border: 1px solid white;
+        background-color: white;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, white));
+        /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, white 0%, white 100%);
+        /* Chrome10+,Safari5.1+ */
+        background: -moz-linear-gradient(top, white 0%, white 100%);
+        /* FF3.6+ */
+        background: -ms-linear-gradient(top, white 0%, white 100%);
+        /* IE10+ */
+        background: -o-linear-gradient(top, white 0%, white 100%);
+        /* Opera 11.10+ */
+        background: linear-gradient(to bottom, white 0%, white 100%);
+        /* W3C */
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active{color:white !important}
+</style>
+
+
+
+<div class="content">
+
+    <div class="lead">
+        <h4><strong>缴费记录</strong></h4>
+    </div>
+
+    <hr>
+
+    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+    <div class="form-group">
+        首次考试时间：
+            <select  class="btn btn-default dropdown-toggle" id="test_time" >
+                <option value="0">全部</option>
+				<option value="2017-11">2017-11</option>
+                <foreach name="testTime" item="vo">
+                    <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
+                </foreach>
+            </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;报名日期:
+            <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
+               onclick="laydate()" name="date_b" id="date_b" >
+        --
+            <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
+               onclick="laydate()" name="date_e" id="date_e" >
+		&nbsp;&nbsp;&nbsp;&nbsp;是否核实：
+            <select  class="btn btn-default dropdown-toggle" id="is_check">
+                <option value="-1">全部</option>
+                <option value="1">核实</option>
+				<option value="0">未核实</option>
+            </select>
+		&nbsp;&nbsp;&nbsp;&nbsp;是否预报名：
+            <select  class="btn btn-default dropdown-toggle" id="is_bk">
+                <option value="-1">全部</option>
+                <option value="1">是</option>
+				<option value="0">否</option>
+            </select>
+		<br/>	
+        <div style="padding: 10px; float: right">
+            <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
+            <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
+            <input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
+        </div>
+    </div>
+        <hr>
+    </if>
+
+
+
+<table id="table_id_example" class="display">
+    <thead>
+    <tr>
+        <th>名字</th>
+        <th style="width: 100px;">缴费时间</th>
+        <th>财务是否审核</th>
+        <th>业务员姓名</th>
+    </tr>
+    </thead>
+    <!--<tbody>-->
+    <!--<foreach name = "list" item = "vo">-->
+        <!--<tr>-->
+            <!--<td>{$vo.name}</td>-->
+            <!--<td>{$vo.tel}</td>-->
+            <!--<td>{$vo.create_time}</td>-->
+            <!--<td>{$vo.username}</td>-->
+            <!--<td>-->
+                <!--&lt;!&ndash;<a href="{:U('Admin/Teacher/teacherStatusDetail',array('id'=>$vo[id]))}"><i class="fa fa-check text-navy"></i> 详情</a>&ndash;&gt;-->
+                <!--<button class="layui-btn" onclick="detail({$vo.id})" >详情</button>-->
+                <!--&lt;!&ndash;<button class="layui-btn">编辑</button>&ndash;&gt;-->
+                <!--&lt;!&ndash;<button class="layui-btn">删除</button>&ndash;&gt;-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</foreach>-->
+
+    <!--</tbody>-->
+</table>
+</div>
+
+
+
+<script src="__PUBLIC__/plugins/DataTables/language.js"></script>
+
+<script type="text/javascript">
+    var table;
+    $(document).ready(function() {
+        table = $('#table_id_example').DataTable( {
+            "pagingType": "simple_numbers",//设置分页控件的模式
+            searching: true,//datatales的查询框
+//            aLengthMenu:[10],//设置一页展示10条记录
+            "aaSorting" : [[2, "desc"]], //默认的排序方式，按第2列desc排序
+            "bLengthChange": true,//屏蔽tables的一页展示多少条记录的下拉列表
+            "language":lang,    //国际化
+            "processing": true, //打开数据加载时的等待效果
+			//"deferRender": true, //渲染加速
+            // "serverSide": true,//打开后台分页
+            "ajax": {
+                "url": "{:U('admin/Order/getOrderList')}",
+                "dataSrc": '',
+                // "type": "POST",
+                "data": function ( d ) {
+                    //添加额外的参数传给服务器
+                    d.test_time = $('#test_time').val();
+                    d.date_b = $('#date_b').val();
+                    d.date_e = $('#date_e').val();
+                    d.is_check = $('#is_check').val();
+                    d.is_bk = $('#is_bk').val();
+                }
+            },
+            "columns": [
+                { "data": "name" },
+                { "data": "create_time" },
+                { "data": "is_audit" },
+                { "data": "userid" },
+            ]
+
+        } );
+    } );
+
+    //点击搜索按钮
+    function search()
+    {
+        table.ajax.reload();
+    }
+
+    //导出excel
+    function exprot()
+    {
+        test_time = $('#test_time').val();
+        date_b = $('#date_b').val();
+        date_e = $('#date_e').val();
+        is_check = $('#is_check').val();
+        is_bk = $('#is_bk').val();
+        var url = "{:U('admin/Teacher/getTeacherList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"')}";
+//        alert(url);
+        window.location.href = url;
+    }
+
+    //导出考生图片
+    function downImg()
+    {
+        test_time = $('#test_time').val();
+        date_b = $('#date_b').val();
+        date_e = $('#date_e').val();
+        is_check = $('#is_check').val();
+        is_bk = $('#is_bk').val();
+        var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"')}";
+        // var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"')}";
+        window.location.href = url;
+    }
+
+    //详情
+    function detail(id){
+        layer.open({
+            type: 2,
+            title: ['教师证学生报名表详情'],
+            scrollbar: false, //是否允许浏览器出现滚动条
+            maxmin: false,  //最大最小化按钮
+            shadeClose: true, //点击遮罩关闭层
+            area: ['100%', '100%'], //控制大小
+            content: "__CONTROLLER__/teacherStatusDetail/id/" + id,
+            closeBtn: 1,    //关闭按钮样式
+            anim:3, //弹出动画
+            moveOut: true //是否允许拖动
+        });
+    }
+
+</script>
+</html>
