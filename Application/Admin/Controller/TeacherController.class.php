@@ -135,7 +135,8 @@ class TeacherController extends BaseController {
     public function getTeacherList(){
 
         $get=I('get.');
-//                show_bug($get);exit();
+//show_bug($get);
+//exit();
         $test_time=$get['test_time'];
         $date_b=$get['date_b'];
         $date_e=$get['date_e'];
@@ -184,14 +185,15 @@ class TeacherController extends BaseController {
             $map['t.is_audit']=$is_audit;
         }
         //业务员姓名
-        if ($user_name){
+        if ($user_name !='0'){
             $map['u.username']=array("like","%{$user_name}%");
         }
         //学生姓名
-        if ($stundet_name){
+        if ($stundet_name !='0'){
             $map['t.name']=array("like","%{$stundet_name}%");
         }
-
+//        echo $user_name;
+//show_bug($map);exit();
         $map['t.status']=1;
 
         if(empty($get['exprot']) && empty($pay_date_b)){  //列表数据，把不需要的字段剔除
@@ -199,13 +201,15 @@ class TeacherController extends BaseController {
                 ->field('t.id,t.name,t.tel,t.create_time,t.test_time,t.pic,u.username,t.idcard')
                 ->join('user AS u ON t.userid=u.id',"left")
                 ->where($map)->order('create_time desc')->select();
-        }elseif ($get['cost_exprot']>1){  //财务导出excel
+        }elseif (isset($get['cost_exprot'])){  //财务导出excel
             $map['o.status']=1;
             $map['o.num']='jsz';
             $list=M()->table(array('order'=>'o'))
+                ->field('t.name,o.some_cash,o.create_time as otime,u.username,u.bus_unit')
                 ->join('teacher t ON t.id = o.student_id',"left")
                 ->join('user u ON t.userid=u.id',"left")
                 ->where($map)
+                ->group("o.id")
                 ->order('o.create_time DESC')
                 ->select();
         }
@@ -232,6 +236,40 @@ class TeacherController extends BaseController {
         //导出excel和照片时，文件名字显示的考试时间
         if (empty($test_time)){
             $test_time=null;
+        }
+
+//        show_bug($list);
+        //导出财务excel
+        if(!empty($get['cost_exprot'])){
+            if ($list && count($list) > 0) {
+                for ($i = 0; $i < count($list); $i++) {
+                    $list[$i]=array(
+                        'key'   =>$list[$i]['num'], //序号
+                        'name'   =>$list[$i]['name'], //考生姓名
+                        'otime'   =>$list[$i]['otime'], //缴费时间
+                        'some_cash'   =>$list[$i]['some_cash'], //金额
+                        'bus_unit'   =>$list[$i]['bus_unit'], //部门
+                        'username'   =>$list[$i]['username'], //业务员
+                    );
+                }
+
+                //合计
+                foreach ($list as $k=>$v){
+                    $sum['key']='';
+                    $sum['name']='';
+                    $sum['otime']='合计';
+                    $sum['some_cash'] += $v['some_cash'];
+                    $sum['bus_unit'] ='';
+                    $sum['username'] ='';
+                }
+                array_push($list,$sum);
+
+                $title_arr = array('序号','考生姓名','缴费时间','金额', '部门','业务员');
+                $title = $pay_date_b.'到'.$pay_date_e."缴费情况";
+                exportExcel($list, $title_arr, $title);
+            }else{
+                $this->error('没有对应的数据');
+            }
         }
 
         //导出excel
@@ -379,7 +417,7 @@ class TeacherController extends BaseController {
 
             }
 
-            $name_co = "教师证学生报名表";
+//            $name_co = "教师证学生报名表";
 
             $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '身份证号码', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
                 '是否师范专业', '学校名称','是否大学在读' ,'学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',

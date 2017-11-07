@@ -90,9 +90,9 @@
             </select>
 			<br/><br/>
 			&nbsp;&nbsp;&nbsp;&nbsp;业务员:
-             <input type="text" style=" width:142px; height:30px;" id="user_name">
+             <input type="text" style=" width:142px; height:30px;" id="user_name" value="">
 			 &nbsp;&nbsp;&nbsp;&nbsp;学生:
-             <input type="text" style=" width:142px; height:30px;" id="stundet_name">
+             <input type="text" style=" width:142px; height:30px;" id="stundet_name" value="">
 		
 			   
 		<br/>	
@@ -218,8 +218,8 @@
         is_check = $('#is_check').val();
         is_bk = $('#is_bk').val();
 		is_audit = $('#is_audit').val();
-		user_name = $('#user_name').val();
-		stundet_name = $('#stundet_name').val();
+		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
+		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
         var url = "{:U('admin/Teacher/getTeacherList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
 //        alert(url);
         window.location.href = url;
@@ -234,11 +234,12 @@
         is_check = $('#is_check').val();
         is_bk = $('#is_bk').val();
 		is_audit = $('#is_audit').val();
-		user_name = $('#user_name').val();
-		stundet_name = $('#stundet_name').val();
+		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
+		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
 		pay_date_b = $('#pay_date_b').val();
-        psy_date_e = $('#psy_date_e').val();
-        var url = "{:U('admin/Teacher/getTeacherList/cost_exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"/pay_date_b/"+pay_date_b+"/psy_date_e/"+psy_date_e+"')}";
+        pay_date_e = $('#pay_date_e').val();	
+		
+        var url = "{:U('admin/Teacher/getTeacherList/cost_exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"/pay_date_b/"+pay_date_b+"/pay_date_e/"+pay_date_e+"')}";
 //        alert(url);
         window.location.href = url;
     }
@@ -251,7 +252,10 @@
         date_e = $('#date_e').val();
         is_check = $('#is_check').val();
         is_bk = $('#is_bk').val();
-        var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"')}";
+		is_audit = $('#is_audit').val();
+		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
+		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
+        var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
         // var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"')}";
         window.location.href = url;
     }
