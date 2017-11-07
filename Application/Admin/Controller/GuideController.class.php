@@ -119,6 +119,11 @@ class GuideController extends BaseController {
         $get=I('get.');
         $test_time=$get['test_time'];
         $is_check=$get['is_check'];//是否核实
+        $pay_date_b=$get['pay_date_b'];//缴费时间
+        $pay_date_e=empty($pay_date_e)?date("Y-m-d"):$pay_date_e;//缴费时间
+        $is_audit=$get['is_audit'];//是否审核
+        $user_name=$get['user_name'];//业务员姓名
+        $stundet_name=$get['stundet_name'];//学生姓名
 
 //        show_bug($get);
 
@@ -140,15 +145,43 @@ class GuideController extends BaseController {
             $map['g.is_check']=$is_check;
         }
 
+        //缴费时间查询
+        if (!empty($pay_date_b)){
+            $map['o.create_time']=array('between',array($pay_date_b,$pay_date_e));
+        }
+        //是否审核
+        if ($is_audit>0){
+            $map['g.is_audit']=$is_audit;
+        }
+        //业务员姓名
+        if ($user_name !='0'){
+            $map['u.username']=array("like","%{$user_name}%");
+        }
+        //学生姓名
+        if ($stundet_name !='0'){
+            $map['g.name']=array("like","%{$stundet_name}%");
+        }
+
 
         $map['g.status']=1;
 
-        if(empty($get['exprot'])) {  //列表，把不需要的字段剔除
+        if(empty($get['exprot'])  && empty($get['cost_exprot'])) {  //列表，把不需要的字段剔除
             $list=M('Guide as g')
                 ->field('g.id,g.name,g.tel,g.create_time,g.test_time,g.pic,u.username,g.idcard')
                 ->join('user AS u ON g.userid=u.id',left)
                 ->where($map)->order('create_time desc')->select();
-        }else{
+        }elseif (isset($get['cost_exprot'])){  //财务导出excel
+            $map['o.status']=1;
+            $map['o.num']='dyz';
+            $list=M()->table(array('order'=>'o'))
+                ->field('g.name,o.some_cash,o.create_time as otime,u.username,u.bus_unit')
+                ->join('Guide g ON g.id = o.student_id',"left")
+                ->join('user u ON g.userid=u.id',"left")
+                ->where($map)
+                ->group("o.id")
+                ->order('o.create_time DESC')
+                ->select();
+        } else{
             $list=M('Guide as g')
                 ->field('g.*,u.username')
                 ->join('user AS u ON g.userid=u.id',left)
@@ -173,6 +206,40 @@ class GuideController extends BaseController {
         //导出excel和照片时，文件名字显示的考试时间
         if (empty($test_time)){
             $test_time=null;
+        }
+
+
+        //导出财务excel
+        if(!empty($get['cost_exprot'])){
+            if ($list && count($list) > 0) {
+                for ($i = 0; $i < count($list); $i++) {
+                    $list[$i]=array(
+                        'key'   =>$list[$i]['num'], //序号
+                        'name'   =>$list[$i]['name'], //考生姓名
+                        'otime'   =>$list[$i]['otime'], //缴费时间
+                        'some_cash'   =>$list[$i]['some_cash'], //金额
+                        'bus_unit'   =>$list[$i]['bus_unit'], //部门
+                        'username'   =>$list[$i]['username'], //业务员
+                    );
+                }
+
+                //合计
+                foreach ($list as $k=>$v){
+                    $sum['key']='';
+                    $sum['name']='';
+                    $sum['otime']='合计';
+                    $sum['some_cash'] += $v['some_cash'];
+                    $sum['bus_unit'] ='';
+                    $sum['username'] ='';
+                }
+                array_push($list,$sum);
+
+                $title_arr = array('序号','考生姓名','缴费时间','金额', '部门','业务员');
+                $title = $pay_date_b.'到'.$pay_date_e."导游证缴费情况";
+                exportExcel($list, $title_arr, $title);
+            }else{
+                $this->error('没有对应的数据');
+            }
         }
 
         //导出excel

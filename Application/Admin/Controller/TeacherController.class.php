@@ -196,7 +196,7 @@ class TeacherController extends BaseController {
 //show_bug($map);exit();
         $map['t.status']=1;
 
-        if(empty($get['exprot']) && empty($pay_date_b)){  //列表数据，把不需要的字段剔除
+        if(empty($get['exprot']) && empty($get['cost_exprot'])){  //列表数据，把不需要的字段剔除
             $list=M('Teacher as t')
                 ->field('t.id,t.name,t.tel,t.create_time,t.test_time,t.pic,u.username,t.idcard')
                 ->join('user AS u ON t.userid=u.id',"left")
@@ -212,8 +212,7 @@ class TeacherController extends BaseController {
                 ->group("o.id")
                 ->order('o.create_time DESC')
                 ->select();
-        }
-        else{  //导出excle，所需字段较多
+        }else{  //导出excle，所需字段较多
             $list=M('Teacher as t')
                 ->field('t.*,u.username')
                 ->join('user AS u ON t.userid=u.id',"left")
@@ -265,7 +264,7 @@ class TeacherController extends BaseController {
                 array_push($list,$sum);
 
                 $title_arr = array('序号','考生姓名','缴费时间','金额', '部门','业务员');
-                $title = $pay_date_b.'到'.$pay_date_e."缴费情况";
+                $title = $pay_date_b.'到'.$pay_date_e."教师证缴费情况";
                 exportExcel($list, $title_arr, $title);
             }else{
                 $this->error('没有对应的数据');

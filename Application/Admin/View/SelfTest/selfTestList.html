@@ -69,26 +69,36 @@
         --
             <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
                onclick="laydate()" name="date_e" id="date_e" >
-		&nbsp;&nbsp;&nbsp;&nbsp;是否核实：
+		&nbsp;&nbsp;&nbsp;&nbsp;核实：
             <select  class="btn btn-default dropdown-toggle" id="is_check">
                 <option value="-1">全部</option>
                 <option value="1">核实</option>
 				<option value="0">未核实</option>
             </select>
-		&nbsp;&nbsp;&nbsp;&nbsp;是否预报名：
+		&nbsp;&nbsp;&nbsp;&nbsp;预报名：
             <select  class="btn btn-default dropdown-toggle" id="is_bk">
                 <option value="-1">全部</option>
                 <option value="1">是</option>
 				<option value="0">否</option>
             </select>
+		&nbsp;&nbsp;&nbsp;&nbsp;审核：
+            <select  class="btn btn-default dropdown-toggle" id="is_audit">
+                <option value="-1">全部</option>
+                <option value="1">是</option>
+				<option value="0">否</option>
+            </select>
 		<br/><br/>
-		专业：
+			专业：
             <select  class="btn btn-default dropdown-toggle" id="underMajor">
                 <option value="0">全部</option>
                 <foreach name="underMajor" item="vo">
                     <option value="{$vo.number}">{$vo.number}丨{$vo.name}</option>
                 </foreach>
             </select>
+			&nbsp;&nbsp;&nbsp;&nbsp;业务员:
+             <input type="text" style=" width:142px; height:30px;" id="user_name" value="">
+			 &nbsp;&nbsp;&nbsp;&nbsp;学生:
+             <input type="text" style=" width:142px; height:30px;" id="stundet_name" value="">
 		
 		
 		<br/>	
@@ -97,6 +107,22 @@
 			<input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
 			<input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
 		</div>
+		
+		<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
+		<div  class="cost">
+			<hr>
+			 &nbsp;&nbsp;&nbsp;&nbsp;缴费日期:
+				<input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
+				   onclick="laydate()" name="pay_date_b" id="pay_date_b" >
+			--
+				<input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
+				   onclick="laydate()" name="pay_date_e" id="pay_date_e" >
+			<div style=" float: right">
+				<input type="button" class="btn btn-primary" onclick="cost_exprot()"   value="导出财务Excel表格">
+			</div>
+		</div>
+		</if>
+		
     </div>
         <hr>
     </if>
@@ -163,6 +189,11 @@
                     d.is_check = $('#is_check').val();
                     d.is_bk = $('#is_bk').val();
 					d.underMajor = $('#underMajor').val();
+					//d.pay_date_b = $('#pay_date_b').val();
+					//d.pay_date_e = $('#pay_date_e').val();
+					d.is_audit = $('#is_audit').val();
+					d.user_name = $('#user_name').val();
+					d.stundet_name = $('#stundet_name').val();
                 }
             },
             "columns": [
@@ -193,7 +224,32 @@
         is_check = $('#is_check').val();
         is_bk = $('#is_bk').val();
 		underMajor = $('#underMajor').val();
-        var url = "{:U('admin/SelfTest/getSelfTestList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"')}";
+		is_audit = $('#is_audit').val();
+		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
+		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
+        var url = "{:U('admin/SelfTest/getTeacherList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
+
+        //var url = "{:U('admin/SelfTest/getSelfTestList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"')}";
+//        alert(url);
+        window.location.href = url;
+    }
+	
+	//财务导出excel
+    function cost_exprot()
+    {
+        test_time = $('#test_time').val();
+        date_b = $('#date_b').val();
+        date_e = $('#date_e').val();
+        is_check = $('#is_check').val();
+        is_bk = $('#is_bk').val();
+		is_audit = $('#is_audit').val();
+		underMajor = $('#underMajor').val();
+		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
+		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
+		pay_date_b = $('#pay_date_b').val();
+        pay_date_e = $('#pay_date_e').val();	
+		
+        var url = "{:U('admin/SelfTest/getSelfTestList/cost_exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"/pay_date_b/"+pay_date_b+"/pay_date_e/"+pay_date_e+"')}";
 //        alert(url);
         window.location.href = url;
     }
@@ -207,7 +263,12 @@
         is_check = $('#is_check').val();
         is_bk = $('#is_bk').val();
 		underMajor = $('#underMajor').val();
-        var url = "{:U('admin/SelfTest/getSelfTestList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"')}";
+		is_audit = $('#is_audit').val();
+		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
+		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
+        var url = "{:U('admin/SelfTest/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
+		
+		//var url = "{:U('admin/SelfTest/getSelfTestList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"')}";
         window.location.href = url;
     }
 
