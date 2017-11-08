@@ -118,6 +118,8 @@ class InserUnderController extends BaseController {
 
         $get=I('get.');
         $test_time=$get['test_time'];
+        $date_b=$get['date_b'];
+        $date_e=$get['date_e'];
         $is_check=$get['is_check'];//是否核实
         $is_bk=$get['is_bk'];//是否预报名
         $pay_date_b=$get['pay_date_b'];//缴费时间
@@ -139,6 +141,10 @@ class InserUnderController extends BaseController {
 
         if( $test_time==0 && !empty($get['exprot']) ){
             unset($map['test_time']);
+        }
+        //报名日期查询
+        if (!empty($date_b)){
+            $map['i.create_time']=array('between',array($date_b,$date_e));
         }
 
         //是否核实

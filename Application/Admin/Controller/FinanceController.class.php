@@ -10,7 +10,7 @@ class FinanceController extends BaseController {
         $search['date_b']=date("Y-m-d",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1,date("Y")));
         $search['date_e']=date("Y-m-d",mktime(23,59,59,date("m"),date("d")-date("w")+7,date("Y")));
 //        show_bug($search);
-//        $this->assign('search',$search);
+        $this->assign('search',$search);
         $this->display();
     }
 
@@ -28,6 +28,7 @@ class FinanceController extends BaseController {
 
 //        $map=array();
         $map['order.status']=1;
+        $map['num'] = array('neq','');
 
         if(!empty($start_time) || !empty($end_time)){
             $map['create_time']=array('between',array($start_time,$end_time));

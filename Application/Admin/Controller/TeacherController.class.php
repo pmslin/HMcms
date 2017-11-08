@@ -607,18 +607,33 @@ class TeacherController extends BaseController {
             $upload->maxSize = 3145728;// 设置附件上传大小
             $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
             $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
-            $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
-            if (!$info) {// 如果没有上传图片，则不修改图片
-               unset( $_POST['pic']);
-            }
-            else {// 上传成功   则修改图片
-                $_POST['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+//            $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
+//            if (!$info) {// 如果没有上传图片，则不修改图片
+//               unset( $_POST['pic']);
+//            }
+//            else {// 上传成功   则修改图片
+//                $_POST['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+//            }
+            $info = $upload->upload();
+            //            show_bug($info);exit();
+            if ($info) {// 上传错误提示错误信息
+                if ($info['pic']){
+                    $post['pic'] = $info['pic']['savepath'] . $info['pic']['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+                }else{
+                    unset( $_POST['pic']);
+                }
+                if ($info['idpic']){
+                    $post['id_pic'] = $info['idpic']['savepath'] . $info['idpic']['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+                }else{
+                    unset( $_POST['idpic']);
+                }
             }
 
 
             $teacherModel=M('teacher');
-            $teacherModel->create();
-            $saveResult=$teacherModel->save();
+//            $teacherModel->create();
+
+            $saveResult=$teacherModel->save($post);
             if($saveResult){
                 $this->success('修改成功');
             }else{

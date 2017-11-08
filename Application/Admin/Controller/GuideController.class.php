@@ -118,6 +118,8 @@ class GuideController extends BaseController {
 
         $get=I('get.');
         $test_time=$get['test_time'];
+        $date_b=$get['date_b'];
+        $date_e=$get['date_e'];
         $is_check=$get['is_check'];//是否核实
         $pay_date_b=$get['pay_date_b'];//缴费时间
         $pay_date_e=empty($pay_date_e)?date("Y-m-d"):$pay_date_e;//缴费时间
@@ -138,6 +140,10 @@ class GuideController extends BaseController {
 
         if( $test_time==0 && !empty($get['exprot']) ){
             unset($map['test_time']);
+        }
+        //报名日期查询
+        if (!empty($date_b)){
+            $map['g.create_time']=array('between',array($date_b,$date_e));
         }
 
         //是否核实
