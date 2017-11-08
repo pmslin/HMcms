@@ -452,7 +452,8 @@ class InserUnderController extends BaseController {
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //缴费情况
-        $order=D('order')->getOrderBystuidTopid($id,23);
+//        $order=D('order')->getOrderBystuidTopid($id,23);
+        $order=D('order')->getOrderBystuidNum($id,"zcb");
         $this->assign('order',$order);
 //        echo M()->_sql();
 //        show_bug($order);

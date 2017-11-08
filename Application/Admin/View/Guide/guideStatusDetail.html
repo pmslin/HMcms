@@ -59,7 +59,7 @@
                 <div class="ibox-title">
 
                     <!--<h5 style="padding-top: 8px;padding-right: 13px;">教师证学生报名表详情</h5>-->
-                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
+                    <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 5)">
                     <button class="btn btn-warning" type="submit" id="iwanModify">我要修改</button>
 					<button class="btn btn-danger" type="submit" id=""   onclick="sure('{:U('Admin/Com/delete')}')"  style="float:right;">删除</button>
                     </if>
@@ -675,8 +675,14 @@
             $(".i-checks").iCheck({checkboxClass: "icheckbox_square-green", radioClass: "iradio_square-green",})
         });
 
+        //点击我要修改放开不可编辑
         $("#iwanModify").click(function(){
             $('input,select,textarea,radio',$('form[name="myForm"]')).removeAttr("disabled",'disabled');
+
+            //如果财务已审核，金额等信息不允许修改
+            <if condition="$detail.is_audit eq 1">
+            $('#some_cash,#pay_time').attr("disabled",'disabled');
+            </if>
         });
 
 

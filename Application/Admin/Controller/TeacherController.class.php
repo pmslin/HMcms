@@ -520,7 +520,8 @@ class TeacherController extends BaseController {
 //        show_bug($send_book);
 
         //缴费情况
-        $order=D('order')->getOrderBystuidTopid($id,1);
+//        $order=D('order')->getOrderBystuidTopid($id,1);
+        $order=D('order')->getOrderBystuidNum($id,"jsz");
         $this->assign('order',$order);
 
         //获取普通话考试时间

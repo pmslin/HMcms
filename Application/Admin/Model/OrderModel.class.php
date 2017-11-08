@@ -8,7 +8,7 @@ class OrderModel extends Model
 
     /**
      * 根据学生id和证书topid获取订单信息
-     * @param $studentId
+     * @param $studentId 学生id
      * @param $topid  course_package的主键id
      * topid:教师证1，自考7，导游证12，普通话20，专插本23
      */
@@ -26,16 +26,26 @@ class OrderModel extends Model
         return $data;
     }
 
-    //xxxx
-    public function getOrderStudent($map){
-        $list=M('order o')
-            ->join('teacher t ON t.id = o.student_id',"left")
-            ->join('user u ON t.userid=u.id',"left")
-            ->where($map)
-            ->order('o.create_time DESC')
+    /***根据学生id和证书编号获取订单信息
+     * @param $studentId 学生id
+     * @param $num 课程编号
+     * @return mixed
+     */
+    public function getOrderBystuidNum($studentId,$num){
+        $data = M('order')
+            ->where("student_id=%d AND num='{$num}' AND status=1",$studentId)
+            ->order("create_time")
             ->select();
-        return $list;
+//        echo M()->_sql();
+        $sum=array();
+        foreach ($data as $k=>$v){
+            $sum['periods']='合计';
+            $sum['some_cash']+=$v['some_cash'];
+        }
+        array_push($data,$sum);
+        return $data;
     }
+
 
 
     /**

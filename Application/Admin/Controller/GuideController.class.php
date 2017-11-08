@@ -471,7 +471,8 @@ class GuideController extends BaseController {
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //缴费情况
-        $order=D('order')->getOrderBystuidTopid($id,12);
+//        $order=D('order')->getOrderBystuidTopid($id,12);
+        $order=D('order')->getOrderBystuidNum($id,"dyz");
         $this->assign('order',$order);
 //        echo M()->_sql();
 //        show_bug($order);

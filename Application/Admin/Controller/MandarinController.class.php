@@ -420,7 +420,8 @@ class MandarinController extends BaseController {
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //缴费情况
-        $order=D('order')->getOrderBystuidTopid($id,20);
+//        $order=D('order')->getOrderBystuidTopid($id,20);
+        $order=D('order')->getOrderBystuidNum($id,"pth");
         $this->assign('order',$order);
 //        echo M()->_sql();
 //        show_bug($order);

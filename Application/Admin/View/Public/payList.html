@@ -22,7 +22,7 @@
             </tr>
             </thead>
             <tbody>
-            <if condition="$order neq null">
+            <if condition="$order.0 neq null">
                 <foreach name="order" key="key" item="vo">
                     <tr>
 						<td>{$key+1}</td>

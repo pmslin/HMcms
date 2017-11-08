@@ -420,7 +420,8 @@ class SelfTestController extends BaseController {
 //        show_bug($send_book);
 
         //缴费情况
-        $order=D('order')->getOrderBystuidTopid($id,7);
+//        $order=D('order')->getOrderBystuidTopid($id,7);
+        $order=D('order')->getOrderBystuidNum($id,"zk");
         $this->assign('order',$order);
 
         //自考课程、价格列表
