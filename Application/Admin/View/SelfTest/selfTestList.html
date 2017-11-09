@@ -227,7 +227,7 @@
 		is_audit = $('#is_audit').val();
 		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
 		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
-        var url = "{:U('admin/SelfTest/getTeacherList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
+        var url = "{:U('admin/SelfTest/getSelfTestList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
 
         //var url = "{:U('admin/SelfTest/getSelfTestList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"')}";
 //        alert(url);
@@ -266,7 +266,7 @@
 		is_audit = $('#is_audit').val();
 		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
 		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
-        var url = "{:U('admin/SelfTest/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
+        var url = "{:U('admin/SelfTest/getSelfTestList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
 		
 		//var url = "{:U('admin/SelfTest/getSelfTestList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"')}";
         window.location.href = url;
