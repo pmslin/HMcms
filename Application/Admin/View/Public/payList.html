@@ -81,7 +81,7 @@
             <label class="col-sm-2 control-label">金额</label>
 
             <div class="col-sm-3">
-                <input type="text" class="form-control" name="some_cash" datatype="n"
+                <input type="text" class="form-control" name="some_cash" datatype="/^-?[1-9]+(\.\d+)?$|^-?0(\.\d+)?$|^-?[1-9]+[0-9]*(\.\d+)?$/" 
                        nullmsg="请输入本期缴费金额" errormsg="本期缴费金额请填数字">
             </div>
         </div>
