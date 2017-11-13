@@ -6,6 +6,7 @@ class FinanceController extends BaseController {
         //财务权限检测
         cost_check();
 
+        //默认查最近一周的业绩
         $search=array();
         $search['date_b']=date("Y-m-d",mktime(0, 0 , 0,date("m"),date("d")-date("w")+1,date("Y")));
         $search['date_e']=date("Y-m-d",mktime(23,59,59,date("m"),date("d")-date("w")+7,date("Y")));
@@ -50,18 +51,16 @@ class FinanceController extends BaseController {
 
         }
 
-        foreach ($list as $k=>$v){
-            $sum['username']='<b style="font-size: 20px;">合计</b>';
-            $sum['count'] += $v['count'];
-            $sum['num']='';
-            $sum['bus_unit']='';
+        //有数据才统计合计，不然没有数据时也统计合计的话合计会一列，database列表会出现异常
+        if (count($list)>0){
+            foreach ($list as $k=>$v){
+                $sum['username']='<b style="font-size: 20px;">合计</b>';
+                $sum['count'] += $v['count'];
+                $sum['num']='';
+                $sum['bus_unit']='';
+            }
+            array_push($list,$sum);
         }
-
-        array_push($list,$sum);
-
-//        show_bug($list);
-//
-//        echo 123;
 
 
         $this->ajaxReturn($list,'json');

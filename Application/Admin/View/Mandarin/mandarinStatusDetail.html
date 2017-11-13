@@ -172,7 +172,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">学历层次</label>
 
-                            <div class="col-sm-5 radio i-checks">
+                            <div class="col-sm-3 radio i-checks">
                                 <label>
                                     <input type="radio" value="4" name="education" datatype="*"
                                            nullmsg="请选择学历层次"
@@ -190,6 +190,12 @@
                                     <input type="radio" value="3" name="education"
                                     <if condition="$detail.education eq 3">checked</if>
                                     > <i></i> 研究生</label>
+                            </div>
+
+                            <label class="col-sm-2 control-label">微信号</label>
+
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" value="{$detail.wechar}" name="wechar" datatype="s&*"  nullmsg="请输入微信号">
                             </div>
                         </div>
 
@@ -446,10 +452,11 @@
 						
 						
 
-						
+						<!-- 教务部显示缴费信息的填写框，防止教务修改-->
+                        <if condition="$Think.session.roleid neq 4">
 						<!-- 费用是否交齐等 财务-->
 						<include file="Public/cost" />
-						
+						</if>
 						
 
                         <!-- 财务审核按钮-->

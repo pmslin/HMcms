@@ -474,12 +474,13 @@
                         <div class="hr-line-dashed"></div>
 						
 						
-						
-						
+						<!-- 教务部显示缴费信息的填写框，防止教务修改-->
+						<if condition="$Think.session.roleid neq 4">
 						<!-- 费用是否交齐等 财务-->
 						<include file="Public/cost" />
+						</if>
 						
-						
+                        
                         <!-- 财务审核按钮-->
                         <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
                             <div class="form-group">

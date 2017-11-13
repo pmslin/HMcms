@@ -417,6 +417,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">微信号</label>
+
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" value="{$detail.wechar}" name="wechar" datatype="s&*"  nullmsg="请输入微信号">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">本人联系地址</label>
 
                             <div class="col-sm-8">
@@ -619,11 +627,12 @@
 
                         <div class="hr-line-dashed"></div>
 						
-												
 						
+                        <!-- 教务部显示缴费信息的填写框，防止教务修改-->						
+						<if condition="$Think.session.roleid neq 4">
 						<!-- 费用是否交齐等 财务-->
 						<include file="Public/cost" />
-						
+						</if>
 
 						
                     <!-- 财务审核按钮-->
@@ -641,8 +650,10 @@
                 <!--修改表单结束-->
 
 
+               
                 <!-- 交费情况-->
                 <include file="Public/payList" />
+               
 
 
                 <!--发书操作开始-->
