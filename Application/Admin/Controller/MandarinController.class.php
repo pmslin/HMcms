@@ -254,33 +254,33 @@ class MandarinController extends BaseController {
 
 
                 //是否在校，1是，0否
-                if( $list[$i]['in_school'] == 0 ){
-                    $in_school = '否';
-                }else if ($list[$i]['in_school'] == 1){
-                    $in_school= '是';
-                }
+//                if( $list[$i]['in_school'] == 0 ){
+//                    $in_school = '否';
+//                }else if ($list[$i]['in_school'] == 1){
+//                    $in_school= '是';
+//                }
 
                 //学习形式，1普通全日制，2成人高考，3远程教育
-                if( $list[$i]['study_form'] == 1 ){
-                    $study_form = '普通全日制';
-                }else if ($list[$i]['study_form'] == 2){
-                    $study_form= '成人高考';
-                }else if ($list[$i]['study_form'] == 3){
-                    $study_form= '远程教育';
-                }
+//                if( $list[$i]['study_form'] == 1 ){
+//                    $study_form = '普通全日制';
+//                }else if ($list[$i]['study_form'] == 2){
+//                    $study_form= '成人高考';
+//                }else if ($list[$i]['study_form'] == 3){
+//                    $study_form= '远程教育';
+//                }
 
                 //政治面貌
-                if( $list[$i]['face'] == 1 ){
-                    $face = '团员';
-                }else if ($list[$i]['face'] == 2){
-                    $face= '预备党员';
-                }else if ($list[$i]['face'] == 3){
-                    $face= '党员';
-                }else if ($list[$i]['face'] == 4){
-                    $face= '群众';
-                }else if ($list[$i]['face'] == 5){
-                    $face= '其他';
-                }
+//                if( $list[$i]['face'] == 1 ){
+//                    $face = '团员';
+//                }else if ($list[$i]['face'] == 2){
+//                    $face= '预备党员';
+//                }else if ($list[$i]['face'] == 3){
+//                    $face= '党员';
+//                }else if ($list[$i]['face'] == 4){
+//                    $face= '群众';
+//                }else if ($list[$i]['face'] == 5){
+//                    $face= '其他';
+//                }
 
                 //学历
                 if( $list[$i]['education'] == 1 ){
@@ -335,11 +335,10 @@ class MandarinController extends BaseController {
 
             }
 
-            $name_co = "普通话学生报名表";
+//            $name_co = "普通话学生报名表";
 
             $title_arr = array('序号','考试时间', '姓名', '证件类型', '身份证号码', '性别', '民族', '联系电话','学历', 'QQ邮箱','套餐', '业务部门','业务员','报名日期','备注');
 
-//            $time = date('Y-m-d', time());
 
             $title = "普通话".$test_time."首次考试学生—";
 

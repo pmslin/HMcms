@@ -347,6 +347,7 @@ class GuideController extends BaseController {
                     'key'   =>$list[$i]['num'], //序号
                     'name'  =>$list[$i]['name'],    //姓名
                     'tel'   =>$list[$i]['tel'], //手机号码
+                    'wechat'   =>$list[$i]['wechat'], //微信号
                     'email'    =>$list[$i]['email'], //邮箱
                     'idcard'    =>$list[$i]['idcard'],  //身份证
                     'sex'   =>$sex,//性别
@@ -392,7 +393,7 @@ class GuideController extends BaseController {
 
             $name_co = "导游证学生报名表";
 
-            $title_arr = array('序号', '姓名','手机号','QQ邮箱','身份证号','性别','民族', '政治面貌', '最高学历','学习专业',
+            $title_arr = array('序号', '姓名','手机号','微信号','QQ邮箱','身份证号','性别','民族', '政治面貌', '最高学历','学习专业',
                 '院校全称','单位性质','考生类别', '考区', '申报语种','报考类别','报考年份','入学时间',
                 '（预计）毕业时间','工作单位', '套餐', '紧急联系人','紧急联系人电话','通讯地址和邮编','业务员','备注','填表日期');
 

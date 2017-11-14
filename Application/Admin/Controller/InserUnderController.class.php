@@ -195,7 +195,7 @@ class InserUnderController extends BaseController {
             $list=M('inser_under as i')
                 ->field('i.*,u.username')
                 ->join('user AS u ON i.userid=u.id',left)
-                ->where($map)->order('create_time asc')->select();
+                ->where($map)->order('create_time DESC')->select();
         }
 
 //        show_bug($list);
