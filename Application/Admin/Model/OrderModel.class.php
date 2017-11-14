@@ -41,6 +41,7 @@ class OrderModel extends Model
         foreach ($data as $k=>$v){
             $sum['periods']='合计';
             $sum['some_cash']+=$v['some_cash'];
+            $sum['pay_status']=99;
         }
         array_push($data,$sum);
         return $data;

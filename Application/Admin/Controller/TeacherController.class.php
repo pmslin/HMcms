@@ -416,14 +416,9 @@ class TeacherController extends BaseController {
 
             }
 
-//            $name_co = "教师证学生报名表";
-
             $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '身份证号码', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
                 '是否师范专业', '学校名称','是否大学在读' ,'学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
                 '学位证书号码', '参加工作年份','套餐', '业务部门','业务员','报名日期','是否包含普通话','普通话考试日期','备注');
-
-//            $time = date('Y-m-d', time());
-
 
             $title = "教师证".$test_time."首次考试学生—";
 
@@ -447,9 +442,6 @@ class TeacherController extends BaseController {
 
         $this->ajaxReturn($list,'json');
 
-//        $this->assign('list',$list);
-//
-//        $this->display();
     }
 
 

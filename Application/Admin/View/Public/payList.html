@@ -15,7 +15,7 @@
                 <th>期数</th>
                 <th>金额</th>
                 <th>缴费时间</th>
-                <!-- <th>是否收齐</th> -->
+                <th>是否收齐</th>
                 <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5) ">
 					<th>操作</th>
                 </if>
@@ -30,19 +30,19 @@
                         <td>{$vo.periods}</td>
                         <td>{$vo.some_cash}</td>
                         <td>{$vo.create_time}</td>
-                        <!-- <td> -->
-                            <!-- <if condition="$vo.pay_status eq 1"> 已收齐 -->
-                                <!-- <else/> -->
-                                <!-- 未收齐 -->
-                            <!-- </if> -->
-                        <!-- </td> -->
+                        <td>
+                            <if condition="$vo.pay_status eq 1"> 已收齐
+                                <elseif condition="$vo.pay_status eq 0" /> 未收齐
+                                <else /> 
+                            </if>
+                        </td>
                         <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5) ">
 							<td><a href="{:U('Admin/Order/deleteOrder','id='.$vo['id'])}"> <button class="btn"  >删除</button> </a></td>
                         </if>
                     </tr>
                 </foreach>
                 <else/>
-                <td colspan=6 style="text-align: center">无缴费记录</td>
+                <td colspan=7 style="text-align: center">无缴费记录</td>
             </if>
             </tbody>
         </table>
