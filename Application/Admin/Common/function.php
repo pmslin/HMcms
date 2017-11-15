@@ -20,6 +20,19 @@ function book_check()
 }
 
 /**
+ * 教务权限
+ *  发书权限检测，roleid=1和4的可以修改，1超管 4教务
+ */
+function teacher_check()
+{
+    if (!in_array(session('roleid'), array(1, 4))) {
+//         error('没有操作权限');
+        echo '没有操作权限';
+        exit();
+    }
+}
+
+/**
  * 财务权限
  *  财务权限检测，roleid=1和4的可以修改，1超管 5财务
  */

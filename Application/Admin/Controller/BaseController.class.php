@@ -11,6 +11,65 @@ class BaseController extends Controller {
     }
 
 
+    //财务导出excel
+    public function cost_exprot($list,$pay_date_b,$pay_date_e,$num){
+        for ($i = 0; $i < count($list); $i++) {
+            //费用是否交齐
+            if( $list[$i]['pay_status'] == 1 ){
+                $pay_status = '是';
+            }else if ($list[$i]['pay_status'] == 0){
+                $pay_status= '否';
+            }
+
+            $list[$i]=array(
+                'key'   =>$list[$i]['num'], //序号
+                'name'   =>$list[$i]['name'], //考生姓名
+                'course_name'   =>$list[$i]['course_name'], //班型
+                'otime'   =>$list[$i]['otime'], //缴费时间
+                'pay_way'   =>$list[$i]['pay_way'], //缴费方式
+                'some_cash'   =>$list[$i]['some_cash'], //金额
+                'bus_unit'   =>$list[$i]['bus_unit'], //部门
+                'username'   =>$list[$i]['username'], //业务员
+                'pay_status'   =>$pay_status, //费用是否交齐
+                'proxy_remark'   =>$list[$i]['proxy_remark'], //备注
+            );
+        }
+
+        //合计
+        foreach ($list as $k=>$v){
+            $sum['key']='';
+            $sum['name']='';
+            $sum['course_name']='';
+            $sum['otime']='';
+            $sum['pay_way']='合计';
+            $sum['some_cash'] += $v['some_cash'];
+            $sum['bus_unit'] ='';
+            $sum['username'] ='';
+            $sum['pay_status'] ='';
+            $sum['proxy_remark'] ='';
+        }
+        array_push($list,$sum);
+
+        //由编号获取证书名称
+        $testName=D("CoursePackage")->getTestNameByNum($num);
+
+        $title_arr = array('序号','考生姓名','班型','缴费时间','缴费方式','金额', '部门','业务员','费用是否交齐','备注');
+        $title = $pay_date_b.'到'.$pay_date_e.$testName."缴费情况";
+        exportExcel($list, $title_arr, $title);
+    }
+
+    //由编号返回证书名称
+//    public function getTestNameByNum($num){
+//        if ($num==='jsz') $name="教师证";
+//        if ($num==='zk')  $name="自考专升本";
+//        if ($num==='dyz')  $name="导游证";
+//        if ($num==='pth')  $name="普通话";
+//        if ($num==='zcb')  $name="专插本";
+//        if ($num==='hr')  $name="人力资源";
+//        return $name;
+//    }
+
+
 
     //导出考生证件照
     public function downtest($filename,$image)

@@ -480,6 +480,9 @@
                     <!-- 交费情况-->
                     <include file="Public/payList" />
 
+                     <!-- 考试情况-->
+                    <include file="Public/scoreList" />
+
 
                     <!--发书操作开始-->
                     <!-- <div class="hr-line-dashed"></div> -->
@@ -797,7 +800,7 @@
     $("#audit").click(function(){
          var msg = "是否要进行该操作？\n\n请再次确认！"; 
          if (confirm(msg)==true){ 
-            $('#course,#topcourse_id,#course_package,#stu_id,#pay_time,#some_cash').attr("disabled", false);
+            $('#course,#topcourse_id,#course_package,#stu_id,#pay_time,#some_cash,#c1,#c2').attr("disabled", false);
             document.myForm.action="{:U('Admin/Com/audit')}";
             document.myForm.submit();
          }else{ 

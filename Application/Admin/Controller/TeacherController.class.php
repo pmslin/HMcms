@@ -139,12 +139,12 @@ class TeacherController extends BaseController {
 //exit();
         $test_time=$get['test_time'];
         $date_b=$get['date_b'];
-        $date_e=$get['date_e'];
-        $date_e=empty($date_e)?date("Y-m-d"):$date_e;
+//        $date_e=$get['date_e'];
+        $date_e=empty($get['date_e'])?date("Y-m-d"):$get['date_e'];
         $is_check=$get['is_check'];//是否核实
         $is_bk=$get['is_bk'];//是否预报名
         $pay_date_b=$get['pay_date_b'];//缴费时间
-        $pay_date_e=empty($pay_date_e)?date("Y-m-d"):$pay_date_e;//缴费时间
+        $pay_date_e=empty($get['pay_date_e'])?date("Y-m-d"):$get['pay_date_e'];//缴费时间
         $is_audit=$get['is_audit'];//是否审核
         $user_name=$get['user_name'];//业务员姓名
         $stundet_name=$get['stundet_name'];//学生姓名
@@ -205,7 +205,7 @@ class TeacherController extends BaseController {
             $map['o.status']=1;
             $map['o.num']='jsz';
             $list=M()->table(array('order'=>'o'))
-                ->field('t.name,o.some_cash,o.create_time as otime,u.username,u.bus_unit')
+                ->field('t.name,o.some_cash,o.course_name,o.create_time as otime,t.pay_way,u.username,u.bus_unit,o.pay_status,t.proxy_remark')
                 ->join('teacher t ON t.id = o.student_id',"left")
                 ->join('user u ON t.userid=u.id',"left")
                 ->where($map)
@@ -241,31 +241,7 @@ class TeacherController extends BaseController {
         //导出财务excel
         if(!empty($get['cost_exprot'])){
             if ($list && count($list) > 0) {
-                for ($i = 0; $i < count($list); $i++) {
-                    $list[$i]=array(
-                        'key'   =>$list[$i]['num'], //序号
-                        'name'   =>$list[$i]['name'], //考生姓名
-                        'otime'   =>$list[$i]['otime'], //缴费时间
-                        'some_cash'   =>$list[$i]['some_cash'], //金额
-                        'bus_unit'   =>$list[$i]['bus_unit'], //部门
-                        'username'   =>$list[$i]['username'], //业务员
-                    );
-                }
-
-                //合计
-                foreach ($list as $k=>$v){
-                    $sum['key']='';
-                    $sum['name']='';
-                    $sum['otime']='合计';
-                    $sum['some_cash'] += $v['some_cash'];
-                    $sum['bus_unit'] ='';
-                    $sum['username'] ='';
-                }
-                array_push($list,$sum);
-
-                $title_arr = array('序号','考生姓名','缴费时间','金额', '部门','业务员');
-                $title = $pay_date_b.'到'.$pay_date_e."教师证缴费情况";
-                exportExcel($list, $title_arr, $title);
+                $this->cost_exprot($list,$pay_date_b,$pay_date_e,$map['o.num']);//导出财务excel
             }else{
                 $this->error('没有对应的数据');
             }
@@ -515,6 +491,10 @@ class TeacherController extends BaseController {
 //        $order=D('order')->getOrderBystuidTopid($id,1);
         $order=D('order')->getOrderBystuidNum($id,"jsz");
         $this->assign('order',$order);
+
+        //考试情况
+        $score=D("TsScore")->getScoreBystuidNum($id,"jsz");
+        $this->assign('score',$score);
 
         //获取普通话考试时间
         $mandarinDate=D('ThTesttime')->getThTestTimeById(19);

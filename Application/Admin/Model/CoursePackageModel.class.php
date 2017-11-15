@@ -33,6 +33,14 @@ class CoursePackageModel extends Model
         return M('course_package')->where('id=%d',$id)->find();
     }
 
+    /***根据编号获取证书名称
+     * @param $num 证书编号
+     * @return mixed
+     */
+    public function getTestNameByNum($num){
+        return M('course_package')->field("name")->where(" num='{$num}' ")->find()['name'];
+    }
+
 }
 
 

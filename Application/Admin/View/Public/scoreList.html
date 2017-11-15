@@ -1,0 +1,94 @@
+
+
+<!--考试情况   开始-->
+<div class="ibox-content text-center booktitle">
+    <h3 class="m-b-xxs">考试情况</h3>
+</div>
+
+<div class="col-sm-12">
+    <div class="ibox-content">
+        <table class="table table-bordered" >
+            <thead>
+            <tr>
+				<th>序号</th>
+                <th>考试时间</th>
+                <th>科目</th>
+                <th>成绩</th>
+                <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+					<th>操作</th>
+                </if>
+            </tr>
+            </thead>
+            <tbody>
+            <if condition="$score.0 neq null">
+                <foreach name="score" key="key" item="vo">
+                    <tr>
+						<td>{$key+1}</td>
+                        <td>{$vo.sc_time}</td>
+                        <td>{$vo.sc_subject}</td>
+                        <td>{$vo.sc_score}</td>
+                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+							<td><a href="{:U('Admin/Score/deleteScore','id='.$vo['sc_id'])}"> <button class="btn"  >删除</button> </a></td>
+                        </if>
+                    </tr>
+                </foreach>
+                <else/>
+                <td colspan=5 style="text-align: center">无成绩记录</td>
+            </if>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="ibox-content text-center ">
+</div>
+
+
+<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
+    <form class="form-horizontal demoform" action="{:U('Admin/Score/addScore')}" method="post"
+          enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label">考试日期</label>
+
+            <div class="col-sm-2">
+                <input placeholder="请输入日期" class="laydate-icon time_input"
+                       style=" width:242px; height:33px; padding:5px;"
+                       onclick="laydate()" name="sc_time" datatype="*" nullmsg="请输入考试日期">
+            </div>
+
+    
+            <label class="col-sm-2 control-label">考试科目</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="sc_subject" 
+                       nullmsg="请输入考试科目" >
+            </div>
+
+
+            <label class="col-sm-1 control-label">考试成绩</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="sc_score" 
+                       nullmsg="请输入考试成绩" >
+            </div>
+
+        </div>
+
+      
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-5">
+                <button class="btn btn-primary" type="submit" id="saveorder">确定</button>
+                <input type="hidden" name="sc_studentid" value="{$detail.id}">
+                <input type="hidden" name="sc_test_num" id="sc_test_num" value="">
+
+            </div>
+        </div>
+
+    </form>
+</if>
+<!--考试情况   结束-->
+
+<script>
+    var sc_test_num = $("#course").val();  //证书编号
+    $("#sc_test_num").val(sc_test_num);
+</script>
