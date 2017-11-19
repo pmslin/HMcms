@@ -52,7 +52,7 @@
 
             <div class="col-sm-2">
                 <input placeholder="请输入日期" class="laydate-icon time_input"
-                       style=" width:242px; height:33px; padding:5px;"
+                       style=" width:150px; height:33px; padding:5px;"
                        onclick="laydate()" name="sc_time" datatype="*" nullmsg="请输入考试日期">
             </div>
 
@@ -89,6 +89,6 @@
 <!--考试情况   结束-->
 
 <script>
-    var sc_test_num = $("#course").val();  //证书编号
+    var sc_test_num = $("#course").val();  //获取证书编号，一起提交到后台
     $("#sc_test_num").val(sc_test_num);
 </script>

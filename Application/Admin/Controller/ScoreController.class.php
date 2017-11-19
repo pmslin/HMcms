@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017/11/15
- * Time: 15:55
- */
 
 namespace Admin\Controller;
 
@@ -19,9 +13,9 @@ class ScoreController extends BaseController
             $scoreModel=M("score","ts_");
             $scoreModel->create();
             $result = $scoreModel->add();
-            $result ? $this->success("录入成功！") : $this->error("录入失败");
+            $result ? $this->success("成绩录入成功！") : $this->error("成绩录入失败");
         }else{
-            $this->error("录入姿势");
+            $this->error("录入姿势不对");
         }
     }
 
@@ -31,7 +25,7 @@ class ScoreController extends BaseController
         teacher_check();//检测是否有教务权限
         if (IS_GET){
             $result = D("TsScore")->deleScoreById(I("get.id"));
-            $result ? $this->success("删除成功！") : $this->error("删除失败");
+            $result ? $this->success("成绩删除成功！") : $this->error("成绩删除失败");
         }
     }
 

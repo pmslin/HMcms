@@ -1,0 +1,93 @@
+
+
+<!--补考情况   开始-->
+<div class="ibox-content text-center booktitle">
+    <h3 class="m-b-xxs">补考情况</h3>
+</div>
+
+<div class="col-sm-12">
+    <div class="ibox-content">
+        <table class="table table-bordered" >
+            <thead>
+            <tr>
+				<th>序号</th>
+                <th>补考时间</th>
+                <th>补考科目</th>
+                <th>补考费用</th>
+                <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+					<th>操作</th>
+                </if>
+            </tr>
+            </thead>
+            <tbody>
+            <if condition="$resit.0 neq null">
+                <foreach name="resit" key="key" item="vo">
+                    <tr>
+						<td>{$key+1}</td>
+                        <td>{$vo.re_time}</td>
+                        <td>{$vo.re_subject}</td>
+                        <td>{$vo.re_cost}</td>
+                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
+							<td><a href="{:U('Admin/Resit/deleteResit','id='.$vo['re_id'])}"> <button class="btn"  >删除</button> </a></td>
+                        </if>
+                    </tr>
+                </foreach>
+                <else/>
+                <td colspan=5 style="text-align: center">无补考记录</td>
+            </if>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="ibox-content text-center ">
+</div>
+
+
+<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4)">
+    <form class="form-horizontal demoform" action="{:U('Admin/Resit/addResit')}" method="post"
+          enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label">补考日期</label>
+
+            <div class="col-sm-2">
+                <input placeholder="请输入日期" class="laydate-icon time_input"
+                       style=" width:150px; height:33px; padding:5px;"
+                       onclick="laydate()" name="re_time" datatype="*" nullmsg="请输入补考日期">
+            </div>
+
+    
+            <label class="col-sm-2 control-label">补考科目</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="re_subject" 
+                       nullmsg="请输入补考科目" >
+            </div>
+
+
+            <label class="col-sm-1 control-label">补考费用</label>
+
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="re_cost"  placeholder="元" datatype="/^-?[1-9]+(\.\d+)?$|^-?0(\.\d+)?$|^-?[1-9]+[0-9]*(\.\d+)?$/" nullmsg="请输入补考费用" >
+            </div>
+
+        </div>
+
+      
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-5">
+                <button class="btn btn-primary" type="submit" id="saveorder">确定</button>
+                <input type="hidden" name="re_studentid" value="{$detail.id}">
+                <input type="hidden" name="re_test_num" id="re_test_num" value="">
+
+            </div>
+        </div>
+
+    </form>
+</if>
+<!--考试情况   结束-->
+
+<script>
+    var re_test_num = $("#course").val();  //获取证书编号，一起提交到后台
+    $("#re_test_num").val(re_test_num);
+</script>

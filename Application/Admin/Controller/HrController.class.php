@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
-class TeacherController extends BaseController {
+class HrController extends BaseController {
 
 
 
