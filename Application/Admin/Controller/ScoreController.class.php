@@ -25,7 +25,7 @@ class ScoreController extends BaseController
         teacher_check();//检测是否有教务权限
         if (IS_GET){
             $result = D("TsScore")->deleScoreById(I("get.id"));
-            $result ? $this->success("成绩删除成功！") : $this->error("成绩删除失败");
+            $result!==false ? $this->success("成绩删除成功！") : $this->error("成绩删除失败");
         }
     }
 

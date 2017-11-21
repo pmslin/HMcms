@@ -25,8 +25,10 @@ class ResitController extends BaseController
     public function deleteResit(){
         teacher_check();//检测是否有教务权限
         if (IS_GET){
-            $result = D("TsScore")->deleScoreById(I("get.id"));
-            $result ? $this->success("删除补考信息成功！") : $this->error("删除补考信息失败");
+            $result = D("TsResit")->deleResitById(I("get.id"));
+//            echo M()->_sql();
+//            exit();
+            $result!==false ? $this->success("删除补考信息成功！") : $this->error("删除补考信息失败");
         }
     }
 

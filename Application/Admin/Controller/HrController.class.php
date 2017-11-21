@@ -122,10 +122,9 @@ class HrController extends BaseController {
     }
 
     //教师证列表页面
-    public function teacherList(){
+    public function hrList(){
         //获取教师证考试时间，用于查询选择
-//        $testTime=D('ThTesttime')->getThTestTimeById(1);
-        $testTime=D('ThTesttime')->getThTestTimeByNum("hr");
+        $testTime=D('ThTesttime')->getThTestTimeById(42);
         $this->assign('testTime',$testTime);
         $this->display();
     }
@@ -133,7 +132,7 @@ class HrController extends BaseController {
     /**
      * ajax获取教师证考生列表
      */
-    public function getTeacherList(){
+    public function getHrList(){
 
         $get=I('get.');
 //show_bug($get);
@@ -167,15 +166,15 @@ class HrController extends BaseController {
 
         //报名日期查询
         if (!empty($date_b)){
-            $map['t.create_time']=array('between',array($date_b,$date_e));
+            $map['h.create_time']=array('between',array($date_b,$date_e));
         }
         //是否核实
-        if ($is_check>0){
-            $map['t.is_check']=$is_check;
+        if ($is_check>-1){
+            $map['h.is_check']=$is_check;
         }
         //是否预报名
         if ($is_bk>0){
-            $map['t.is_bk']=$is_bk;
+            $map['h.is_bk']=$is_bk;
         }
         //缴费时间查询
         if (!empty($pay_date_b)){
@@ -183,7 +182,7 @@ class HrController extends BaseController {
         }
         //是否审核
         if ($is_audit>0){
-            $map['t.is_audit']=$is_audit;
+            $map['h.is_audit']=$is_audit;
         }
         //业务员姓名
         if ($user_name !='0'){
@@ -191,11 +190,11 @@ class HrController extends BaseController {
         }
         //学生姓名
         if ($stundet_name !='0'){
-            $map['t.name']=array("like","%{$stundet_name}%");
+            $map['h.name']=array("like","%{$stundet_name}%");
         }
 //        echo $user_name;
 //show_bug($map);exit();
-        $map['t.status']=1;
+        $map['h.status']=1;
 
         if(empty($get['exprot']) && empty($get['cost_exprot'])){  //列表数据，把不需要的字段剔除
             $list=M('Hr as h')
@@ -204,11 +203,11 @@ class HrController extends BaseController {
                 ->where($map)->order('create_time desc')->select();
         }elseif (isset($get['cost_exprot'])){  //财务导出excel
             $map['o.status']=1;
-            $map['o.num']='jsz';
+            $map['o.num']='hr';
             $list=M()->table(array('order'=>'o'))
                 ->field('h.name,o.some_cash,o.course_name,o.create_time as otime,h.pay_way,u.username,u.bus_unit,o.pay_status,h.proxy_remark')
                 ->join('hr h ON h.id = o.student_id',"left")
-                ->join('user u ON t.userid=u.id',"left")
+                ->join('user u ON h.userid=u.id',"left")
                 ->where($map)
                 ->group("o.id")
                 ->order('o.create_time DESC')
@@ -355,7 +354,7 @@ class HrController extends BaseController {
                     'key'   =>$list[$i]['num'], //序号
                     'test_place' =>$list[$i]['test_place'],//考区
                     'test_time' =>$list[$i]['test_time'],//第一次笔试考试时间
-                    'course'    =>$list[$i]['course'],//报考科目
+                    'course'    =>$list[$i]['course'],//报考类别
                     'name'  =>$list[$i]['name'],    //姓名
                     'idcard_type'    =>'身份证',  //证件类型
                     'idcard'  =>$list[$i]['idcard'],    //身份证号码
@@ -365,7 +364,7 @@ class HrController extends BaseController {
                     'birthday'    =>$list[$i]['birthday'], //出生日期
                     'hukou_address'    =>$list[$i]['hukou_address'], //户籍所在地
 //                    'interpersonal'    =>$list[$i]['interpersonal'], //人事关系所在省份
-                    'is_normal'    =>$is_normal, //是否师范专业
+//                    'is_normal'    =>$is_normal, //是否师范专业
                     'school'    =>$list[$i]['school'], //学校名称
                     'grade'    =>$grade, //是否大学在读（年级）
 //                    'school_num'    =>$list[$i]['school_num'], //学校代码
@@ -379,23 +378,22 @@ class HrController extends BaseController {
                     'education'    =>$education, //学历层次
 
                     //非在校
-                    'degree'    =>$degree, //最高学位
-                    'degree_num'    =>$list[$i]['degree_num'], //学位证书号码
-                    'work_time'    =>$list[$i]['work_time'], //参加工作年份
+//                    'degree'    =>$degree, //最高学位
+//                    'degree_num'    =>$list[$i]['degree_num'], //学位证书号码
+//                    'work_time'    =>$list[$i]['work_time'], //参加工作年份
                     'course_package_name'    =>$course_package['name'],    //套餐
                     'bus_unit'    =>$user['bus_unit'],    //业务部门
                     'username'    =>$user['username'],    //业务员
                     'create_time'    =>$list[$i]['create_time'],//报名日期
-                    'is_mandarin'    =>$is_mandarin,//是否报名普通话
-                    'mandarin_date'    =>$list[$i]['mandarin_date'],//普通话考试日期
+//                    'is_mandarin'    =>$is_mandarin,//是否报名普通话
+//                    'mandarin_date'    =>$list[$i]['mandarin_date'],//普通话考试日期
                     'remark'=>$list[$i]['remark'],    //备注
                 );
 
             }
 
-            $title_arr = array('序号','考区','第一次笔试考试时间', '报考科目','姓名', '证件类型', '身份证号码', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
-                '是否师范专业', '学校名称','是否大学在读' ,'学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
-                '学位证书号码', '参加工作年份','套餐', '业务部门','业务员','报名日期','是否包含普通话','普通话考试日期','备注');
+            $title_arr = array('序号','考区','考试时间', '报考类别','姓名', '证件类型', '身份证号码', '性别', '民族', '政治面貌', '出生日期', '户籍所在地',
+                '学校名称','是否大学在读' ,'学习形式','院系班级','邮箱','手机号码','地址','学历层次','套餐', '业务部门','业务员','报名日期','备注');
 
             $title = "人力资源".$test_time."首次考试学生—";
 
@@ -441,7 +439,7 @@ class HrController extends BaseController {
     /**
      * 人力资源考生详情
      */
-    public function teacherStatusDetail(){
+    public function hrStatusDetail(){
 //        show_bug($_SESSION);
         $id=I('get.id');    //学生id
 
@@ -464,13 +462,11 @@ class HrController extends BaseController {
 //        show_bug($course_package);
 
         //获取人力资源考试时间
-//        $testTime=D('ThTesttime')->getThTestTimeById(1);
-        $testTime=D('ThTesttime')->getThTestTimeByNum("hr");
+        $testTime=D('ThTesttime')->getThTestTimeById(42);
         $this->assign('testTime',$testTime);
 
         //获取人力资源课程
-//        $course=D('Course')->where("topid=1")->select();
-        $course=D('Course')->getCourseByNum("hr");
+        $course=D('Course')->where("topid=61")->select();
         $this->assign('course',$course);
 
         //考区联动,遍历出市
@@ -478,8 +474,7 @@ class HrController extends BaseController {
         $this->assign('city',$city);
 
         //人力资源书本选择列表 ====
-//        $book=D('book')->getBookByTopid(1);
-        $book=D('book')->getBookByNum("hr");
+        $book=D('book')->getBookByTopid(1432);
         $this->assign('book',$book);
 
         //快递公司
@@ -509,8 +504,8 @@ class HrController extends BaseController {
 //        $this->assign('mandarinDate',$mandarinDate);
 
         //人力资源课程、价格列表
-//        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(1);
-        $TeaCoursePackage=D('CoursePackage')->getTestNameByNum("hr");
+        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(56);
+//        $TeaCoursePackage=D('CoursePackage')->getTestNameByNum("hr");
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         $this->display();
@@ -551,9 +546,13 @@ class HrController extends BaseController {
 
                 $hrModel=M('hr');
                 $data['id']=$post['id'];
-//                show_bug($data);
+
+//                show_bug($post);
 //                exit();
-                $saveResult=$hrModel->save($post);
+                if (count($post)>1){
+                    $saveResult=$hrModel->save($post);
+                }
+
                 if($saveResult){
                     $this->success('修改成功');
                 }else{

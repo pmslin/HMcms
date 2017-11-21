@@ -21,6 +21,7 @@ class ComController extends BaseController {
             if ($course==='dyz') $model=M("guide");
             if ($course==='pth') $model=M("mandarin");
             if ($course==='zcb') $model=M("inser_under");
+            if ($course==='hr') $model=M("hr");
             $save=$model->where('id=%d',$studentId)->setField('is_check','1');
             $save ? $this->success("资料核实成功") : $this->error("资料核实失败");
         }else{
@@ -47,6 +48,7 @@ class ComController extends BaseController {
             if ($course==='dyz') $model=M("guide");
             if ($course==='pth') $model=M("mandarin");
             if ($course==='zcb') $model=M("inser_under");
+            if ($course==='hr') $model=M("hr");
             $save=$model->where('id=%d',$studentId)->setField('status','99');
             $save ? $this->success("报名表删除成功",'',100) : $this->error("报名表删除失败");
         }else{
@@ -73,6 +75,7 @@ class ComController extends BaseController {
             if ($course==='dyz') $model=M("guide");
             if ($course==='pth') $model=M("mandarin");
             if ($course==='zcb') $model=M("inser_under");
+            if ($course==='hr') $model=M("hr");
 
             D()->startTrans(); //开启事务
             //审核报名表。对应报名表is_audit字段改为已审核

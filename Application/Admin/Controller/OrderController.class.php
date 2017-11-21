@@ -22,7 +22,7 @@ class OrderController extends BaseController {
             //从提交过来的证书编号，确定是哪个证书，操作哪个表 和 证书编号
             if ($course==='jsz'){
                 $model=M("teacher");
-                $num=1;
+                $num=1; //course_package表id
             }
             if ($course==='zk'){
                 $model=M("self_test");
@@ -39,6 +39,10 @@ class OrderController extends BaseController {
             if ($course==='zcb'){
                 $model=M("inser_under");
                 $num=23;
+            }
+            if ($course==='hr'){
+                $model=M("hr");
+                $num=56;
             }
 
             $teacherInfo=$model->where('id=%d',$post['student_id'])->find();

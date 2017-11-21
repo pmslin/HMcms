@@ -271,10 +271,19 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">专业名称</label>
+
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="major" datatype="*"
+                                       value="{$detail.major}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-3 control-label">是否大学在读</label>
 
                             <div class="col-sm-8 radio i-checks">
-                                <label>
+                               <!--  <label>
                                     <input type="radio" value="6" name="grade" id="grade" datatype="*"
                                            nullmsg="请选择是否大学在读"
                                     <if condition="$detail.grade eq 6">checked</if>
@@ -282,7 +291,7 @@
                                 <label>
                                     <input type="radio" value="7" name="grade"
                                     <if condition="$detail.grade eq 7">checked</if>
-                                    > <i></i> 中三</label>
+                                    > <i></i> 中三</label> -->
                                 <label>
                                     <input type="radio" value="1" name="grade"
                                     <if condition="$detail.grade eq 1">checked</if>
@@ -342,11 +351,11 @@
                             <label class="col-sm-3 control-label">学历层次</label>
 
                             <div class="col-sm-5 radio i-checks">
-                                <label>
+                               <!--  <label>
                                     <input type="radio" value="4" name="education" datatype="*"
                                            nullmsg="请选择学历层次"
                                     <if condition="$detail.education eq 4">checked</if>
-                                    > <i></i> 中专</label>
+                                    > <i></i> 中专</label> -->
                                 <label>
                                     <input type="radio" value="1" name="education"
                                     <if condition="$detail.education eq 1">checked</if>
@@ -617,8 +626,8 @@
                                  <button class="btn btn-primary" type="submit" id="check"  onclick="sure('{:U('Admin/Com/check')}')" >核实资料</button>    
                                  </if>
 
-                                <input type="hidden" name="course_cat" id="course" value="jsz">
-                                <input type="hidden" name="topcourse_id" id="topcourse_id" value="1">
+                                <input type="hidden" name="course_cat" id="course" value="hr">
+                                <input type="hidden" name="topcourse_id" id="topcourse_id" value="56">
                                 <input type="hidden" name="id" id="stu_id" value="{$detail.id}">
                                 <input type="hidden" name="picinfo" value="{$detail.pic}">
                             </div>
@@ -770,7 +779,7 @@
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-5">
                                 <button class="btn btn-primary" type="submit" id="savebook">确定</button>
-                                <input type="hidden" name="topcourse_id" value="1">
+                                <input type="hidden" name="topcourse_id" value="56">
                                 <input type="hidden" name="student_id" value="{$detail.id}">
                                 <input type="hidden" name="user_id" value="{$Think.session.userid}">
                             </div>
@@ -1060,7 +1069,7 @@
 
     //修改表单提交
     $("#save").click(function(){
-        document.myForm.action="{:U('Admin/Teacher/savefrom')}";
+        document.myForm.action="{:U('Admin/Hr/savefrom')}";
         document.myForm.submit();
     });
 

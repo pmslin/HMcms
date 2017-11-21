@@ -548,7 +548,10 @@ class TeacherController extends BaseController {
                 $data['id']=$post['id'];
 //                show_bug($data);
 //                exit();
-                $saveResult=$teacherModel->save($post);
+                if (count($post)>1){
+                    $saveResult=$teacherModel->save($post);
+                }
+
                 if($saveResult){
                     $this->success('修改成功');
                 }else{

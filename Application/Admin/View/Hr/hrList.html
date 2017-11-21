@@ -49,7 +49,7 @@
 <div class="content">
 
     <div class="lead">
-        <h4><strong>教师证报名学生列表</strong></h4>
+        <h4><strong>人力资源报名学生列表</strong></h4>
     </div>
 
     <hr>
@@ -173,7 +173,7 @@
 			//"deferRender": true, //渲染加速
             // "serverSide": true,//打开后台分页
             "ajax": {
-                "url": "{:U('admin/Teacher/getTeacherList')}",
+                "url": "{:U('admin/Hr/getHrList')}",
                 "dataSrc": '',
                 // "type": "POST",
                 "data": function ( d ) {
@@ -220,7 +220,7 @@
 		is_audit = $('#is_audit').val();
 		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
 		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
-        var url = "{:U('admin/Teacher/getTeacherList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
+        var url = "{:U('admin/Hr/getHrList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
        // alert(url);
         window.location.href = url;
     }
@@ -239,7 +239,7 @@
 		pay_date_b = $('#pay_date_b').val();
         pay_date_e = $('#pay_date_e').val();	
 		
-        var url = "{:U('admin/Teacher/getTeacherList/cost_exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"/pay_date_b/"+pay_date_b+"/pay_date_e/"+pay_date_e+"')}";
+        var url = "{:U('admin/Hr/getHrList/cost_exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"/pay_date_b/"+pay_date_b+"/pay_date_e/"+pay_date_e+"')}";
 //        alert(url);
         window.location.href = url;
     }
@@ -255,7 +255,7 @@
 		is_audit = $('#is_audit').val();
 		user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
 		stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
-        var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
+        var url = "{:U('admin/Hr/getHrList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
         // var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"')}";
         window.location.href = url;
     }
@@ -264,12 +264,12 @@
     function detail(id){
         layer.open({
             type: 2,
-            title: ['教师证学生报名表详情'],
+            title: ['人力资源学生报名表详情'],
             scrollbar: false, //是否允许浏览器出现滚动条
             maxmin: false,  //最大最小化按钮
             shadeClose: true, //点击遮罩关闭层
             area: ['100%', '100%'], //控制大小
-            content: "__CONTROLLER__/teacherStatusDetail/id/" + id,
+            content: "__CONTROLLER__/HrStatusDetail/id/" + id,
             closeBtn: 1,    //关闭按钮样式
             anim:3, //弹出动画
             moveOut: true //是否允许拖动
