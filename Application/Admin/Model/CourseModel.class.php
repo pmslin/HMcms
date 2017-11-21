@@ -19,6 +19,14 @@ class CourseModel extends Model
         return $list;
     }
 
+    //根据课程num获取课程
+    public function getCourseByNum($num)
+    {
+        $course_package = M('course');
+        $list = $course_package->where("num='{$num}' and status=1")->order("sort")->select();
+        return $list;
+    }
+
     /**
      * 根据id获取套餐
      */

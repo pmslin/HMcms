@@ -13,6 +13,11 @@ class BookModel extends Model
         return M('book')->where('book_topid=%d AND book_status=1',$topid)->order('book_sort,id asc')->select();
     }
 
+    //根据课程编号查询证书下的书本
+    public function getBookByNum($num){
+        return M('book')->where("num='{$num}' AND book_status=1")->order('book_sort,id asc')->select();
+    }
+
 
 
 

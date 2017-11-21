@@ -9,7 +9,7 @@ class SendBookModel extends Model
 
     /**
      * 根据学生id获取已发书本
-     * topid:教师证1，自考7，导游证12，普通话20，专插本23
+     * topid:教师证1，自考7，导游证12，普通话20，专插本23， 人力资源56
      */
     public function getSendBookBySdid($id,$topid){
         $data=M('send_book s')->join('user u ON s.user_id = u.id')

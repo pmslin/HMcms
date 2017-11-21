@@ -5,42 +5,42 @@ class HrController extends BaseController {
 
 
 
-    //录入教师证报名资料页面
+    //录入人力资源报名资料页面
     public function index(){
-        //教师证课程、价格列表
-        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(1);
+        //人力资源课程、价格列表
+        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(56);
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         //考区联动,遍历出市
-        $city=D('TestPlace')->where("topid=0")->select();
+        $city=D('TestPlace')->where("place_id=8")->select(); //主要广州市
         $this->assign('city',$city);
 
-        //获取教师证课程
-        $course=D('Course')->getCourseByTopid(1);
+        //获取人力资源课程
+        $course=D('Course')->getCourseByTopid(61);
         $this->assign('course',$course);
 
-        //获取教师证考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById(1);
+        //获取人力资源考试时间
+        $testTime=D('ThTesttime')->getThTestTimeById(42);
         $this->assign('testTime',$testTime);
 
         //获取普通话考试时间
-        $mandarinDate=D('ThTesttime')->getThTestTimeById(19);
-        $this->assign('mandarinDate',$mandarinDate);
+        // $mandarinDate=D('ThTesttime')->getThTestTimeById(19);
+        // $this->assign('mandarinDate',$mandarinDate);
 
 
         $this->display();
     }
 
-    public function check(){
-        if (IS_POST){
-            $post=I('post.');
-            if ($post['course']) $model=M('teacher');
-            $stundetId=$post['id'];
-        }
-    }
+//    public function check(){
+//        if (IS_POST){
+//            $post=I('post.');
+//            if ($post['course']) $model=M('teacher');
+//            $stundetId=$post['id'];
+//        }
+//    }
 
     /*
-     * 教师证报名表提交
+     * 人力资源报名表提交
      */
     public function postfrom(){
         if(IS_POST){
@@ -85,8 +85,8 @@ class HrController extends BaseController {
             $post['create_time']=$time;
             $post['test_place']=$test_place;
             $post['userid']=session('userid');
-            //添加数据到teacher表
-            $addResult=D('Teacher')->add($post);
+            //添加数据到hr表
+            $addResult=D('Hr')->add($post);
 
 
             //添加数据到order表
@@ -124,7 +124,8 @@ class HrController extends BaseController {
     //教师证列表页面
     public function teacherList(){
         //获取教师证考试时间，用于查询选择
-        $testTime=D('ThTesttime')->getThTestTimeById(1);
+//        $testTime=D('ThTesttime')->getThTestTimeById(1);
+        $testTime=D('ThTesttime')->getThTestTimeByNum("hr");
         $this->assign('testTime',$testTime);
         $this->display();
     }
@@ -197,25 +198,25 @@ class HrController extends BaseController {
         $map['t.status']=1;
 
         if(empty($get['exprot']) && empty($get['cost_exprot'])){  //列表数据，把不需要的字段剔除
-            $list=M('Teacher as t')
-                ->field('t.id,t.name,t.tel,t.create_time,t.test_time,t.pic,u.username,t.idcard')
-                ->join('user AS u ON t.userid=u.id',"left")
+            $list=M('Hr as h')
+                ->field('h.id,h.name,h.tel,h.create_time,h.test_time,h.pic,u.username,h.idcard')
+                ->join('user AS u ON h.userid=u.id',"left")
                 ->where($map)->order('create_time desc')->select();
         }elseif (isset($get['cost_exprot'])){  //财务导出excel
             $map['o.status']=1;
             $map['o.num']='jsz';
             $list=M()->table(array('order'=>'o'))
-                ->field('t.name,o.some_cash,o.course_name,o.create_time as otime,t.pay_way,u.username,u.bus_unit,o.pay_status,t.proxy_remark')
-                ->join('teacher t ON t.id = o.student_id',"left")
+                ->field('h.name,o.some_cash,o.course_name,o.create_time as otime,h.pay_way,u.username,u.bus_unit,o.pay_status,h.proxy_remark')
+                ->join('hr h ON h.id = o.student_id',"left")
                 ->join('user u ON t.userid=u.id',"left")
                 ->where($map)
                 ->group("o.id")
                 ->order('o.create_time DESC')
                 ->select();
         }else{  //导出excle，所需字段较多
-            $list=M('Teacher as t')
-                ->field('t.*,u.username')
-                ->join('user AS u ON t.userid=u.id',"left")
+            $list=M('Hr as h')
+                ->field('h.*,u.username')
+                ->join('user AS u ON h.userid=u.id',"left")
                 ->where($map)->order('create_time desc')->select();
         }
 //        show_bug($list);
@@ -396,7 +397,7 @@ class HrController extends BaseController {
                 '是否师范专业', '学校名称','是否大学在读' ,'学习形式','院系班级','邮箱','手机号码','地址','学历层次','最高学位',
                 '学位证书号码', '参加工作年份','套餐', '业务部门','业务员','报名日期','是否包含普通话','普通话考试日期','备注');
 
-            $title = "教师证".$test_time."首次考试学生—";
+            $title = "人力资源".$test_time."首次考试学生—";
 
             if ($list && count($list) > 0) {
                 exportExcel($list, $title_arr, $title);
@@ -408,7 +409,7 @@ class HrController extends BaseController {
         //导出考生照片
         if (!empty($_GET['downImg'])){
             if ($list && count($list) > 0) {
-                $this->downtest("教师证" . $test_time . "首次考试学生照片.zip", $list);
+                $this->downtest("人力资源" . $test_time . "首次考试学生照片.zip", $list);
             }else{
                 $this->error('没有对应的数据');
             }
@@ -438,7 +439,7 @@ class HrController extends BaseController {
 //    }
 
     /**
-     * 教师证考生详情
+     * 人力资源考生详情
      */
     public function teacherStatusDetail(){
 //        show_bug($_SESSION);
@@ -446,14 +447,14 @@ class HrController extends BaseController {
 
         if(session('roleid')==3){
             //如果是招生老师，根据学生id检测是否是该招生老师的学生=======
-            $seach=D('teacher')->getStudentById($id);
+            $seach=D('Hr')->getStudentById($id);
             if($seach['userid'] != session('userid')){
                 $this->error('这好像不是你的考生哦...');
             }
         }
 
         //根据学生id获取学生详情
-        $detail=D('teacher')->getStudentById($id);
+        $detail=D('Hr')->getStudentById($id);
         if (!$detail) $this->error("没有该考生");
         $this->assign('detail',$detail);
 
@@ -462,20 +463,23 @@ class HrController extends BaseController {
 //        show_bug($detail);
 //        show_bug($course_package);
 
-        //获取教师证考试时间
-        $testTime=D('ThTesttime')->getThTestTimeById(1);
+        //获取人力资源考试时间
+//        $testTime=D('ThTesttime')->getThTestTimeById(1);
+        $testTime=D('ThTesttime')->getThTestTimeByNum("hr");
         $this->assign('testTime',$testTime);
 
-        //获取教师证课程
-        $course=D('Course')->where("topid=1")->select();
+        //获取人力资源课程
+//        $course=D('Course')->where("topid=1")->select();
+        $course=D('Course')->getCourseByNum("hr");
         $this->assign('course',$course);
 
         //考区联动,遍历出市
-        $city=D('TestPlace')->where("topid=0")->select();
+        $city=D('TestPlace')->where("place_id = 8")->select();  //人力资源考区广州市
         $this->assign('city',$city);
 
-        //教师证书本选择列表 ====
-        $book=D('book')->getBookByTopid(1);
+        //人力资源书本选择列表 ====
+//        $book=D('book')->getBookByTopid(1);
+        $book=D('book')->getBookByNum("hr");
         $this->assign('book',$book);
 
         //快递公司
@@ -483,29 +487,30 @@ class HrController extends BaseController {
         $this->assign('velivery',$delivery);
 
         //发书情况，第二个参数是course_package的证书topid
-        $send_book=D('SendBook')->getSendBookBySdid($detail['id'],1);
+        $send_book=D('SendBook')->getSendBookBySdid($detail['id'],56);
         $this->assign('send_book',$send_book);
 //        show_bug($send_book);
 
         //缴费情况
 //        $order=D('order')->getOrderBystuidTopid($id,1);
-        $order=D('order')->getOrderBystuidNum($id,"jsz");
+        $order=D('order')->getOrderBystuidNum($id,"hr");
         $this->assign('order',$order);
 
         //考试成绩情况
-        $score=D("TsScore")->getScoreBystuidNum($id,"jsz");
+        $score=D("TsScore")->getScoreBystuidNum($id,"hr");
         $this->assign('score',$score);
 
         //补考情况
-        $resit=D("TsResit")->getResitBystuidNum($id,"jsz");
+        $resit=D("TsResit")->getResitBystuidNum($id,"hr");
         $this->assign('resit',$resit);
 
         //获取普通话考试时间
-        $mandarinDate=D('ThTesttime')->getThTestTimeById(19);
-        $this->assign('mandarinDate',$mandarinDate);
+//        $mandarinDate=D('ThTesttime')->getThTestTimeById(19);
+//        $this->assign('mandarinDate',$mandarinDate);
 
-        //教师证课程、价格列表
-        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(1);
+        //人力资源课程、价格列表
+//        $TeaCoursePackage=D('CoursePackage')->searchCoursePackageByTopid(1);
+        $TeaCoursePackage=D('CoursePackage')->getTestNameByNum("hr");
         $this->assign('TeaCoursePackage',$TeaCoursePackage);
 
         $this->display();
@@ -513,14 +518,14 @@ class HrController extends BaseController {
     }
 
     /**
-     * 修改教师证学生报名表
+     * 修改人力资源学生报名表
      */
     public function savefrom(){
         $post=I('post.');
         //如果是招生老师，而且照片为空
         if ($_SESSION['roleid']==3 && empty($post['picinfo'])){
             if (!empty($post['id'])){
-                $stuInfo=M("teacher")->where("id=%d",$post['id'])->find();
+                $stuInfo=M("hr")->where("id=%d",$post['id'])->find();
                 if (!empty($stuInfo['pic']) && !empty($stuInfo['id_pic'])) $this->error('已有照片不允许修改');
             }
 //            if (empty($post['picinfo'])){
@@ -544,11 +549,11 @@ class HrController extends BaseController {
                     }
                 }
 
-                $teacherModel=M('teacher');
+                $hrModel=M('hr');
                 $data['id']=$post['id'];
 //                show_bug($data);
 //                exit();
-                $saveResult=$teacherModel->save($post);
+                $saveResult=$hrModel->save($post);
                 if($saveResult){
                     $this->success('修改成功');
                 }else{
@@ -606,10 +611,10 @@ class HrController extends BaseController {
             }
 
 
-            $teacherModel=M('teacher');
+            $hrModel=M('hr');
 //            $teacherModel->create();
 
-            $saveResult=$teacherModel->save($post);
+            $saveResult=$hrModel->save($post);
             if($saveResult){
                 $this->success('修改成功');
             }else{

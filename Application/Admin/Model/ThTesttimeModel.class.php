@@ -14,6 +14,12 @@ class ThTesttimeModel extends Model
     }
 
 
+    //根据证书编号获取考试时间
+    public function getThTestTimeByNum($num){
+        return M('ThTesttime')->where("num = '{$num}' AND thtt_status = 1")->order('thtt_sort')->select();
+    }
+
+
 
 
 }

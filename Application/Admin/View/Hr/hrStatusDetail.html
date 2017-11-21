@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>教师证学生报名表详情</title>
+    <title>人力资源学生报名表详情</title>
 
     <link rel="shortcut icon" href="favicon.ico">
     <link href="__PUBLIC__/H/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
@@ -90,7 +90,7 @@
                     <form class="form-horizontal demoform" action="" method="post" 
                           enctype="multipart/form-data" name="myForm">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">笔试考试时间</label>
+                            <label class="col-sm-3 control-label">考试时间</label>
 
                             <div class="col-sm-5">
                                 <select class="form-control m-b" name="test_time">
@@ -246,7 +246,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-sm-3 control-label">是否师范专业</label>
 
                             <div class="col-sm-5 radio i-checks">
@@ -259,7 +259,7 @@
                                     <if condition="$detail.is_normal eq 0">checked</if>
                                     > <i></i> 否</label>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">毕业/在读学校名称（全名）</label>
@@ -362,7 +362,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                       <!--  <div class="form-group">
                             <label class="col-sm-3 control-label">最高学位</label>
 
                             <div class="col-sm-5 radio i-checks">
@@ -405,7 +405,7 @@
                                            value="{$detail.work_time}">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">QQ邮箱</label>
@@ -433,7 +433,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-sm-3 control-label">院校入学时间</label>
 
                             <div class="col-sm-5">
@@ -457,7 +457,7 @@
                                            nullmsg="请选择预计毕业时间" value="{$detail.graduation_time}">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label">紧急联系人</label>
@@ -559,8 +559,8 @@
                             </div>
                         </div>
 						
-						<div class="form-group">
-                            <label class="col-sm-2 control-label">是否包含普通话</label>
+						<!-- <div class="form-group">
+                            <label class="col-sm-3 control-label">是否包含普通话</label>
 
                             <div class="col-sm-3 form-group radio">
                                 <input class="magic-checkbox" type="radio" name="is_mandarin" value="1" id="m1"  <if condition="$detail.is_mandarin eq 1">checked</if>
@@ -589,10 +589,10 @@
 							</div>
 							</if>
 							
-                        </div>
+                        </div> -->
 						
 						<div class="form-group">
-							<label class="col-sm-2 control-label">是否预报名</label>
+							<label class="col-sm-3 control-label">是否预报名</label>
 
                             <div class="col-sm-3 form-group radio">
                                 <input class="magic-checkbox" type="radio" name="is_bk" value="0" id="b1"  <if condition="$detail.is_bk eq 0">checked</if>
