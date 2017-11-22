@@ -17,7 +17,6 @@ class bookController extends BaseController {
                 book_check();
             }
 
-
             $post=I('post.');
             $post['send_time']=date("Y-m-d");
             $add=M('send_book')->add($post);

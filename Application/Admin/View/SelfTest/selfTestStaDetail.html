@@ -490,6 +490,7 @@
                                         <th>快递单号</th>                                       
                                         <th>发放时间</th>
 										<th>发书人</th>
+                                        <th>是否发放收据</th>
                                         <th>是否发齐</th>
                                         <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
                                         <th>操作</th>
@@ -506,6 +507,12 @@
                                             <td>{$vo.send_time}</td>
 											<td>{$vo.username}</td>
                                             <td>
+                                                <if condition="$vo.send_receipt eq 1"> 已发
+                                                    <else/>
+                                                    未发
+                                                </if>
+                                            </td>
+                                            <td>
                                                 <if condition="$vo.send_status eq 1"> 已发齐
                                                 <else />未发齐
                                                 </if>
@@ -516,7 +523,7 @@
                                         </tr>
                                     </foreach>
                                         <else />
-                                            <td colspan=6 style="text-align: center">无发书记录</td>
+                                            <td colspan=8 style="text-align: center">无发书记录</td>
                                     </if>
                                     </tbody>
                                 </table>
@@ -547,9 +554,19 @@
 
                             <div class="col-sm-3 radio i-checks">
                                 <label>
-                                    <input type="radio" value="1" name="send_status" datatype="*" nullmsg="请勾选书本是否发齐"> <i></i> 发齐</label>
+                                    <input type="radio" value="1" name="send_status" datatype="*"
+                                           nullmsg="请勾选书本是否发齐"> <i></i> 发齐</label>
                                 <label>
                                     <input type="radio" value="0" name="send_status"> <i></i> 未发齐</label>
+                            </div>
+
+                            <label class="col-sm-2 control-label">是否发放收据</label>
+
+                            <div class="col-sm-3 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="send_receipt" > <i></i>已发放</label>
+                                <label>
+                                    <input type="radio" value="0" name="send_receipt"> <i></i> 未发放</label>
                             </div>
                         </div>
 
