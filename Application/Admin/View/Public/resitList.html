@@ -51,17 +51,27 @@
             <label class="col-sm-1 control-label">补考日期</label>
 
             <div class="col-sm-2">
-                <input placeholder="请输入日期" class="laydate-icon time_input"
+                <select class="form-control m-b" name="re_time">
+                    <foreach name="resitTime" item="vo">
+                    <option value="{$vo.rt_time}">{$vo.rt_time}</option>
+                    </foreach>
+                </select>
+                <!-- <input placeholder="请输入日期" class="laydate-icon time_input"
                        style=" width:150px; height:33px; padding:5px;"
-                       onclick="laydate()" name="re_time" datatype="*" nullmsg="请输入补考日期">
+                       onclick="laydate()" name="re_time" datatype="*" nullmsg="请输入补考日期"> -->
             </div>
 
     
             <label class="col-sm-2 control-label">补考科目</label>
 
             <div class="col-sm-2">
-                <input type="text" class="form-control" name="re_subject" 
-                       nullmsg="请输入补考科目" >
+                <select class="form-control m-b" name="re_subject">
+                    <foreach name="resitSubject" item="vo">
+                    <option value="{$vo.rsu_subject}">{$vo.rsu_subject}</option>
+                    </foreach>
+                </select>
+                <!-- <input type="text" class="form-control" name="re_subject" 
+                       nullmsg="请输入补考科目" > -->
             </div>
 
 

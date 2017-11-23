@@ -466,6 +466,18 @@ class TeacherController extends BaseController {
         $testTime=D('ThTesttime')->getThTestTimeById(1);
         $this->assign('testTime',$testTime);
 
+        //获取教师证补考时间
+        $resitTime=D('TsResitTime')->getResitTimeById(1);
+        $this->assign('resitTime',$resitTime);
+
+        //获取教师证补考科目
+        $resitSubject=D('TsResitSubject')->getSubjectByTopid(1);
+        $this->assign('resitSubject',$resitSubject);
+
+        //获取记录分数的课程
+        $scoreSubject=D('TsScoreSubject')->getSubjectByTopid(1);
+        $this->assign('scoreSubject',$scoreSubject);
+
         //获取教师证课程
         $course=D('Course')->where("topid=1")->select();
         $this->assign('course',$course);

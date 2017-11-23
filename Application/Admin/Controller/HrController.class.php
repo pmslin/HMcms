@@ -465,6 +465,18 @@ class HrController extends BaseController {
         $testTime=D('ThTesttime')->getThTestTimeById(42);
         $this->assign('testTime',$testTime);
 
+        //获取人力资源补考时间
+        $resitTime=D('TsResitTime')->getResitTimeById(6);
+        $this->assign('resitTime',$resitTime);
+
+        //获取教师证补考科目
+        $resitSubject=D('TsResitSubject')->getSubjectByTopid(61);
+        $this->assign('resitSubject',$resitSubject);
+
+        //获取记录分数的课程
+        $scoreSubject=D('TsScoreSubject')->getSubjectByTopid(61);
+        $this->assign('scoreSubject',$scoreSubject);
+
         //获取人力资源课程
         $course=D('Course')->where("topid=61")->select();
         $this->assign('course',$course);

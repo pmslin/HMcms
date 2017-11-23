@@ -13,7 +13,7 @@ class ResitController extends BaseController
 
             $scoreModel=M("resit","ts_");
             $scoreModel->create();
-            $result = $scoreModel->add();
+            $result = $scoreModel->add($_POST);
             $result ? $this->success("录入补考信息成功！") : $this->error("录入补考信息失败");
         }else{
             $this->error("录入姿势不对");

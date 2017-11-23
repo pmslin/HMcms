@@ -60,8 +60,13 @@
             <label class="col-sm-2 control-label">考试科目</label>
 
             <div class="col-sm-2">
-                <input type="text" class="form-control" name="sc_subject" 
-                       nullmsg="请输入考试科目" >
+                <select class="form-control m-b" name="sc_subject">
+                    <foreach name="scoreSubject" item="vo">
+                    <option value="{$vo.scs_subject}">{$vo.scs_subject}</option>
+                    </foreach>
+                </select>
+                <!-- <input type="text" class="form-control" name="sc_subject" 
+                       nullmsg="请输入考试科目" > -->
             </div>
 
 
