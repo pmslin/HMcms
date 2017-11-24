@@ -392,8 +392,21 @@
                                 <input type="text" class="form-control" name="test_num" >
                             </div>
 
+                            <!-- <label class="col-sm-2 control-label">考生照片</label> -->
+                            <!-- <div class="col-sm-5"> -->
+                                <!-- <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg)$/,500,500,752)"/> -->
+                                <!-- <div style="padding: 5px"> -->
+                                    <!-- 图片要求：彩色蓝底免冠，规格500*752，小于500KB，.jpg文件格式 -->
+                                <!-- </div> -->
+
+                                <!-- <img src="" id="imgShow" style="width:50px"></img> -->
+                            <!-- </div> -->
+
+                        </div>
+						
+						<div class="form-group">
                             <label class="col-sm-2 control-label">考生照片</label>
-                            <div class="col-sm-5">
+                            <div class="col-sm-3">
                                 <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg)$/,500,500,752)"/>
                                 <div style="padding: 5px">
                                     图片要求：彩色蓝底免冠，规格500*752，小于500KB，.jpg文件格式
@@ -402,6 +415,15 @@
                                 <img src="" id="imgShow" style="width:50px"></img>
                             </div>
 
+                            <label class="col-sm-2 control-label">考生身份证照片</label>
+                            <div class="col-sm-3">
+                                <input type="file" name="idpic" id="idImgurl" onchange="photoIdPicCheck(/\.(jpg|jpeg)$/,400,0,0)"/>
+                                <div style="padding: 5px">
+                                    照片要求：照片清晰，不大于400KB，.jpg/.jpeg文件格式
+                                </div>
+
+                                <img src="" id="idImgShow" style="width:50px"></img>
+                            </div>
                         </div>
 						
 						<div class="form-group">

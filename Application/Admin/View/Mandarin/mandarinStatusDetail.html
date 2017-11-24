@@ -771,6 +771,16 @@
 //       alert(val) ;
     });
 	
+	
+	//如果是招生老师，而且照片为空，放开上传照片按钮为可点击
+    <if condition="$Think.session.roleid eq 3 AND $detail.pic eq null ">
+        $('#imgurl,#stu_id').attr("disabled", false);//移除不可编辑（招生老师修改照片）
+    </if>
+
+    //如果是招生老师，而且照片为空，放开上传身份证照片按钮为可点击
+    <if condition="$Think.session.roleid eq 3 AND $detail.id_pic eq null ">
+        $('#idImgurl,#stu_id').attr("disabled", false);//移除不可编辑（招生老师修改照片）
+    </if>
 
 
 	 //教务

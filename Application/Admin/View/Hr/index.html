@@ -109,19 +109,23 @@
                             <label class="col-sm-3 control-label">考区</label>
 
                             <div class="col-sm-5">
-                                <!-- 城市 -->
-                                <select class="form-control m-b" name="place_city_id" id="city">
-                                    <option>--请选择市--</option>
-                                    <foreach name="city" item="v">
-                                        <option value="{$v.place_id}">{$v.place_name}</option>
-                                    </foreach>
-                                </select>
-                                <!-- 区县 -->
-                                <select class="form-control m-b" name="place_area_id" id="area">
-                                    <option datatype="s" nullmsg="请选择考区"></option>
+								<select class="form-control m-b" name="place_city_id">
+                                    <option value="8">广州市</option>
                                 </select>
 								
-								<input type="text" class="form-control" name="outarea"  id="outarea" datatype="*" style="display:none" > <!--省外文本框 -->
+                                <!-- <!-- 城市 --> 
+                                <!-- <select class="form-control m-b" name="place_city_id" id="city"> -->
+                                    <!-- <option>--请选择市--</option> -->
+                                    <!-- <foreach name="city" item="v"> -->
+                                        <!-- <option value="{$v.place_id}">{$v.place_name}</option> -->
+                                    <!-- </foreach> -->
+                                <!-- </select> -->
+                                <!-- <!-- 区县 --> 
+                                <!-- <select class="form-control m-b" name="place_area_id" id="area"> -->
+                                    <!-- <option datatype="s" nullmsg="请选择考区"></option> -->
+                                <!-- </select> -->
+								
+								<!-- <input type="text" class="form-control" name="outarea"  id="outarea" datatype="*" style="display:none" > <!--省外文本框 --> 
                             </div>
                           </div>
 
