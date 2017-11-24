@@ -528,6 +528,7 @@ class TeacherController extends BaseController {
      * 修改教师证学生报名表
      */
     public function savefrom(){
+//        show_bug($_POST);exit();
         $post=I('post.');
         //如果是招生老师，而且照片为空
         if ($_SESSION['roleid']==3 && empty($post['picinfo'])){
@@ -555,7 +556,7 @@ class TeacherController extends BaseController {
                         unset( $_POST['idpic']);
                     }
                 }
-
+//                show_bug($post);exit();
                 $teacherModel=M('teacher');
                 $data['id']=$post['id'];
 //                show_bug($data);
@@ -569,9 +570,6 @@ class TeacherController extends BaseController {
                 }else{
                     $this->error('修改失败');
                 }
-//            }else{
-//                $this->error('已有照片不允许修改');
-//            }
 
 
         }else{ //教务修改信息

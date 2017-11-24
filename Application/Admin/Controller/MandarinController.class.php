@@ -48,12 +48,18 @@ class MandarinController extends BaseController {
             $upload->maxSize = 3145728;// 设置附件上传大小
             $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
             $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
-            $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
-            if (!$info) {// 上传错误提示错误信息
-//                $this->error($upload->getError());
-                unset( $_POST['pic']);
-            } else {// 上传成功
-                $post['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+            $info = $upload->upload();
+            if ($info) {// 上传错误提示错误信息
+                if ($_FILES['pic']){
+                    $post['pic'] = $info['pic']['savepath'] . $info['pic']['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+                }else{
+                    unset( $_POST['pic']);
+                }
+                if ($_FILES['idpic']){
+                    $post['id_pic'] = $info['idpic']['savepath'] . $info['idpic']['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+                }else{
+                    unset( $_POST['idpic']);
+                }
             }
 
             $time=date("Y-m-d");
@@ -416,45 +422,96 @@ class MandarinController extends BaseController {
      */
     public function savefrom(){
 
-        //检测是否是教务提交，roleid=1和4的可以修改
-        if(!in_array(session('roleid'),array(1,4))) {
-            $this->error('没有修改权限');
-        }
-
         $post=I('post.');
+        if ($_SESSION['roleid']==3 && empty($post['picinfo'])){
+            if (!empty($post['id'])){
+                $stuInfo=M("mandarin")->where("id=%d",$post['id'])->find();
+                if (!empty($stuInfo['pic']) && !empty($stuInfo['id_pic'])) $this->error('已有照片不允许修改');
+            }
+//            if (empty($post['picinfo'])){
+            //上传考生照片
+            $upload = new \Think\Upload();// 实例化上传类   开始
+            $upload->maxSize = 3145728;// 设置附件上传大小
+            $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+            $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
+            $info = $upload->upload();
+//                        show_bug($info);exit();
+            if ($info) {// 上传错误提示错误信息
+                if ($_FILES['pic']){
+                    $post['pic'] = $info['pic']['savepath'] . $info['pic']['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+                }else{
+                    unset( $_POST['pic']);
+                }
+                if ($_FILES['idpic']){
+                    $post['id_pic'] = $info['idpic']['savepath'] . $info['idpic']['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+                }else{
+                    unset( $_POST['idpic']);
+                }
+            }
+//            show_bug($post);exit();
+            $teacherModel=M('mandarin');
+            $data['id']=$post['id'];
+
+            if (count($post)>1){
+                $saveResult=$teacherModel->save($post);
+            }
+
+            if($saveResult){
+                $this->success('修改成功');
+            }else{
+                $this->error('修改失败');
+            }
+
+        }else{
+            //检测是否是教务提交，roleid=1和4的可以修改
+            if(!in_array(session('roleid'),array(1,4))) {
+                $this->error('没有修改权限');
+            }
+
+            $post=I('post.');
 //        show_bug($_POST);
 //        exit();
-        if(!empty($post['place_area_id'])){
+            if(!empty($post['place_area_id'])){
 //            echo 1;
-            //查询出考区
-            $testPlaceModel=D('TestPlace');
+                //查询出考区
+                $testPlaceModel=D('TestPlace');
 //            $id=$post['place_city_id'];
-            $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
-            $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
-            $_POST['test_place']=$place_city['place_name'].$place_area['place_name'];
+                $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
+                $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
+                $_POST['test_place']=$place_city['place_name'].$place_area['place_name'];
+            }
+
+            //上传考生照片
+            $upload = new \Think\Upload();// 实例化上传类   开始
+            $upload->maxSize = 3145728;// 设置附件上传大小
+            $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+            $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
+            $info = $upload->upload();
+            //            show_bug($info);exit();
+            if ($info) {// 上传错误提示错误信息
+                if ($info['pic']){
+                    $post['pic'] = $info['pic']['savepath'] . $info['pic']['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+                }else{
+                    unset( $_POST['pic']);
+                }
+                if ($info['idpic']){
+                    $post['id_pic'] = $info['idpic']['savepath'] . $info['idpic']['savename'];  //上传成功，$data['pic'] pic为字段名  结束
+                }else{
+                    unset( $_POST['idpic']);
+                }
+            }
+
+
+            $teacherModel=M('mandarin');
+//            $teacherModel->create();
+            $saveResult=$teacherModel->save($post);
+            if($saveResult){
+                $this->success('修改成功');
+            }else{
+                $this->error('修改失败');
+            }
         }
 
-        //上传考生照片
-        $upload = new \Think\Upload();// 实例化上传类   开始
-        $upload->maxSize = 3145728;// 设置附件上传大小
-        $upload->exts = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
-        $upload->rootPath = './Public/Uploads/'; // 设置附件上传目录    // 上传文件
-        $info = $upload->uploadOne($_FILES['pic']); //pic为字段名
-        if (!$info) {// 如果没有上传图片，则不修改图片
-            unset( $_POST['pic']);
-        }
-        else {// 上传成功   则修改图片
-            $_POST['pic'] = $info['savepath'] . $info['savename'];  //上传成功，$data['pic'] pic为字段名  结束
-        }
 
-
-        $teacherModel=M('mandarin');
-        $teacherModel->create();
-        $saveResult=$teacherModel->save();
-        if($saveResult){
-            $this->success('修改成功');
-        }else{
-            $this->error('修改失败');
-        }
     }
 }

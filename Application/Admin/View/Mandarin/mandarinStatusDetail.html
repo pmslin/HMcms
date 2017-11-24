@@ -377,17 +377,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <!--<label class="col-sm-2 control-label">选择教的是</label>-->
-
-                            <!--<div class="col-sm-3">-->
-                            <!--<select class="form-control m-b" name="course">-->
-                            <!--<foreach name="course" item="vo">-->
-                            <!--<option value="{$vo.cousr_name}">{$vo.cousr_name}</option>-->
-                            <!--</foreach>-->
-                            <!--</select>-->
-                            <!--</div>-->
-
+                        <!-- <div class="form-group">
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-10">
                                 <input type="file" name="pic"  id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,200,0,0)"/>
@@ -396,6 +386,56 @@
                                 </div>
                             </div>
 
+                        </div> -->
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">考生照片</label>
+                            <div class="col-sm-8">
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|jpeg)$/,200,0,0)"/>
+                                <div style="padding: 5px">
+                                    照片要求：彩色白底免冠证件照；不允许带帽子、头巾、发带、墨镜；，规格285*385，.jpg/.jpeg文件格式
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"></label>
+                            <if condition="$detail.pic eq null">
+                                <div class="col-sm-5 form-group radio i-checks">
+                                    <img src="__PUBLIC__/img/moren.jpg" width="50px" class="img-responsive"
+                                         id="img1">
+                                </div>
+                                <else/>
+                                <div class="col-sm-5 form-group radio i-checks">
+                                    <img src="__PUBLIC__/Uploads/{$detail.pic}" width="50px"
+                                         class="img-responsive" id="imgShow">
+                                </div>
+                            </if>
+                        </div>
+                        
+                         <div class="form-group">
+                            <label class="col-sm-3 control-label">考生身份证照片</label>
+                            <div class="col-sm-8">
+                                <input type="file" name="idpic" id="idImgurl" onchange="photoIdPicCheck(/\.(jpg|jpeg)$/,400,0,0)"/>
+                                <div style="padding: 5px">
+                                    照片要求：照片清晰，不大于400KB，.jpg/.jpeg文件格式
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"></label>
+                            <if condition="$detail.id_pic eq null">
+                                <div class="col-sm-5 form-group radio i-checks">
+                                    <img src="__PUBLIC__/img/moren.jpg" width="50px" class="img-responsive"
+                                         id="img2">
+                                </div>
+                                <else/>
+                                <div class="col-sm-5 form-group radio i-checks">
+                                    <img src="__PUBLIC__/Uploads/{$detail.id_pic}" width="50px"
+                                         class="img-responsive" id="idImgShow">
+                                </div>
+                            </if>
                         </div>
 
                         <div class="hr-line-dashed"></div>
@@ -419,7 +459,7 @@
                                     <!-- {$course_package.name}</label> -->
                             <!-- </div> -->
 
-                            <label class="col-sm-3 control-label"></label>
+                            <!-- <label class="col-sm-3 control-label"></label>
                             <if condition="$detail.pic eq null">
                                 <div class="col-sm-3 form-group radio i-checks">
                                     <img src="__PUBLIC__/img/moren.jpg" width="50px" class="img-responsive" id="img1">
@@ -428,12 +468,12 @@
                                 <div class="col-sm-3 form-group radio i-checks">
                                     <img src="__PUBLIC__/Uploads/{$detail.pic}" width="50px" class="img-responsive" id="imgShow">
                                 </div>
-                            </if>
+                            </if> -->
                         </div>
 
 
-                        <!-- 修改，核实资料按钮。-->
-                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 5)">
+                        <!-- 修改，核实资料按钮。业务员可修改图片-->
+                        <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) OR ($Think.session.roleid eq 3) OR ($Think.session.roleid eq 5)">
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-5">
                                     <button class="btn btn-primary" type="submit" id="save">确认修改</button>
