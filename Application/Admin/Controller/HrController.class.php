@@ -49,15 +49,15 @@ class HrController extends BaseController {
 //            show_bug($post);
 //            exit();
 
-            if (empty($post['outarea'])){
-                //查询出考区
-                $testPlaceModel=D('TestPlace');
-                $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
-                $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
-                $test_place=$place_city['place_name'].$place_area['place_name'];
-            }else{
-                $test_place=$post['outarea'];
-            }
+//            if (empty($post['outarea'])){
+//                //查询出考区
+//                $testPlaceModel=D('TestPlace');
+//                $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
+//                $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
+//                $test_place=$place_city['place_name'].$place_area['place_name'];
+//            }else{
+//                $test_place=$post['outarea'];
+//            }
 
 
             D()->startTrans(); //开启事务
@@ -83,7 +83,7 @@ class HrController extends BaseController {
 
             $time=date("Y-m-d");
             $post['create_time']=$time;
-            $post['test_place']=$test_place;
+            $post['test_place']="广州市";
             $post['userid']=session('userid');
             //添加数据到hr表
             $addResult=D('Hr')->add($post);
