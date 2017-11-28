@@ -527,8 +527,8 @@ class SelfTestController extends BaseController {
             $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major_num']);
 //        show_bug($_POST);
 //            show_bug($underMajor);exit();
-            $_POST['under_major']=$underMajor['name'];//专业名称
-            $_POST['under_major_num']=$underMajor['number'];
+            $post['under_major']=$underMajor['name'];//专业名称
+            $post['under_major_num']=$underMajor['number'];
 
 
             $selfTestModel=M('self_test');
