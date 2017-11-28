@@ -488,7 +488,7 @@ class SelfTestController extends BaseController {
 //            $id=$post['place_city_id'];
                 $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
                 $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
-                $_POST['test_place']=$place_city['place_name'].$place_area['place_name'];
+                $post['test_place']=$place_city['place_name'].$place_area['place_name'];
             }
 
             if(!empty($post['an_place_area_id'])){
@@ -498,7 +498,7 @@ class SelfTestController extends BaseController {
 //            $id=$post['place_city_id'];
                 $an_place_city=$testPlaceModel->getPalceNameById($post['an_place_city_id']);
                 $an_place_area=$testPlaceModel->getPalceNameById($post['an_place_area_id']);
-                $_POST['an_test_place']=$an_place_city['place_name'].$an_place_area['place_name'];
+                $post['an_test_place']=$an_place_city['place_name'].$an_place_area['place_name'];
             }
 
             //上传考生照片

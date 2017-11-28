@@ -587,9 +587,9 @@ class HrController extends BaseController {
                 $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
                 $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
                 if ($post['place_city_id'] != 89){
-                    $_POST['test_place']=$place_city['place_name'].$place_area['place_name'].$post['outarea'];
+                    $post['test_place']=$place_city['place_name'].$place_area['place_name'].$post['outarea'];
                 }else{ //如果是省外，直接保存文本框内容
-                    $_POST['test_place']=$post['outarea'];
+                    $post['test_place']=$post['outarea'];
                 }
 
             }
