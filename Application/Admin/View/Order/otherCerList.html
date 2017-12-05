@@ -55,45 +55,45 @@
     <hr>
 
     <if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 4) ">
-    <div class="form-group">
-        首次考试时间：
-            <select  class="btn btn-default dropdown-toggle" id="test_time" >
-                <option value="0">全部</option>
-				<option value="2017-11">2017-11</option>
-                <foreach name="testTime" item="vo">
-                    <option value="{$vo.thtt_time}">{$vo.thtt_time}</option>
-                </foreach>
-            </select>
-        &nbsp;&nbsp;&nbsp;&nbsp;报名日期:
-            <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
-               onclick="laydate()" name="date_b" id="date_b" >
-        --
-            <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;"
-               onclick="laydate()" name="date_e" id="date_e" >
-		&nbsp;&nbsp;&nbsp;&nbsp;是否核实：
-            <select  class="btn btn-default dropdown-toggle" id="is_check">
-                <option value="-1">全部</option>
-                <option value="1">核实</option>
-				<option value="0">未核实</option>
-            </select>
-		&nbsp;&nbsp;&nbsp;&nbsp;是否预报名：
-            <select  class="btn btn-default dropdown-toggle" id="is_bk">
-                <option value="-1">全部</option>
-                <option value="1">是</option>
-				<option value="0">否</option>
-            </select>
-		<br/>	
-        <div style="padding: 10px; float: right">
-            <input type="button" class="btn btn-primary" onclick="search()"  value="查询">
-            <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
-            <input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
-        </div>
-    </div>
-        <hr>
+    <!-- <div class="form-group"> -->
+        <!-- 首次考试时间： -->
+            <!-- <select  class="btn btn-default dropdown-toggle" id="test_time" > -->
+                <!-- <option value="0">全部</option> -->
+				<!-- <option value="2017-11">2017-11</option> -->
+                <!-- <foreach name="testTime" item="vo"> -->
+                    <!-- <option value="{$vo.thtt_time}">{$vo.thtt_time}</option> -->
+                <!-- </foreach> -->
+            <!-- </select> -->
+        <!-- &nbsp;&nbsp;&nbsp;&nbsp;报名日期: -->
+            <!-- <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;" -->
+               <!-- onclick="laydate()" name="date_b" id="date_b" > -->
+        <!-- -- -->
+            <!-- <input placeholder=" 请输入日期" class="laydate-icon" style=" width:142px; height:30px;" -->
+               <!-- onclick="laydate()" name="date_e" id="date_e" > -->
+		<!-- &nbsp;&nbsp;&nbsp;&nbsp;是否核实： -->
+            <!-- <select  class="btn btn-default dropdown-toggle" id="is_check"> -->
+                <!-- <option value="-1">全部</option> -->
+                <!-- <option value="1">核实</option> -->
+				<!-- <option value="0">未核实</option> -->
+            <!-- </select> -->
+		<!-- &nbsp;&nbsp;&nbsp;&nbsp;是否预报名： -->
+            <!-- <select  class="btn btn-default dropdown-toggle" id="is_bk"> -->
+                <!-- <option value="-1">全部</option> -->
+                <!-- <option value="1">是</option> -->
+				<!-- <option value="0">否</option> -->
+            <!-- </select> -->
+		<!-- <br/>	 -->
+        <!-- <div style="padding: 10px; float: right"> -->
+            <!-- <input type="button" class="btn btn-primary" onclick="search()"  value="查询"> -->
+            <!-- <input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格"> -->
+            <!-- <input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片"> -->
+        <!-- </div> -->
+    <!-- </div> -->
+        <!-- <hr> -->
     </if>
 	
 	<div style="padding: 10px; float: right">
-        <input type="button" class="btn btn-primary" onclick="add()"  value="新增">
+        <input type="button" class="btn btn-primary" onclick="add()"  value="新增缴费记录">
     </div>
 
 
@@ -101,10 +101,12 @@
 <table id="table_id_example" class="display">
     <thead>
     <tr>
-        <th>名字</th>
+        <th>学生姓名</th>
         <th style="width: 100px;">缴费时间</th>
-        <th>财务是否审核</th>
+        <th>缴费金额</th>
+		<th>报考证书</th>
         <th>业务员姓名</th>
+		 <th>操作</th>
     </tr>
     </thead>
     <!--<tbody>-->
@@ -145,7 +147,7 @@
 			//"deferRender": true, //渲染加速
             // "serverSide": true,//打开后台分页
             "ajax": {
-                "url": "{:U('admin/Order/getOrderList')}",
+                "url": "{:U('admin/Order/getOtherCerList')}",
                 "dataSrc": '',
                 // "type": "POST",
                 "data": function ( d ) {
@@ -158,10 +160,12 @@
                 }
             },
             "columns": [
-                { "data": "name" },
+                { "data": "student_name" },
                 { "data": "create_time" },
-                { "data": "is_audit" },
-                { "data": "userid" },
+				{ "data": "some_cash" },
+                { "data": "num" },
+                { "data": "username" },
+				{ "data": "ac" },
             ]
 
         } );
@@ -177,12 +181,27 @@
             scrollbar: false, //是否允许浏览器出现滚动条
             maxmin: false,  //最大最小化按钮
             shadeClose: true, //点击遮罩关闭层
-            area: ['50%', '50%'], //控制大小
+            area: ['80%', '80%'], //控制大小
             content: "__CONTROLLER__/otherCercost/",
             closeBtn: 1,    //关闭按钮样式
             anim:3, //弹出动画
             moveOut: true //是否允许拖动
         });
+    }
+	
+	//删除
+    function dele(id)
+    {
+	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+	 if (confirm(msg)==true){ 
+	  var url = "{:U('admin/Order/deleteOrder/id/"+id+"')}";
+       // alert(url);
+        window.location.href = url; 
+	 }else{ 
+	  return false; 
+	 } 
+        
+        
     }
 	
 	
@@ -194,47 +213,10 @@
         table.ajax.reload();
     }
 
-    //导出excel
-    function exprot()
-    {
-        test_time = $('#test_time').val();
-        date_b = $('#date_b').val();
-        date_e = $('#date_e').val();
-        is_check = $('#is_check').val();
-        is_bk = $('#is_bk').val();
-        var url = "{:U('admin/Teacher/getTeacherList/exprot/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"')}";
-//        alert(url);
-        window.location.href = url;
-    }
+    
 
-    //导出考生图片
-    function downImg()
-    {
-        test_time = $('#test_time').val();
-        date_b = $('#date_b').val();
-        date_e = $('#date_e').val();
-        is_check = $('#is_check').val();
-        is_bk = $('#is_bk').val();
-        var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"')}";
-        // var url = "{:U('admin/Teacher/getTeacherList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"')}";
-        window.location.href = url;
-    }
 
-    //详情
-    function detail(id){
-        layer.open({
-            type: 2,
-            title: ['教师证学生报名表详情'],
-            scrollbar: false, //是否允许浏览器出现滚动条
-            maxmin: false,  //最大最小化按钮
-            shadeClose: true, //点击遮罩关闭层
-            area: ['100%', '100%'], //控制大小
-            content: "__CONTROLLER__/teacherStatusDetail/id/" + id,
-            closeBtn: 1,    //关闭按钮样式
-            anim:3, //弹出动画
-            moveOut: true //是否允许拖动
-        });
-    }
+
 
 </script>
 </html>

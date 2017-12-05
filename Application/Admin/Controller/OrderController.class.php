@@ -189,15 +189,30 @@ class OrderController extends BaseController {
 
     //获取其他证书收款列表
     public function getOtherCerList(){
+        $oterList=D("Order")->getOtherList();
+        foreach($oterList as $key => $value){
+//            $list[$key]['num']=$key+1;
+            $oterList[$key]['ac']='<button class="layui-btn" onclick="dele('.$value['id'].')" >详情</button>';
 
+        }
+        $this->ajaxReturn($oterList,'json');
 
     }
 
     //其他证书收款录入页面
     public function otherCercost(){
         if (IS_POST){
+            //权限检测,财务+超管
+            cost_check();
+            $addOrder=D('Order')->add($_POST);  //增加数据到order表
+            $addOrder?$this->success('缴费操作成功') : $this->error('续缴操作失败');
 
         }else{
+            //权限检测,财务+超管
+            cost_check();
+            $userInfo=D("User")->getSalesmanUser();
+            $this->assign("userInfo",$userInfo);
+
             $this->display();
         }
 

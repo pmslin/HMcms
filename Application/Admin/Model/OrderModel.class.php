@@ -86,6 +86,39 @@ class OrderModel extends Model
         return $teacherList;
     }
 
+    //获取其他证书缴费记录
+    public function getOtherList(){
+        $sql="SELECT
+                o.id,
+                o.student_name,
+                u.username,
+                o.create_time,
+                o.some_cash,
+             case num 
+                    when 'crgg' then '成人高考' 
+                    when 'wljy' then '网络教育' 
+                    when 'gjkfdx' then '国家开放大学'
+                    when 'zkvip' then '自考vip协议班'
+                    when 'cet46' then '英语四六级'
+                            when 'other' then '其他'
+              else '' end AS num
+            FROM
+                `order` AS o
+            LEFT JOIN `user` AS u ON o.user_id = u.id
+            WHERE
+                num IN (
+                    'crgg',
+                    'wljy',
+                    'gjkfdx',
+                    'zkvip',
+                    'cet46',
+                    'other'
+                )
+            AND o.`status` = 1";
+        $otherList=M()->query($sql);
+        return $otherList;
+    }
+
 
 
 

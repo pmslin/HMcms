@@ -19,6 +19,13 @@ class UserModel extends Model {
         return M('user')->where('tel=%d',$tel)->find();
     }
 
+    /***获取业务员
+     * @return mixed
+     */
+    public function getSalesmanUser(){
+        return M('user')->where('roleid=3 AND status=1')->select();
+    }
+
 }
 
 

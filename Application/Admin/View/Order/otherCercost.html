@@ -23,6 +23,18 @@
 	
 	<script src="__PUBLIC__/H/js/jquery.min.js?v=2.1.4"></script>
 	
+	<script src="__PUBLIC__/H/js/bootstrap.min.js?v=3.3.5"></script>
+	<script src="__PUBLIC__/H/js/content.min.js?v=1.0.0"></script>
+	<script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
+	<script src="__PUBLIC__/laydate/laydate.js"></script>
+	<script src="__PUBLIC__/plugins/layer/layer.js"></script>
+	<script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
+	<script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
+	<!--检测照片规格-->
+	<script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
+	<!--一些公共方法-->
+	<script src="__PUBLIC__/js/plugins/js/formPublic.js"></script>
+	
 
 <style>
     .booktitle {
@@ -53,104 +65,146 @@
 <body>
 
 
-
-<form class="form-horizontal demoform" action="{:U('Admin/Order/saveCost')}" method="post"
+<div style="padding-top:30px;">
+<form class="form-horizontal demoform" action="{:U('Admin/Order/otherCercost')}" method="post"
           enctype="multipart/form-data">
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">期数</label>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">考生姓名</label>
+			
+			<div class="col-sm-3">
+				<input type="text" class="form-control" name="student_name" required="required" >
+			</div>
+			
+			<label class="col-sm-2 control-label">报考证书</label>
 
             <div class="col-sm-3">
-                <select class="form-control m-b" name="periods">
-                    <option value="一期">一期</option>
-                    <option value="二期">二期</option>
-                    <option value="三期">三期</option>
-                    <option value="四期">四期</option>
-                    <option value="五期">五期</option>
-                    <option value="六期">六期</option>
-                    <option value="七期">七期</option>
-                    <option value="八期">八期</option>
-                    <option value="九期">九期</option>
-                    <option value="十期">十期</option>
-                    <option value="退费">退费</option>
+                <select class="form-control m-b" name="num" required="required">
+					<option value="crgg">成人高考</option>
+                    <option value="wljy">网络教育</option>
+                    <option value="gjkfdx">国家开放大学</option>
+                    <option value="zkvip">自考vip协议班</option>
+                    <option value="cet46">英语四六级</option>
+                    <option value="other">其他</option>
 
                 </select>
-            </div>
+            </div>		
+		</div>
+		
+        <div class="form-group">
+            <!-- <label class="col-sm-2 control-label">期数</label> -->
+
+            <!-- <div class="col-sm-3"> -->
+                <!-- <select class="form-control m-b" name="periods"> -->
+                    <!-- <option value="一期">一期</option> -->
+                    <!-- <option value="二期">二期</option> -->
+                    <!-- <option value="三期">三期</option> -->
+                    <!-- <option value="四期">四期</option> -->
+                    <!-- <option value="五期">五期</option> -->
+                    <!-- <option value="六期">六期</option> -->
+                    <!-- <option value="七期">七期</option> -->
+                    <!-- <option value="八期">八期</option> -->
+                    <!-- <option value="九期">九期</option> -->
+                    <!-- <option value="十期">十期</option> -->
+                    <!-- <option value="退费">退费</option> -->
+
+                <!-- </select> -->
+            <!-- </div> -->
     
+			 <label class="col-sm-2 control-label">缴费日期</label>
+
+            <div class="col-sm-3">
+                <input placeholder="请输入日期" class="laydate-icon time_input"
+                       style=" width:200px; height:33px; padding:5px;"
+                       onclick="laydate()" name="create_time" datatype="*" nullmsg="请输入本次缴费日期" required="required">
+            </div>
+							
+							
             <label class="col-sm-2 control-label">缴费金额</label>
 
             <div class="col-sm-3">
-                <input type="text" class="form-control" name="some_cash" datatype="/^-?[1-9]+(\.\d+)?$|^-?0(\.\d+)?$|^-?[1-9]+[0-9]*(\.\d+)?$/" 
-                       nullmsg="请输入本期缴费金额" errormsg="本期缴费金额请填数字">
+				<input id="money" onkeyup="onlyNumber(this)" type="text" name="some_cash" placeholder="0.00" class="form-control" required="required"/> 
             </div>
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label">缴费日期</label>
-
-            <div class="col-sm-3">
-                <input placeholder="请输入日期" class="laydate-icon time_input"
-                       style=" width:242px; height:33px; padding:5px;"
-                       onclick="laydate()" name="create_time" datatype="*" nullmsg="请输入本次缴费日期">
-            </div>
+			
+			<label class="col-sm-2 control-label">所属业务员</label>
+			<div class="col-sm-3">
+                                <select data-placeholder="点击选择业务员..." class="chzn-select" 
+                                        style="width:200px;" tabindex="4" name="user_id"  required="required">
+                                    <option value=""></option>
+                                    <foreach name="userInfo" item="vo">
+                                        <option value="{$vo.id}">{$vo.username}</option>
+                                    </foreach>
+                                </select>
+                            </div>
+			
+           
+			
  
-            <label class="col-sm-2 control-label">费用是否缴齐</label>
+            <!-- <label class="col-sm-2 control-label">费用是否缴齐</label> -->
 
-            <div class="col-sm-3 radio i-checks">
-                <label>
-                    <input type="radio" value="1" name="pay_status" datatype="*"
-                           nullmsg="请勾选费用是否缴齐"> <i></i> 已缴齐</label>
-                <label>
-                    <input type="radio" value="0" name="pay_status"> <i></i> 未缴齐</label>
-            </div>
+            <!-- <div class="col-sm-3 radio i-checks"> -->
+                <!-- <label> -->
+                    <!-- <input type="radio" value="1" name="pay_status" datatype="*" -->
+                           <!-- nullmsg="请勾选费用是否缴齐"> <i></i> 已缴齐</label> -->
+                <!-- <label> -->
+                    <!-- <input type="radio" value="0" name="pay_status"> <i></i> 未缴齐</label> -->
+            <!-- </div> -->
         </div>
 
 
         <div class="form-group">
             <div class="col-sm-4 col-sm-offset-5">
                 <button class="btn btn-primary" type="submit" id="saveorder">确定</button>
-                <input type="hidden" name="student_id" value="{$detail.id}">
-                <input type="hidden" name="order_course_cat" id="order_course_cat" value="">
+                <!-- <input type="hidden" name="student_id" value="{$detail.id}"> -->
+                <!-- <input type="hidden" name="order_course_cat" id="order_course_cat" value=""> -->
 
             </div>
         </div>
 
     </form>
-<!-- <div> -->
+ <div> 
 
 
-<script src="__PUBLIC__/H/js/bootstrap.min.js?v=3.3.5"></script>
-<script src="__PUBLIC__/H/js/content.min.js?v=1.0.0"></script>
-<script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
-<script src="__PUBLIC__/laydate/laydate.js"></script>
-<script src="__PUBLIC__/plugins/layer/layer.js"></script>
-<script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
-<script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
-<!--检测照片规格-->
-<script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
-<!--一些公共方法-->
-<script src="__PUBLIC__/js/plugins/js/formPublic.js"></script>
+
 
 
 <script>
 
-    //根据是否返代理提成，是否代理姓名，代理金额，代理提成转账方式，备注（财务）和实现必填设置
-    $("input:radio[name='is_proxy']").change(function () {
-        var is_proxy = $(this).val();
-        if (is_proxy == 1) {
-            $(".proxy_div").removeAttr("style", "display:none;");
-			$("#proxy_name,#proxy_money,#proxy_pay_way,#proxy_remark").attr("datatype",'*');
-			<!-- $("#proxy_money").attr("datatype",'*'); -->
-			<!-- $("#proxy_pay_way").attr("datatype",'*'); -->
-        } else {
-            $(".proxy_div").attr("style", "display:none;");
-			$("#proxy_name,#proxy_money,#proxy_pay_way").removeAttr("datatype");
-			<!-- $("#proxy_money").removeAttr("datatype"); -->
-			<!-- $("#proxy_pay_way").removeAttr("datatype"); -->
-        }
-        //alert(pay_status);
+ //初始化chosen
+    //    $(".chzn-select").chosen();
+    $(".chzn-select").chosen({
+        no_results_text: "没有找到",
+        //allow_single_de: true,  //是否作废选择 max_ed_options 当为多选时，最多选择个数
+		max_selected_optionsL:1,
+        search_contains: true,   //模糊搜索
+
     });
 	
+	
+
+  function onlyNumber(obj){    
+                  
+                //得到第一个字符是否为负号    
+                var t = obj.value.charAt(0);      
+                //先把非数字的都替换掉，除了数字和.     
+                obj.value = obj.value.replace(/[^\d\.]/g,'');       
+                 //必须保证第一个为数字而不是.       
+                 obj.value = obj.value.replace(/^\./g,'');       
+                 //保证只有出现一个.而没有多个.       
+                 obj.value = obj.value.replace(/\.{2,}/g,'.');       
+                 //保证.只出现一次，而不能出现两次以上       
+                 obj.value = obj.value.replace('.','$#$').replace(/\./g,'').replace('$#$','.');  
+                 obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');  
+                 //如果第一位是负号，则允许添加    
+                 if(t == '-'){    
+                      
+                   return;  
+                 }    
+  
+            }  
 	
 </script>
 
