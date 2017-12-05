@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>教师证学生报名表详情</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="__PUBLIC__/H/css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="__PUBLIC__/H/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="__PUBLIC__/H/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__PUBLIC__/H/css/animate.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/H/css/style.min.css?v=4.0.0" rel="stylesheet">
+    <link href="__PUBLIC__/magic-check/magic-check.css" rel="stylesheet">
+    <link href="__PUBLIC__/Validform/style.css" rel="stylesheet">
+
+    <link href="__PUBLIC__/plugins/chosen/css/chosen.css" rel="stylesheet">
+	
+	
+	<script src="__PUBLIC__/H/js/jquery.min.js?v=2.1.4"></script>
+	
+
+<style>
+    .booktitle {
+        background: #F5F5F5;
+        margin-bottom: 20px;
+    }
+</style>
+
+
+<script>
+	$(function(){
+	
+		is_proxy();
+
+		//检测是否返代理提成，如是，显示代理信息（详情页）
+		function is_proxy(){
+			var is_proxy = $('input:radio[name="is_proxy"]:checked').val();
+			if (is_proxy == 1) {
+					$(".proxy_div").removeAttr("style", "display:none;");
+			}
+		}
+		
+	}); 
+</script>
+
+</head>
+
+<body>
+
+
+
+<form class="form-horizontal demoform" action="{:U('Admin/Order/saveCost')}" method="post"
+          enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">期数</label>
+
+            <div class="col-sm-3">
+                <select class="form-control m-b" name="periods">
+                    <option value="一期">一期</option>
+                    <option value="二期">二期</option>
+                    <option value="三期">三期</option>
+                    <option value="四期">四期</option>
+                    <option value="五期">五期</option>
+                    <option value="六期">六期</option>
+                    <option value="七期">七期</option>
+                    <option value="八期">八期</option>
+                    <option value="九期">九期</option>
+                    <option value="十期">十期</option>
+                    <option value="退费">退费</option>
+
+                </select>
+            </div>
+    
+            <label class="col-sm-2 control-label">缴费金额</label>
+
+            <div class="col-sm-3">
+                <input type="text" class="form-control" name="some_cash" datatype="/^-?[1-9]+(\.\d+)?$|^-?0(\.\d+)?$|^-?[1-9]+[0-9]*(\.\d+)?$/" 
+                       nullmsg="请输入本期缴费金额" errormsg="本期缴费金额请填数字">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">缴费日期</label>
+
+            <div class="col-sm-3">
+                <input placeholder="请输入日期" class="laydate-icon time_input"
+                       style=" width:242px; height:33px; padding:5px;"
+                       onclick="laydate()" name="create_time" datatype="*" nullmsg="请输入本次缴费日期">
+            </div>
+ 
+            <label class="col-sm-2 control-label">费用是否缴齐</label>
+
+            <div class="col-sm-3 radio i-checks">
+                <label>
+                    <input type="radio" value="1" name="pay_status" datatype="*"
+                           nullmsg="请勾选费用是否缴齐"> <i></i> 已缴齐</label>
+                <label>
+                    <input type="radio" value="0" name="pay_status"> <i></i> 未缴齐</label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-5">
+                <button class="btn btn-primary" type="submit" id="saveorder">确定</button>
+                <input type="hidden" name="student_id" value="{$detail.id}">
+                <input type="hidden" name="order_course_cat" id="order_course_cat" value="">
+
+            </div>
+        </div>
+
+    </form>
+<!-- <div> -->
+
+
+<script src="__PUBLIC__/H/js/bootstrap.min.js?v=3.3.5"></script>
+<script src="__PUBLIC__/H/js/content.min.js?v=1.0.0"></script>
+<script src="__PUBLIC__/H/js/plugins/iCheck/icheck.min.js"></script>
+<script src="__PUBLIC__/laydate/laydate.js"></script>
+<script src="__PUBLIC__/plugins/layer/layer.js"></script>
+<script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
+<script src="__PUBLIC__/plugins/chosen/js/chosen.jquery.js"></script>
+<!--检测照片规格-->
+<script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
+<!--一些公共方法-->
+<script src="__PUBLIC__/js/plugins/js/formPublic.js"></script>
+
+
+<script>
+
+    //根据是否返代理提成，是否代理姓名，代理金额，代理提成转账方式，备注（财务）和实现必填设置
+    $("input:radio[name='is_proxy']").change(function () {
+        var is_proxy = $(this).val();
+        if (is_proxy == 1) {
+            $(".proxy_div").removeAttr("style", "display:none;");
+			$("#proxy_name,#proxy_money,#proxy_pay_way,#proxy_remark").attr("datatype",'*');
+			<!-- $("#proxy_money").attr("datatype",'*'); -->
+			<!-- $("#proxy_pay_way").attr("datatype",'*'); -->
+        } else {
+            $(".proxy_div").attr("style", "display:none;");
+			$("#proxy_name,#proxy_money,#proxy_pay_way").removeAttr("datatype");
+			<!-- $("#proxy_money").removeAttr("datatype"); -->
+			<!-- $("#proxy_pay_way").removeAttr("datatype"); -->
+        }
+        //alert(pay_status);
+    });
+	
+	
+</script>
+
+</body>
+
+</html>
+

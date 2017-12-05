@@ -96,6 +96,11 @@ class OrderController extends BaseController {
 
 
 
+
+
+
+
+
     /**
      * 获取订单列表
      */
@@ -173,5 +178,31 @@ class OrderController extends BaseController {
         show_bug($teacherList);
 
     }
+
+
+
+    //其他证书收款列表页面
+    public function otherCerList(){
+
+        $this->display();
+    }
+
+    //获取其他证书收款列表
+    public function getOtherCerList(){
+
+
+    }
+
+    //其他证书收款录入页面
+    public function otherCercost(){
+        if (IS_POST){
+
+        }else{
+            $this->display();
+        }
+
+    }
+
+
 
 }
