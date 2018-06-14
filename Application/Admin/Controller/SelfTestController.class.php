@@ -278,6 +278,19 @@ class SelfTestController extends BaseController {
                     $sex= '女';
                 }
 
+                //政治面貌
+                if( $list[$i]['face'] == 1 ){
+                    $face = '团员';
+                }else if ($list[$i]['face'] == 2){
+                    $face= '预备党员';
+                }else if ($list[$i]['face'] == 3){
+                    $face= '党员';
+                }else if ($list[$i]['face'] == 4){
+                    $face= '群众';
+                }else if ($list[$i]['face'] == 5){
+                    $face= '其他';
+                }
+
                 //业务员
                 $user=D("user")->getUserById($list[$i]['userid']);
 
@@ -311,6 +324,12 @@ class SelfTestController extends BaseController {
                     'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
                     'address'=>$list[$i]['address'],    //地址
                     'create_time'=>$list[$i]['create_time'],    //录入日期
+
+                    'nation'=>$list[$i]['nation'],    //民族
+                    'hometown'=>$list[$i]['hometown'],    //籍贯
+                    'under_school'=>$list[$i]['under_school'],    //主考院校
+                    'face'=>$face,    //政治面貌
+
                     'remarks'=>$list[$i]['remarks'],    //备注
 
                 );
@@ -320,7 +339,7 @@ class SelfTestController extends BaseController {
             $name_co = "自考学生报名表";
 
             $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','备选考区', '准考证号','联系电话',
-                '身份证号码','专科专业','业务部门','业务员','所在单位','套餐','实收金额', 'QQ', '微信号', '紧急联系人','紧急联系人电话','地址','录入日期', '备注');
+                '身份证号码','专科专业','业务部门','业务员','所在单位','套餐','实收金额', 'QQ', '微信号', '紧急联系人','紧急联系人电话','地址','录入日期', '民族','籍贯','主考院校','政治面貌','备注');
 
 //            $time = date('Y-m-d', time());
 
