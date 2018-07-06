@@ -1,5 +1,5 @@
 
-//证件照照片检测
+//证件照照片检测  宽高为0代表不做限制
 function photoCheck(format,size,width,height) {
 //图片上传过滤
     var file = document.getElementById("imgurl").value;

@@ -44,9 +44,6 @@ class SelfTestController extends BaseController {
         if(IS_POST){
             $post=I('post.');
 
-//            show_bug($post);
-//            exit();
-
             //查询出考区
             $testPlaceModel=D('SelfTestPlace');
 //            $id=$post['place_city_id'];
@@ -59,8 +56,16 @@ class SelfTestController extends BaseController {
                 $an_place_city=$testPlaceModel->getPalceNameById($post['an_place_city_id']);
                 $an_place_area=$testPlaceModel->getPalceNameById($post['an_place_area_id']);
                 $an_test_place=$an_place_city['place_name'].$an_place_area['place_name'];
-//                show_bug($an_place_city);exit();
                 $post['an_test_place']=$an_test_place;  //备选考区
+            }
+
+            //确认点
+            if (!empty($post['co_place_city_id'])){
+                $co_place_city=$testPlaceModel->getPalceNameById($post['co_place_city_id']);
+                $co_place_area=$testPlaceModel->getPalceNameById($post['co_place_area_id']);
+                $co_test_place=$co_place_city['place_name'].$co_place_area['place_name'];
+//                show_bug($an_place_city);exit();
+                $post['confirm_place']=$co_test_place;  //确认点
             }
 
 
@@ -89,34 +94,12 @@ class SelfTestController extends BaseController {
             $post['create_time']=$time;
             $post['test_place']=$test_place;    //考区
             $post['userid']=session('userid');
-//            show_bug($post['under_major']);die();
             //获取报考专业编码和名称
             $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major_num']);
-//            show_bug($underMajor['name']);show_bug($underMajor['number']);
-//            show_bug($underMajor);exit();
             $post['under_major']=$underMajor['name'];//专业名称
             $post['under_major_num']=$underMajor['number'];
             //添加数据到teacher表
             $addResult=D('self_test')->add($post);
-
-            //添加数据到order表
-//            $orderData['course_package_id']=$post['course_package'];
-//            $orderData['pay_status']=$post['pay_status'];
-//            $orderData['user_id']=session('userid');
-//            $orderData['create_time']=$time;
-//            $orderData['student_id']=$addResult;
-//            $orderData['course_package_topid']=7;   //标记为自考
-//            //获取套餐价格和名称
-//            $course_package=D('CoursePackage')->getCourePackageById($post['course_package']);
-//            $orderData['course_name']=$course_package['name'];
-//            $orderData['course_price']=$course_package['price'];
-//            //已收费用，交齐直接记录课程总额，未交齐记录已交费用
-//            if($post['pay_status']==1){
-//                $orderData['some_cash']=$course_package['price'];
-//            }else{
-//                $orderData['some_cash']=$post['some_cash'];
-//            }
-//            $addOrder=D('Order')->add($orderData);  //add()
 
 
             if($addResult){
@@ -127,8 +110,6 @@ class SelfTestController extends BaseController {
                 $this->error('录入失败');
             }
         }
-//        print_r($_POST);
-//        exit();
     }
 
     //自考列表页面
@@ -163,7 +144,6 @@ class SelfTestController extends BaseController {
         $user_name=$get['user_name'];//业务员姓名
         $stundet_name=$get['stundet_name'];//学生姓名
 
-//        show_bug($get);
 
         //如果是招生老师，只显示自己招收的学生
         if(session('roleid')==3){
@@ -171,13 +151,10 @@ class SelfTestController extends BaseController {
         }
 
         if( $test_time!=0 || !empty($get['exprot']) ){
-//            exit();
             $map['test_time']=$test_time;
         }
 
         if( $test_time==0 && !empty($get['exprot']) ){
-//            echo 1;
-//            exit();
             unset($map['test_time']);
         }
 
@@ -218,7 +195,7 @@ class SelfTestController extends BaseController {
 
         if(empty($get['exprot']) && empty($get['cost_exprot'])) {  //列表，把不需要的字段剔除
             $list=M('self_test as s')
-                ->field('s.id,s.name,s.tel,s.create_time,s.test_time,s.pic,u.username,s.idcard')
+                ->field('s.id,s.name,s.tel,s.create_time,s.test_time,s.pic,s.id_pic,u.username,s.idcard')
                 ->join('user AS u ON s.userid=u.id',left)
                 ->where($map)->order('create_time desc')->select();
         }elseif (isset($get['cost_exprot'])){  //财务导出excel
@@ -238,9 +215,6 @@ class SelfTestController extends BaseController {
                 ->join('user AS u ON s.userid=u.id',left)
                 ->where($map)->order('create_time desc')->select();
         }
-//        show_bug($list);
-//        echo M()->_sql();
-//        exit();
 
         foreach($list as $key => $value){
             $list[$key]['num']=$key+1;
@@ -250,6 +224,8 @@ class SelfTestController extends BaseController {
             }else{
                 $list[$key]['msg']='';
             }
+
+            empty($value['id_pic']) ? $list[$key]['id_pic_msg'] = '身份证未上传' : $list[$key]['id_pic_msg'] = '';
 //            array_push($list[$key],array('ac'=>'  <button class="layui-btn" onclick="detail({$vo.id})" >详情</button>'));
         }
 
@@ -291,6 +267,29 @@ class SelfTestController extends BaseController {
                     $face= '其他';
                 }
 
+                //户籍类型
+                if( $list[$i]['huji_type'] == 1 ){
+                    $huji_type = '城镇户口';
+                }else if ($list[$i]['huji_type'] == 2){
+                    $huji_type= '农村户口';
+                }
+
+                //证件类型
+                if( $list[$i]['document_type'] == 1 ){
+                    $document_type = '身份证';
+                }else if ($list[$i]['document_type'] == 2){
+                    $document_type= '港澳通行证';
+                }else if ($list[$i]['document_type'] == 3){
+                    $document_type= '护照';
+                }
+
+                //婚姻状况
+                if( $list[$i]['marital_status'] == 1 ){
+                    $marital_status = '已婚';
+                }else if ($list[$i]['marital_status'] == 2){
+                    $marital_status= '未婚';
+                }
+
                 //业务员
                 $user=D("user")->getUserById($list[$i]['userid']);
 
@@ -312,6 +311,18 @@ class SelfTestController extends BaseController {
                     'test_num'    =>$list[$i]['test_num'],    //准考证号
                     'tel'   =>$list[$i]['tel'],   //联系电话
                     'idcard'    =>$list[$i]['idcard'],    //身份证号码
+
+                    'birthday'    =>$list[$i]['birthday'],    //出生日期
+                    'nation'    =>$list[$i]['nation'],    //民族
+                    'hometown'    =>$list[$i]['hometown'],    //籍贯
+                    'under_school'    =>$list[$i]['under_school'],    //主考院校
+                    'face'    =>$face,    //政治面貌
+                    'huji_type'    =>$huji_type,    //户籍类型
+                    'document_type'    =>$document_type,    //证件类型
+                    'marital_status'    =>$marital_status,    //婚姻状况
+                    'confirm_place'    =>$list[$i]['confirm_place'],    //确认点
+
+
                     'college_major'    =>$list[$i]['college_major'],    //专科专业
                     'bus_unit'    =>$user['bus_unit'],    //业务部门
                     'username'    =>$user['username'],    //业务员
@@ -324,12 +335,10 @@ class SelfTestController extends BaseController {
                     'emergency_tel' =>$list[$i]['emergency_tel'],    //紧急联系电话
                     'address'=>$list[$i]['address'],    //地址
                     'create_time'=>$list[$i]['create_time'],    //录入日期
-
-                    'nation'=>$list[$i]['nation'],    //民族
-                    'hometown'=>$list[$i]['hometown'],    //籍贯
-                    'under_school'=>$list[$i]['under_school'],    //主考院校
-                    'face'=>$face,    //政治面貌
-
+//                    'nation'=>$list[$i]['nation'],    //民族
+//                    'hometown'=>$list[$i]['hometown'],    //籍贯
+//                    'under_school'=>$list[$i]['under_school'],    //主考院校
+//                    'face'=>$face,    //政治面貌
                     'remarks'=>$list[$i]['remarks'],    //备注
 
                 );
@@ -339,7 +348,8 @@ class SelfTestController extends BaseController {
             $name_co = "自考学生报名表";
 
             $title_arr = array('序号', '首次考试时间', '报考专业','专业编号', '姓名', '性别','考区','备选考区', '准考证号','联系电话',
-                '身份证号码','专科专业','业务部门','业务员','所在单位','套餐','实收金额', 'QQ', '微信号', '紧急联系人','紧急联系人电话','地址','录入日期', '民族','籍贯','主考院校','政治面貌','备注');
+                '身份证号码','出生日期','民族','籍贯','主考院校','政治面貌','户籍类型','证件类型','婚姻状况','确认点',
+                '专科专业','业务部门','业务员','所在单位','套餐','实收金额', 'QQ', '微信号', '紧急联系人','紧急联系人电话','地址','录入日期', '备注');
 
 //            $time = date('Y-m-d', time());
 
@@ -357,19 +367,31 @@ class SelfTestController extends BaseController {
             }
         }
 
+        //导出考生图片
         if (!empty($_GET['downImg'])){
             if ($list && count($list) > 0) {
+                foreach ($list as $k=>$v){
+                    if (empty($v['pic'])) unset($list[$k]);
+                }
                 $this->downtest("自考" . $test_time . "首次考试学生照片.zip", $list);
             }else{
                 $this->error('没有对应的数据');
             }
         }
 
-        $this->ajaxReturn($list,'json');
+        //导出考生身份证图片
+        if (!empty($_GET['downIdImg'])){
+            if ($list && count($list) > 0) {
+                foreach ($list as $k=>$v){
+                    if (empty($v['id_pic'])) unset($list[$k]);
+                }
+                $this->downIdImg("自考" . $test_time . "首次考试学生身份证图片.zip", $list);
+            }else{
+                $this->error('没有对应的数据');
+            }
+        }
 
-//        $this->assign('list',$list);
-//
-//        $this->display();
+        $this->ajaxReturn($list,'json');
     }
 
     /**
@@ -393,8 +415,6 @@ class SelfTestController extends BaseController {
         //根据学生报考的班型套餐id，获取班型套餐详情
         $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
         $this->assign('course_package',$course_package);
-//        show_bug($detail);
-//        show_bug($course_package);
 
         //获取自考考试时间
         $testTime=D('ThTesttime')->getThTestTimeById(6);
@@ -419,7 +439,6 @@ class SelfTestController extends BaseController {
         //发书情况，第二个参数是course_package的证书topid
         $send_book=D('SendBook')->getSendBookBySdid($detail['id'],7);
         $this->assign('send_book',$send_book);
-//        show_bug($send_book);
 
         //缴费情况
 //        $order=D('order')->getOrderBystuidTopid($id,7);
@@ -450,7 +469,6 @@ class SelfTestController extends BaseController {
      * 修改自考学生报名表
      */
     public function savefrom(){
-//        show_bug($_POST);exit();
         $post=I('post.');
         if ($_SESSION['roleid']==3 && empty($post['picinfo'])){
             if (!empty($post['id'])){
@@ -477,7 +495,7 @@ class SelfTestController extends BaseController {
                     unset( $_POST['idpic']);
                 }
             }
-//            show_bug($post);exit();
+
             $teacherModel=M('self_test');
             $data['id']=$post['id'];
 
@@ -498,26 +516,29 @@ class SelfTestController extends BaseController {
             }
 
             $post=I('post.');
-//        show_bug($_POST);
-//        exit();
+
             if(!empty($post['place_area_id'])){
-//            echo 1;
                 //查询出考区
                 $testPlaceModel=D('SelfTestPlace');
-//            $id=$post['place_city_id'];
                 $place_city=$testPlaceModel->getPalceNameById($post['place_city_id']);
                 $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
                 $post['test_place']=$place_city['place_name'].$place_area['place_name'];
             }
 
             if(!empty($post['an_place_area_id'])){
-//            echo 1;
                 //查询出备考考区
                 $testPlaceModel=D('SelfTestPlace');
-//            $id=$post['place_city_id'];
                 $an_place_city=$testPlaceModel->getPalceNameById($post['an_place_city_id']);
                 $an_place_area=$testPlaceModel->getPalceNameById($post['an_place_area_id']);
                 $post['an_test_place']=$an_place_city['place_name'].$an_place_area['place_name'];
+            }
+
+            if(!empty($post['co_place_area_id'])){
+                //查询确认点考考区
+                $testPlaceModel=D('SelfTestPlace');
+                $co_place_city=$testPlaceModel->getPalceNameById($post['co_place_city_id']);
+                $co_place_area=$testPlaceModel->getPalceNameById($post['co_place_area_id']);
+                $post['confirm_place']=$co_place_city['place_name'].$co_place_area['place_name'];
             }
 
             //上传考生照片
@@ -542,10 +563,8 @@ class SelfTestController extends BaseController {
 
             //报考专业和编码
             //获取报考专业编码和名称
-//        show_bug($post);die();
             $underMajor=D('UnderMajor')->getUnderMajorByNum($post['under_major_num']);
-//        show_bug($_POST);
-//            show_bug($underMajor);exit();
+
             $post['under_major']=$underMajor['name'];//专业名称
             $post['under_major_num']=$underMajor['number'];
 
@@ -559,7 +578,5 @@ class SelfTestController extends BaseController {
                 $this->error('修改失败');
             }
         }
-
-
     }
 }

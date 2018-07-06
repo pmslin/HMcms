@@ -131,6 +131,27 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">证件类型</label>
+                            <div class="col-sm-4 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="document_type"  datatype="*" nullmsg="请选择证件类型"> <i></i> 身份证</label>
+                                <label>
+                                    <input type="radio" value="2" name="document_type"> <i></i> 港澳通行证</label>
+                                <label>
+                                    <input type="radio" value="3" name="document_type"> <i></i> 护照</label>
+                            </div>
+
+                            <!-- <label class="col-sm-2 control-label">婚姻状况</label>
+                            <div class="col-sm-4 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="marital_status"  datatype="*" nullmsg="请选择婚姻状况"> <i></i> 已婚</label>
+                                    <label>
+                                        <input type="radio" value="2" name="marital_status"> <i></i> 未婚</label>
+                            </div> -->
+                        </div>
+
                         <div class="form-group">
                             <!--<label class="col-sm-2 control-label">出生年月</label>-->
 
@@ -149,7 +170,7 @@
                             <label class="col-sm-2 control-label">身份证号码</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="idcard" datatype="*">
+                                <input type="text" class="form-control" name="idcard" id="idcard" datatype="*">
                             </div>
                         </div>
 
@@ -167,6 +188,28 @@
                                 <!--<input type="text" class="form-control" name="email" datatype="e&*"  errormsg="请输入正确的邮箱">-->
                             <!--</div>-->
                         <!--</div>-->
+
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">出生日期</label>
+                            <div class="col-sm-3">
+                                <input placeholder=" 请输入日期" class="laydate-icon" style=" width:242px; height:30px; padding:5px;"
+                                           onclick="laydate()" name="birthday" id="birthday" datatype="*">
+                            </div>
+
+                             <label class="col-sm-2 control-label">学历</label>
+                                <div class="col-sm-4 radio i-checks">
+                                    <label>
+                                        <input type="radio" value="1" name="education"  datatype="*" nullmsg="请选择学历"> <i></i> 高中</label>
+                                    <label>
+                                        <input type="radio" value="2" name="education"> <i></i> 大专</label>
+                                    <label>
+                                        <input type="radio" value="3" name="education"> <i></i> 本科</label>
+                                    <label>
+                                        <input type="radio" value="4" name="education"> <i></i> 其他</label>
+                                </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">大专学校全称</label>
@@ -222,6 +265,7 @@
                             <!--</div>-->
                         <!--</div>-->
 
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label">大专专业名称</label>
 
@@ -268,6 +312,26 @@
                             <!--</div>-->
                         <!--</div>-->
 
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">户籍类型</label>
+                            <div class="col-sm-3 radio i-checks">
+                                <label>
+                                    <input type="radio" value="1" name="huji_type"  datatype="*" nullmsg="请选择户籍类型"> <i></i> 城镇户口</label>
+                                <label>
+                                    <input type="radio" value="2" name="huji_type"> <i></i> 农村户口</label>
+                            </div>
+
+                             <label class="col-sm-2 control-label">婚姻状况</label>
+                                <div class="col-sm-4 radio i-checks">
+                                    <label>
+                                        <input type="radio" value="1" name="marital_status"  datatype="*" nullmsg="请选择婚姻状况"> <i></i> 已婚</label>
+                                    <label>
+                                        <input type="radio" value="2" name="marital_status"> <i></i> 未婚</label>
+                                </div>
+                        </div>
+
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label">紧急联系人</label>
 
@@ -278,7 +342,7 @@
                             <label class="col-sm-2 control-label">紧急联系人电话</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="emergency_tel" datatype="*">
+                                <input type="text" class="form-control" name="emergency_tel" datatype="n11-11" errormsg="请输入正确的紧急联系人手机号码">
                             </div>
                         </div>
 
@@ -286,7 +350,7 @@
                             <label class="col-sm-2 control-label">本人联系地址</label>
 
                             <div class="col-sm-8">
-                                <input type="text" placeholder='___市___区______' class="form-control" name="address" datatype="*">
+                                <input type="text" placeholder='______市______区______路______号' class="form-control" name="address" datatype="*">
                             </div>
                         </div>
 
@@ -312,7 +376,7 @@
 
                             <div class="col-sm-2 radio i-checks">
                                 <label>
-                                    <input type="radio" value="1" name="grade"  datatype="*" nullmsg="请选择报名的学历"> <i></i> 大专</label>
+                                    <input type="radio" value="1" name="grade"  datatype="*" nullmsg="请选择要报名的学历层次"> <i></i> 大专</label>
                                 <label>
                                     <input type="radio" value="2" name="grade"> <i></i> 本科</label>
                             </div>
@@ -364,6 +428,23 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">确认点</label>
+                            <div class="col-sm-3">
+                                <!-- 城市 -->
+                                <select  class="form-control m-b" name="co_place_city_id" id="co_city">
+                                    <option>--请选择市--</option>
+                                    <foreach name="city" item="v">
+                                        <option value="{$v.place_id}"  >{$v.place_name}</option>
+                                    </foreach>
+                                </select>
+                                <!-- 区县 -->
+                                <select  class="form-control m-b" name="co_place_area_id" id="co_area">
+                                    <option datatype="s" nullmsg="请选择考区"></option>
+                                </select>
+                            </div>
+                        </div>
 						
 						<div class="form-group">
 							 <label class="col-sm-2 control-label">首次考试时间</label>
@@ -389,7 +470,7 @@
                             <label class="col-sm-2 control-label">准考证</label>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="test_num" >
+                                <input type="text" class="form-control" name="test_num" id="test_num" >
                             </div>
 
                             <!-- <label class="col-sm-2 control-label">考生照片</label> -->
@@ -407,9 +488,9 @@
 						<div class="form-group">
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-3">
-                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg)$/,500,500,752)"/>
+                                <input type="file" name="pic" id="imgurl" onchange="photoCheck(/\.(jpg|png|jpeg)$/,500,0,0)"/>
                                 <div style="padding: 5px">
-                                    图片要求：彩色蓝底免冠，规格500*752，小于500KB，.jpg文件格式
+                                    图片要求：彩色蓝底免冠，小于500KB，.jpg/.png/.jpeg文件格式
                                 </div>
 
                                 <img src="" id="imgShow" style="width:50px"></img>
@@ -417,9 +498,9 @@
 
                             <label class="col-sm-2 control-label">考生身份证照片</label>
                             <div class="col-sm-3">
-                                <input type="file" name="idpic" id="idImgurl" onchange="photoIdPicCheck(/\.(jpg|jpeg)$/,400,0,0)"/>
+                                <input type="file" name="idpic" id="idImgurl" onchange="photoIdPicCheck(/\.(jpg|png|jpeg)$/,400,0,0)"/>
                                 <div style="padding: 5px">
-                                    照片要求：照片清晰，不大于400KB，.jpg/.jpeg文件格式
+                                    照片要求：照片清晰，不大于400KB，.jpg/.png/.jpeg文件格式
                                 </div>
 
                                 <img src="" id="idImgShow" style="width:50px"></img>
@@ -514,6 +595,8 @@
 
 <script src="__PUBLIC__/Validform/Validform_v5.3.2_min.js"></script>
 
+<!--身份证识别出生日期-->
+<script src="__PUBLIC__/js/plugins/js/idcardByBirthday.js"></script>
 <!--检测照片规格-->
 <script src="__PUBLIC__/js/plugins/js/checkImg.js"></script>
 
@@ -575,6 +658,21 @@
         });
     });
 
+
+    //确认点城市联动
+    $('#co_city').change(function(){
+        $.ajax({
+            type:"post",
+            url:"{:U('TestPlace/postSelfTestAreaAn')}",
+            data:'place_id='+$('#co_city').val(),
+            dataType:'json',
+            success:function(data){
+//                    console.log(data);
+                $("#co_area").html(data);
+            }
+        });
+    });
+
     //检查考区和备选考区是否相同
     $("#an_area").change(function(){
         var area=$("#area").val();
@@ -583,11 +681,22 @@
             layer.msg("考区和备选考区不能相同");
             $("#an_area").val("");
         }
-
-//        alert(123);
     });
 
-//    });
+    //准考证号检测
+    $("#test_num").blur(function () {
+        var test_num = $("#test_num").val();
+        // layer.msg(test_num);
+        if (test_num != "") {
+            if ((test_num.length != 12)) {
+                strReturn = "准考证号有误，需为12位数字，没有则留空";
+                layer.msg(strReturn);
+                $("#test_num").focus();
+            }
+        }
+    });
+
+
 
     //提交确认
 //    function sures()

@@ -76,15 +76,15 @@ class BaseController extends Controller {
     {
         //下面是实例操作过程：
         $dfile = tempnam('/tmp', 'tmp');//产生一个临时文件，用于缓存下载文件
-//        $zip = new zipfile();
-//----------------------
+        //        $zip = new zipfile();
+        //----------------------
         $filename = $filename; //下载的默认文件名
 
-//以下是需要下载的图片数组信息，将需要下载的图片信息转化为类似即可
-//        $image = array(
-//            array('image_src' => 'public/Uploads/2017-05-07/590f1f5ae55e7.jpg', 'image_name' => '图片1.jpg'),
-//            array('image_src' => 'public/Uploads/2017-05-07/590f21b3b9114.jpg', 'image_name' => 'pic/图片2.jpg'),
-//        );
+        //以下是需要下载的图片数组信息，将需要下载的图片信息转化为类似即可
+        //        $image = array(
+        //            array('image_src' => 'public/Uploads/2017-05-07/590f1f5ae55e7.jpg', 'image_name' => '图片1.jpg'),
+        //            array('image_src' => 'public/Uploads/2017-05-07/590f21b3b9114.jpg', 'image_name' => 'pic/图片2.jpg'),
+        //        );
 
         foreach($image as $v){
 
@@ -92,10 +92,10 @@ class BaseController extends Controller {
             // 添加打包的图片，第一个参数是图片内容，第二个参数是压缩包里面的显示的名称, 可包含路径
             // 或是想打包整个目录 用 $zip->add_path($image_path);
         }
-//----------------------
+        //----------------------
         $this->output($dfile);
 
-// 下载文件
+        // 下载文件
         ob_clean();
         header('Pragma: public');
         header('Last-Modified:'.gmdate('D, d M Y H:i:s') . 'GMT');
@@ -117,6 +117,52 @@ class BaseController extends Controller {
         exit();
     }
 
+
+    //导出考生身份证照片
+    public function downIdImg($filename,$image)
+    {
+        //下面是实例操作过程：
+        $dfile = tempnam('/tmp', 'tmp');//产生一个临时文件，用于缓存下载文件
+        //        $zip = new zipfile();
+        //----------------------
+        $filename = $filename; //下载的默认文件名
+
+        //以下是需要下载的图片数组信息，将需要下载的图片信息转化为类似即可
+        //        $image = array(
+        //            array('image_src' => 'public/Uploads/2017-05-07/590f1f5ae55e7.jpg', 'image_name' => '图片1.jpg'),
+        //            array('image_src' => 'public/Uploads/2017-05-07/590f21b3b9114.jpg', 'image_name' => 'pic/图片2.jpg'),
+        //        );
+
+        foreach($image as $v){
+
+            $this->add_file(file_get_contents("public/Uploads/".$v['id_pic']), mb_convert_encoding($v['name'], "GBK").$v['idcard'].'.jpg');
+            // 添加打包的图片，第一个参数是图片内容，第二个参数是压缩包里面的显示的名称, 可包含路径
+            // 或是想打包整个目录 用 $zip->add_path($image_path);
+        }
+        //----------------------
+        $this->output($dfile);
+
+        // 下载文件
+        ob_clean();
+        header('Pragma: public');
+        header('Last-Modified:'.gmdate('D, d M Y H:i:s') . 'GMT');
+        header('Cache-Control:no-store, no-cache, must-revalidate');
+        header('Cache-Control:pre-check=0, post-check=0, max-age=0');
+        header('Content-Transfer-Encoding:binary');
+        header('Content-Encoding:none');
+        header('Content-type:multipart/form-data');
+        header('Content-Disposition:attachment; filename="'.$filename.'"'); //设置下载的默认文件名
+        header('Content-length:'. filesize($dfile));
+        $fp = fopen($dfile, 'r');
+        while(connection_status() == 0 && $buf = @fread($fp, 8192)){
+            echo $buf;
+        }
+        fclose($fp);
+        @unlink($dfile);
+        @flush();
+        @ob_flush();
+        exit();
+    }
 
     var $datasec = array ();
     var $ctrl_dir = array ();

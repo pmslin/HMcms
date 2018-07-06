@@ -106,6 +106,7 @@
 			<input type="button" class="btn btn-primary" onclick="search()"  value="查询">
 			<input type="button" class="btn btn-primary" onclick="exprot()"  value="导出Excel表格">
 			<input type="button" class="btn btn-primary" onclick="downImg()"  value="导出考生图片">
+            <input type="button" class="btn btn-primary" onclick="downIdImg()"  value="导出考生身份证图片">
 		</div>
 		
 		<if condition="($Think.session.roleid eq 1) OR ($Think.session.roleid eq 5)">
@@ -139,6 +140,7 @@
         <th>招生老师</th>
         <th>操作</th>
         <th>照片情况</th>
+        <th>身份证情况</th>
     </tr>
     </thead>
     <!--<tbody>-->
@@ -204,6 +206,7 @@
                 { "data": "username" },
                 { "data": "ac" },
                 { "data": "msg" },
+                { "data": "id_pic_msg" },
             ]
 
         } );
@@ -254,7 +257,7 @@
         window.location.href = url;
     }
 
-     //导出考生图片
+    //导出考生图片
     function downImg()
     {
         test_time = $('#test_time').val();
@@ -269,6 +272,24 @@
         var url = "{:U('admin/SelfTest/getSelfTestList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
 		
 		//var url = "{:U('admin/SelfTest/getSelfTestList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"')}";
+        window.location.href = url;
+    }
+
+    //导出考生身份证图片
+    function downIdImg()
+    {
+        test_time = $('#test_time').val();
+        date_b = $('#date_b').val();
+        date_e = $('#date_e').val();
+        is_check = $('#is_check').val();
+        is_bk = $('#is_bk').val();
+        underMajor = $('#underMajor').val();
+        is_audit = $('#is_audit').val();
+        user_name = $('#user_name').val()==''? 0 : $('#user_name').val();
+        stundet_name = $('#stundet_name').val()==''? 0 : $('#stundet_name').val();
+        var url = "{:U('admin/SelfTest/getSelfTestList/downIdImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"/is_audit/"+is_audit+"/user_name/"+user_name+"/stundet_name/"+stundet_name+"')}";
+        
+        //var url = "{:U('admin/SelfTest/getSelfTestList/downImg/1/test_time/"+test_time+"/date_b/"+date_b+"/date_e/"+date_e+"/is_check/"+is_check+"/is_bk/"+is_bk+"/underMajor/"+underMajor+"')}";
         window.location.href = url;
     }
 
