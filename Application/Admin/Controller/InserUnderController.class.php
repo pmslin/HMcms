@@ -65,29 +65,11 @@ class InserUnderController extends BaseController {
 
             $time=date("Y-m-d");
             $post['create_time']=$time;
-//            $post['test_place']=$test_place;
             $post['userid']=session('userid');
+            $post['course_package'] = implode(",",$post['course_package']);//班型
+
             //添加数据到报名数据表
             $addResult=D('inser_under')->add($post);
-
-            //添加数据到order表
-//            $orderData['course_package_id']=$post['course_package'];
-//            $orderData['pay_status']=$post['pay_status'];
-//            $orderData['user_id']=session('userid');
-//            $orderData['create_time']=$time;
-//            $orderData['student_id']=$addResult;
-//            $orderData['course_package_topid']=23;   //标记为插本***==================
-//            //获取套餐价格和名称
-//            $course_package=D('CoursePackage')->getCourePackageById($post['course_package']);
-//            $orderData['course_name']=$course_package['name'];
-//            $orderData['course_price']=$course_package['price'];
-//            //已收费用，交齐直接记录课程总额，未交齐记录已交费用
-//            if($post['pay_status']==1){
-//                $orderData['some_cash']=$course_package['price'];
-//            }else{
-//                $orderData['some_cash']=$post['some_cash'];
-//            }
-//            $addOrder=D('Order')->add($orderData);  //add()
 
 
             if($addResult){
@@ -98,8 +80,6 @@ class InserUnderController extends BaseController {
                 $this->error('录入失败');
             }
         }
-//        print_r($_POST);
-//        exit();
     }
 
 
@@ -179,7 +159,7 @@ class InserUnderController extends BaseController {
             $list=M('inser_under as i')
                 ->field('i.id,i.name,i.tel,i.create_time,i.test_time,i.pic,u.username,i.idcard')
                 ->join('user AS u ON i.userid=u.id',left)
-                ->where($map)->order('create_time desc')->select();
+                ->where($map)->order('create_time,id desc')->select();
         }elseif (isset($get['cost_exprot'])){  //财务导出excel
             $map['o.status']=1;
             $map['o.num']='zcb';
@@ -189,13 +169,13 @@ class InserUnderController extends BaseController {
                 ->join('user u ON i.userid=u.id',"left")
                 ->where($map)
                 ->group("o.id")
-                ->order('o.create_time DESC')
+                ->order('o.create_time ASC')
                 ->select();
         } else{
             $list=M('inser_under as i')
                 ->field('i.*,u.username')
-                ->join('user AS u ON i.userid=u.id',left)
-                ->where($map)->order('create_time DESC')->select();
+                ->join('user AS u ON i.userid=u.id',"left")
+                ->where($map)->order('create_time,id ASC')->select();
         }
 
 //        show_bug($list);
@@ -279,7 +259,7 @@ class InserUnderController extends BaseController {
                 //报考类型名称
 //                $course=D("Course")->getCoureById($list[$i]['course']);
                 //班型套餐
-                $course_package=D("CoursePackage")->getCourePackageById($list[$i]['course_package']);
+                $course_package=D("CoursePackage")->getCourePackageByIds($list[$i]['course_package']);
                 //培训校区
                 $campus=D("Campus")->getCampusById($list[$i]['campus']);
                 //业务员招生老师
@@ -314,9 +294,10 @@ class InserUnderController extends BaseController {
 //                    'email'    =>$list[$i]['email'], //邮箱
                     'test_time'    =>$list[$i]['test_time'], //考试年度
                     'course'    =>$list[$i]['course'], //报考类型名称
-                    'course_package'    =>$course_package['name'], //班型套餐
+                    'course_package'    =>implode("+",array_column($course_package,'name')), //班型套餐
                     'campus'    =>$campus['campus_name'], //培训校区
                     'user'    =>$user['username'], //招生老师
+                    'bus_unit'    =>$user['bus_unit'], //招生老师所属部门
                     'emergency_contact'    =>$list[$i]['emergency_contact'], //紧急联系人
                     'emergency_tel'    =>$list[$i]['emergency_tel'], //紧急联系人电话
                     'remarks'    =>$list[$i]['remarks'], //备注
@@ -336,7 +317,7 @@ class InserUnderController extends BaseController {
             $name_co = "专插本学生报名表";
 
             $title_arr = array('序号', '姓名', '性别', '身份证号码', '政治面貌', '籍贯', '大专学校全称', '大专学校专业',
-                '是否在校', '手机','QQ','微信号', '考试年度','报考类型名称','班型选择','培训校区选择','招生老师','紧急联系人','紧急联系电话',
+                '是否在校', '手机','QQ','微信号', '考试年度','报考类型名称','班型选择','培训校区选择','招生老师','招生老师所属部门','紧急联系人','紧急联系电话',
                  '备注','已发放的课本','快递单号','发放时间','是否发齐','插本报考学校', '插本报考专业', '报名日期', '收件地址');
 
 //            $time = date('Y-m-d', time());
@@ -365,10 +346,6 @@ class InserUnderController extends BaseController {
         }
 
         $this->ajaxReturn($list,'json');
-
-//        $this->assign('list',$list);
-//
-//        $this->display();
     }
 
 
@@ -389,12 +366,9 @@ class InserUnderController extends BaseController {
         //根据学生id获取学生详情
         $detail=D('InserUnder')->getStudentById($id);
         $this->assign('detail',$detail);
-//        show_bug($seach);
 
         $course_package=D('CoursePackage')->getCourePackageById($detail['course_package']);
         $this->assign('course_package',$course_package);
-//        show_bug($detail);
-//        show_bug($course_package);
 
         //获取专插本考试时间
         $testTime=D('ThTesttime')->getThTestTimeById(23);
@@ -437,12 +411,8 @@ class InserUnderController extends BaseController {
 //        $order=D('order')->getOrderBystuidTopid($id,23);
         $order=D('order')->getOrderBystuidNum($id,"zcb");
         $this->assign('order',$order);
-//        echo M()->_sql();
-//        show_bug($order);
-
 
         $this->display();
-
     }
 
     /**
@@ -459,7 +429,6 @@ class InserUnderController extends BaseController {
 //        show_bug($_POST);
 //        exit();
         if(!empty($post['place_area_id'])){
-//            echo 1;
             //查询出考区
             $testPlaceModel=D('TestPlace');
 //            $id=$post['place_city_id'];
@@ -467,6 +436,7 @@ class InserUnderController extends BaseController {
             $place_area=$testPlaceModel->getPalceNameById($post['place_area_id']);
             $_POST['test_place']=$place_city['place_name'].$place_area['place_name'];
         }
+        $_POST['course_package'] = implode(",",$post['course_package']);//班型
 
         //上传考生照片
         $upload = new \Think\Upload();// 实例化上传类   开始

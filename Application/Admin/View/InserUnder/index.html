@@ -233,7 +233,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label class="col-sm-2 control-label">考生照片</label>
                             <div class="col-sm-3">
                                 <input type="file" name="pic" id="imgurl" onchange="photoCheck(this)"/>
@@ -241,8 +241,7 @@
 
                                 <img src="" id="imgShow" style="width:50px"></img>
                             </div>
-
-                        </div>
+                        </div> -->
 
                         <div class="hr-line-dashed"></div>
 
@@ -252,7 +251,7 @@
                             <div class="col-sm-10 form-group radio i-checks">
                                 <foreach name="TeaCoursePackage" item="vo">
                                     <label>
-                                            <input type="radio" value="{$vo.id}" name="course_package"  datatype="*" nullmsg="请选择班型"> <i></i>
+                                            <input type="checkbox" value="{$vo.id}" name="course_package[]"  datatype="*" nullmsg="请选择班型"> <i></i>
                                         {$vo.name}</label>
                                 </foreach>
                             </div>
@@ -274,7 +273,7 @@
 							<label class="col-sm-2 control-label">是否预报名</label>
 							<div class="col-sm-3 form-group radio">
 								<input class="magic-checkbox" type="radio" name="is_bk" value="1" id="cbk1"
-									   name="course_package" datatype="*" nullmsg="请选择费用是否交齐">
+									   name="course_package" datatype="*" nullmsg="请选择是否预报名">
 								<label for="cbk1">是</label>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 

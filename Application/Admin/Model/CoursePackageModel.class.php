@@ -33,6 +33,13 @@ class CoursePackageModel extends Model
         return M('course_package')->where('id=%d',$id)->find();
     }
 
+    /**
+     * 根据id获取套餐(多选套餐)
+     */
+    public function getCourePackageByIds($ids){
+        return M('course_package')->where("id IN ({$ids})")->select();
+    }
+
     /***根据编号获取证书名称
      * @param $num 证书编号
      * @return mixed
